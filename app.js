@@ -1,5 +1,5 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-app.js";
-  import { getFirestore ,collection ,getDocs ,addDoc} from "https://www.gstatic.com/firebasejs/9.11.0/firebase-firestore.js";
+  import { getFirestore ,collection ,getDocs ,addDoc ,deleteDoc ,doc} from "https://www.gstatic.com/firebasejs/9.11.0/firebase-firestore.js";
   const firebaseConfig = {
     apiKey: "AIzaSyC9Wj5xc54F8z4NcK-7RBJBuVfMh6zh-xc",
     authDomain: "projectbarber64-9435e.firebaseapp.com",
@@ -28,10 +28,25 @@
     const LastCol = row.insertCell(1)
     const UserCol = row.insertCell(2)
     const PassCol = row.insertCell(3)
+    const deleteCol = row.insertCell(4)
     FirstCol.innerHTML = employee.data().First_name
     LastCol.innerHTML = employee.data().Last_name
     UserCol.innerHTML = employee.data().Username
     PassCol.innerHTML = employee.data().Password
+
+    //สร้างปุ่มลบ
+    let btn = document.createElement('button')
+    btn.textContent="ลบข้อมูล"
+    btn.setAttribute('class','btn btn-danger')
+    btn.setAttribute('data-id',employee.id)
+    deleteCol.appendChild(btn)
+    btn.addEventListener('click',(e)=>{
+      let id = e.target.getAttribute('data-id')
+      //console.log(id)
+      deleteDoc(doc(database,'employees',id))
+      alert("ลบข้อมูลเรียนร้อย")
+    })
+
   }
 //ดึงกลุ่ม document
   const data = await getEmployees(database)

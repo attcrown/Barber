@@ -23,22 +23,26 @@
     <div class="container">
         <div class="input-group">
             <span class="input-group-text">First name</span>
-            <input type="text" name="Firstadmin" class="form-control">
+            <input type="text" name="Firstadmin" class="form-control" required>
         </div>
         
         <div class="input-group mt-3">
             <span class="input-group-text">Last name</span>
-            <input type="text" name="Lastadmin" class="form-control">
+            <input type="text" name="Lastadmin" class="form-control" required>
         </div>
     
         <div class="input-group mt-5">
             <span class="input-group-text">Username</span>
-            <input type="text" name="Useradmin" class="form-control">
+            <input type="text" name="Useradmin" class="form-control" required>
         </div>
         <div class="input-group mt-3">
             <span class="input-group-text">Password</span>
-            <input type="text" name="Passadmin" class="form-control">
+            <input type="password" placeholder="password" name="Passadmin" class="form-control" required>
         </div>
+        <div class="input-group mt-3">
+          <span class="input-group-text">Confirm Password</span>
+          <input type="password" placeholder="confirm password" name="" class="form-control" required>
+      </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
             <button class="btn btn-success me-md-2" type="submit" >Apply</button>
             <a class="btn btn-success p-2" href="#" role="button">แสดงบัญชี Admin</a>
@@ -56,6 +60,7 @@
                 <th>นามสกุล</th>
                 <th>Username</th>
                 <th>Password</th>
+                <th>delete</th>
               </tr>
         </table>
     </div>
