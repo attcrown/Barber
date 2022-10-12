@@ -1,11 +1,5 @@
-  // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  import { getFirestore ,collection ,getDocs ,addDoc} from "https://www.gstatic.com/firebasejs/9.11.0/firebase-firestore.js";
   const firebaseConfig = {
     apiKey: "AIzaSyC9Wj5xc54F8z4NcK-7RBJBuVfMh6zh-xc",
     authDomain: "projectbarber64-9435e.firebaseapp.com",
@@ -16,11 +10,54 @@
     measurementId: "G-E9B3F9EB0E"
   };
 
-  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+  const database = getFirestore(app)
+  const tableadmin = document.getElementById("tableMemberListAdmin")
+  const form = document.getElementById("addform")
+  
   //------------ Link Firebase เข้ากับแอพ------------
+  async function getEmployees(database){
+      const empCol = collection(database,'employees')
+      const empDocument =getDocs(empCol)
+      return empDocument
+  }
+  function showData(employee){
+    //console.log(employee.data().First_name);
+    const row = tableadmin.insertRow(-1)
+    const FirstCol = row.insertCell(0)
+    const LastCol = row.insertCell(1)
+    const UserCol = row.insertCell(2)
+    const PassCol = row.insertCell(3)
+    FirstCol.innerHTML = employee.data().First_name
+    LastCol.innerHTML = employee.data().Last_name
+    UserCol.innerHTML = employee.data().Username
+    PassCol.innerHTML = employee.data().Password
+  }
+//ดึงกลุ่ม document
+  const data = await getEmployees(database)
+  data.forEach(employee => {
+    showData(employee)
+  })
 
+  //ดึงข้อมูล
+  form.addEventListener('submit',(e)=>{
+    e.preventDefault()
+    addDoc(collection(database,'employees'),{
+        First_name:form.Firstadmin.value,
+        Last_name:form.Lastadmin.value,
+        Username:form.Useradmin.value,
+        Password:form.Passadmin.value
 
+    })
+    form.Firstadmin.value=""
+    form.Lastadmin.value=""
+    form.Useradmin.value=""
+    form.Passadmin.value=""
+    alert("บันทึกข้อมูลเรียนร้อย")
+    //console.log(form.First_name.value)
+    //console.log(form.Last_name.value)
+    //console.log(form.Username.value)
+    //console.log(form.Password.value)
+  })
 
 
