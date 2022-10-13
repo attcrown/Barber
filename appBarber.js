@@ -17,7 +17,7 @@
   
   //------------ Link Firebase เข้ากับแอพ------------
   async function getEmployees(database){
-      const empCol = collection(database,'employees')
+      const empCol = collection(database,'employeesbarber')
       const empDocument =getDocs(empCol)
       return empDocument
   }
@@ -43,7 +43,7 @@
     btn.addEventListener('click',(e)=>{
       let id = e.target.getAttribute('data-id')
       //console.log(id)
-      deleteDoc(doc(database,'employees',id))
+      deleteDoc(doc(database,'employeesbarber',id))
       alert("ลบข้อมูลเรียนร้อย")
       setTimeout(() => {
         document.location.reload();
@@ -60,7 +60,7 @@
   //ดึงข้อมูล
   form.addEventListener('submit',(e)=>{
     e.preventDefault()
-    addDoc(collection(database,'employees'),{
+    addDoc(collection(database,'employeesbarber'),{
         First_name:form.Firstadmin.value,
         Last_name:form.Lastadmin.value,
         Username:form.Useradmin.value,
