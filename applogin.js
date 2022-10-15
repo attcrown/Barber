@@ -12,6 +12,23 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const database = getFirestore(app)
+const Userid = document.getElementById("Userid")
+const Passid = document.getElementById("Passid")
+
+//------------ Link Firebase เข้ากับแอพ------------
+async function getEmployees(database){
+  const empCol = collection(database,'employees')
+  const empDocument =getDocs(empCol)
+  return empDocument
+}
+
+//ตรวจสอบรหัส
+function myFunction(){
+    if(Userid == "admin" || Passid == "admin"){
+      var x = 10;
+      document.getElementById("x").innerHTML = x;
+    }
+}
 
 
   
