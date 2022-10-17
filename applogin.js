@@ -1,24 +1,25 @@
 //ตรวจสอบรหัส
-const Userid = document.getElementById('Userid')
-const Passid = document.getElementById('Passid')
-function login(){
-  if(Userid == "admin" || Passid == "admin"){
-    
-  }else{
-    alert ("เข้าสู่ระบบไม่สำเร็จ")
-  }
-  return login;
-}
+const Userid = document.getElementsByName("Userinput")
+const Passid = document.getElementsByName("passinput")
+const UserBIG = "admin"
+const PassBIG = "admin"
 
-function go(){
-  window.open("indexAdmin.html")
+function login(){
+  if("admin" == UserBIG || "admin" == PassBIG){
+    alert ("เข้าสู่ระบบสำเร็จ")
+    window.open("indexAdmin.html");
+  }else{
+    alert ("เข้าสู่ระบบไม่สำเร็จ"+ UserBIG + PassBIG + Userid);
+  }
 }
 
 function go2(){
   window.open("indexBarber.html")
 }
 
-    
+function mysum() {
+  document.getElementById("login12").submit();
+}    
 
 
 

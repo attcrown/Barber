@@ -80,6 +80,11 @@
       document.location.reload();
     }, 500);
   })
+
+  //ล้างช่องกรอกข้อมูล
+  function reset() {
+    document.getElementById("addform").reset();
+  }
   
 
 
