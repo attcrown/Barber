@@ -5,11 +5,11 @@ const UserBIG = "admin"
 const PassBIG = "admin"
 
 function login(){
-  if("admin" == UserBIG || "admin" == PassBIG){
+  if("adm" == UserBIG || "adm" == PassBIG){
     alert ("เข้าสู่ระบบสำเร็จ")
     window.open("indexAdmin.html");
   }else{
-    alert ("เข้าสู่ระบบไม่สำเร็จ"+ UserBIG + PassBIG + Userid);
+    alert ("เข้าสู่ระบบไม่สำเร็จ"+ UserBIG + PassBIG + Userid.values);
   }
 }
 

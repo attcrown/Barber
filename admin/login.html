@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+  <title>Login</title>
+</head>
+<body>
+  <div class="container" align="center"><img src="images/logo-login.jpg" width="300" height="300"></div>
+  <div class="container" align="center">
+    <form id="login12">
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+      <input type="text" name="userinput" class="form-control" placeholder="Username" aria-label="Username"
+        aria-describedby="basic-addon1" id="userInp">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon1"><i class="bi bi-lock-fill"></i></span>
+      <input type="password" name="passInp" class="form-control" placeholder="Password" aria-label="Password"
+        aria-describedby="basic-addon1" id="Passid">
+    </div>
+    <div class="form-check form-switch" align="start" >
+        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+        <label class="form-check-label" for="flexSwitchCheckDefault">Save Login</label>
+    </div>
+    <button type="submit" value="Submit" class="btn btn-success" id="sub_btn">Login</button>
+    </form>
+  </div>
+    
+
+<script>
+    //------------FirebaseConfig---------
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
+    import{getDatabase ,ref ,set ,child ,get ,update ,remove} from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js"
+    const firebaseConfig = {
+    apiKey: "AIzaSyC9Wj5xc54F8z4NcK-7RBJBuVfMh6zh-xc",
+    authDomain: "projectbarber64-9435e.firebaseapp.com",
+    databaseURL: "https://projectbarber64-9435e-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "projectbarber64-9435e",
+    storageBucket: "projectbarber64-9435e.appspot.com",
+    messagingSenderId: "31761681328",
+    appId: "1:31761681328:web:9cacd2e8ed95f3b7a4a475",
+    measurementId: "G-E9B3F9EB0E"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase();
+
+    </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+</body>
+</html>
