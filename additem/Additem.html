@@ -4,55 +4,228 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <title>memberadmin</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+    />
+    <title>Add hair style</title>
   </head>
   <body>
-    <div class="container bg-success" align="center">
-      <h1 class="text-light p-3 mb-3">เพิ่มทรงผม</h1>
-    </div>
+    <nav class="navbar navbar-expand-lg bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand text-light" href="#">ADMIN PAGE</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+          <ul id="menu" class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+          </ul>
+          <form class="d-flex" role="search">
+              <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                  <li class="nav-item">
+                    <a class="nav-link mx-3 text-light" href="index.html" id="">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link mx-3 text-light" href="" id="userlink">Username</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link mx-3 text-danger" href="" id="signoutlink">Sign Out</a>
+                    </li>
+                </ul>
+          </form>
+        </div>
+      </div>
+    </nav>
+  <!------------------------------------------------------------------------>
     <form id="addform">
-    <div class="container">
-        <div class="input-group">
-            <span class="input-group-text">ชื่อทรงผม</span>
-            <input type="text" name="Firstadmin" class="form-control" required>
-        </div>
-        
-        <div class="input-group mt-3">
-            <span class="input-group-text">เวลาในการตัด</span>
-            <input type="text" name="Lastadmin" class="form-control" required>
-        </div>
+      <div class="container">
         <div class="input-group mt-5">
-            <span class="input-group-text">รูป</span>
-            <input type="email" name="Emailadmin" class="form-control" required>
+          <span class="input-group-text">ชื่อทรงผม</span>
+          <input type="text" name="hairstyle" class="form-control" required />
+        </div>
+
+        <div class="input-group mt-3">
+          <span class="input-group-text">เวลาในการตัด</span>
+          <input type="text" name="timecut" class="form-control" required />
+        </div>
+        <div class="input-group mt-3">
+          <span class="input-group-text">รูป</span>
+          <input type="text" name="imagehair" class="form-control" required />
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
-            <button class="btn btn-success me-md-2 ps-4 pe-4" type="submit">Apply</button>
+          <button class="btn btn-success me-md-2 ps-4 pe-4" type="submit">
+            Apply
+          </button>
         </div>
-    </div>
+      </div>
     </form>
-    <hr>
-    <div class="container" align="center"> 
-        <h2>รายชื่อ</h2>
+    <hr />
+    <div class="container" align="center">
+      <h2>รายชื่อ</h2>
     </div>
     <div class="container" align="center">
-        <table class="table table-bordered" id="tableMemberListAdmin">
-              <tr>
-                <th>ชื่อ</th>
-                <th>นามสกุล</th>
-                <th>Email</th>
-                <th>Password</th>
-                <th>delete</th>
-              </tr>
-        </table>
+      <table class="table table-bordered" id="tableMemberListAdmin">
+        <tr>
+          <th>ทรงผม</th>
+          <th>เวลาในการตัด</th>
+          <th>รูป</th>
+          <th>Del</th>
+        </tr>
+      </table>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-    
-    <!-- Save ข้อมูลทั่วไป -->
-    <script src="appregisteradmin.js" type="module"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"
+    ></script>
 
-    <!-- Save register email -->
-    <script src="appregisemail.js" type="module"></script>
+    <!-- Save ข้อมูลทั่วไป -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+        addDoc,
+        deleteDoc,
+        doc,
+      } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-firestore.js";
+      const firebaseConfig = {
+        apiKey: "AIzaSyC9Wj5xc54F8z4NcK-7RBJBuVfMh6zh-xc",
+        authDomain: "projectbarber64-9435e.firebaseapp.com",
+        projectId: "projectbarber64-9435e",
+        storageBucket: "projectbarber64-9435e.appspot.com",
+        messagingSenderId: "31761681328",
+        appId: "1:31761681328:web:9cacd2e8ed95f3b7a4a475",
+        measurementId: "G-E9B3F9EB0E",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const database = getFirestore(app);
+      const tableadmin = document.getElementById("tableMemberListAdmin");
+      const form = document.getElementById("addform");
+
+      //------------ Link Firebase เข้ากับแอพ------------
+      async function getEmployees(database) {
+        const empCol = collection(database, 'hairSET');
+        const empDocument = getDocs(empCol);
+        return empDocument;
+      }
+      function showData(hairSET) {
+        //console.log(employee.data().First_name);
+        const row = tableadmin.insertRow(-1);
+        const hairCol = row.insertCell(0);
+        const timeCol = row.insertCell(1);
+        const imageCol = row.insertCell(2);
+        const deleteCol = row.insertCell(3);
+
+        hairCol.innerHTML = hairSET.data().hairstyle;
+        timeCol.innerHTML = hairSET.data().timecut;
+        imageCol.innerHTML = hairSET.data().imagehair;
+
+        //สร้างปุ่มลบ
+        let btn = document.createElement("button");
+        btn.textContent = "ลบข้อมูล";
+        btn.setAttribute("class", "btn btn-danger");
+        btn.setAttribute("data-id",hairSET.id);
+        deleteCol.appendChild(btn);
+        btn.addEventListener('click',(e)=>{
+          let id = e.target.getAttribute("data-id");
+          //console.log(id)
+          deleteDoc(doc(database,'hairSET',id));
+          alert("ลบข้อมูลเรียนร้อย");
+          setTimeout(() => {
+            document.location.reload();
+          }, 500);
+        });
+      }
+      //ดึงกลุ่ม document
+      const data = await getEmployees(database);
+      data.forEach(hairSET => {
+        showData(hairSET);
+      });
+
+      //ดึงข้อมูล
+      form.addEventListener("submit",(e)=>{
+        e.preventDefault()
+        addDoc(collection(database, "hairSET"), {
+          hairstyle: form.hairstyle.value,
+          timecut: form.timecut.value,
+          imagehair: form.imagehair.value,
+        })
+        form.hairstyle.value = "";
+        form.timecut.value = "";
+        form.imagehair.value = "";
+        alert("บันทึกข้อมูลเรียนร้อย");
+        //console.log(form.First_name.value)
+        //console.log(form.Last_name.value)
+        //console.log(form.Username.value)
+        //console.log(form.Password.value)
+        setTimeout(() => {
+          document.location.reload();
+        }, 500);
+      })
+
+      //ล้างช่องกรอกข้อมูล
+      function reset() {
+        document.getElementById("addform").reset();
+      }
+//------------------------task tar-------------
+      //-----references-----
+      let userlink = document.getElementById('userlink');
+        let signoutlink = document.getElementById('signoutlink');
+        // let header = document.getElementById('hh');
+        var currentuser = null;
+
+        //----function----
+        function getUsername(){
+            let keepLoggedIn = localStorage.getItem('keepLoggedIn');
+            if(keepLoggedIn == "yes"){
+                currentuser = JSON.parse(localStorage.getItem('user'));
+            }
+            else{
+                currentuser = JSON.parse(sessionStorage.getItem('user'));
+            }
+            //console.log(keepLoggedIn);
+            //console.log(currentuser);
+        }
+
+        function Signout(){
+            sessionStorage.removeItem('user');
+            localStorage.removeItem('user');
+            localStorage.removeItem('keepLoggedIn');
+            window.location = "login.html";
+        }
+
+        //-------windows loads--------
+        window.onload = function(){
+            getUsername();
+            if(currentuser == null){
+                window.location = "login.html";
+            }
+            else if(currentuser.rank == "barber"){
+                window.location = "indexBarber.html";
+            }
+            else{
+                userlink.innerText = "User : "+currentuser.username;
+                // header.innerText = "welcome " + currentuser.fullname;
+                userlink.classList.replace("nav-link","btn");
+                userlink.classList.remove("btn-primary");
+                userlink.href = "#";
+
+                signoutlink.innerText= "Sign Out";
+                signoutlink.classList.replace("nav-link","btn");
+                signoutlink.classList.remove("btn-success");
+                signoutlink.href = "login.html";
+            }
+        }
+
+    </script>
   </body>
 </html>
