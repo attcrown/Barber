@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <style>
         /* body{
             display: flex;
@@ -38,12 +39,14 @@
     <br>
 
     <div class="container col-8 col-md-2">
-        <table class="table table-bordered" id="tableMember">
+      <button type="submit" id="showdata4" class="btn btn-outline-primary mb-3 form-control mt-3">Show users</button>
+        <table class="table table-bordered" id="table">
               <tr>
-                <th>Name</th>
-                <th>User</th>
-                <th>Password</th>
-                <th>delete</th>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">User</th>
+                <th scope="col">Email</th>
+                <th scope="col">del</th>
               </tr>
         </table>
     </div>
@@ -52,7 +55,7 @@
     <script type="module">
         //------------FirebaseConfig---------
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
-        import{getDatabase ,ref ,set ,child ,get ,update ,remove} from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js";
+        import{getDatabase ,ref ,set ,child ,get ,update ,remove ,onValue} from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js";
         const firebaseConfig = {
           apiKey: "AIzaSyC9Wj5xc54F8z4NcK-7RBJBuVfMh6zh-xc",
           authDomain: "projectbarber64-9435e.firebaseapp.com",
@@ -73,7 +76,8 @@
         const username = document.getElementById('userInp');
         const pass = document.getElementById('passInp');
         const submit = document.getElementById('sub_btn');
-        
+        const showdata4 = document.getElementById('showdata4');
+        const dbReftable = ref(db,'UserList/');
         //----------function Validation----
         function isEmptyOrSpaces(str){
           return str === null || str.match(/^ *$/) !== null;
@@ -158,7 +162,26 @@
         }
 
         //----select realtime-----
-        
+
+        showdata4.addEventListener('click',(e)=>{
+        $('#table td').remove();
+        var rowNum = 0; 
+        onValue(dbReftable,(snapshot)=>{
+        snapshot.forEach((childSnapshot)=>{
+        const childKey = childSnapshot.key;
+        const childData = childSnapshot.val();
+        // ...
+        rowNum += 1; 
+        var row = "<tr><td>" + rowNum + "</td><td>" + childData.fullname + "</td><td>" + childData.username + "</td><td>" + childData.email + "</td></tr>"
+
+        $(row).appendTo('#table');
+      
+        });
+        }, 
+        {
+        onlyOnce: true
+    });
+  });
          
       </script>
 </body>
