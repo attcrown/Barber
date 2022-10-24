@@ -46,7 +46,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">User</th>
                 <th scope="col">Email</th>
-                <th scope="col">del</th>
+                <!-- <th scope="col">del</th> -->
               </tr>
         </table>
     </div>
@@ -78,6 +78,8 @@
         const submit = document.getElementById('sub_btn');
         const showdata4 = document.getElementById('showdata4');
         const dbReftable = ref(db,'UserList/');
+        var currentuser = null;
+
         //----------function Validation----
         function isEmptyOrSpaces(str){
           return str === null || str.match(/^ *$/) !== null;
@@ -161,28 +163,62 @@
           return rank;  
         }
 
-        //----select realtime-----
-
+        //----show users realtime-----
         showdata4.addEventListener('click',(e)=>{
-        $('#table td').remove();
-        var rowNum = 0; 
-        onValue(dbReftable,(snapshot)=>{
-        snapshot.forEach((childSnapshot)=>{
-        const childKey = childSnapshot.key;
-        const childData = childSnapshot.val();
-        // ...
-        rowNum += 1; 
-        var row = "<tr><td>" + rowNum + "</td><td>" + childData.fullname + "</td><td>" + childData.username + "</td><td>" + childData.email + "</td></tr>"
-
-        $(row).appendTo('#table');
-      
+          $('#table td').remove();
+          var rowNum = 0; 
+          onValue(dbReftable,(snapshot)=>{
+            snapshot.forEach((childSnapshot)=>{
+              const childKey = childSnapshot.key;
+              const childData = childSnapshot.val();
+              rowNum += 1; 
+              var row = "<tr><td>" + rowNum + "</td><td>" + childData.fullname + "</td><td>" + childData.username + "</td><td>" + childData.email + "</td></tr>";
+     
+              //---------------
+              $(row).appendTo('#table');
+            });
+          }, 
+          {
+            onlyOnce: true
+          });
         });
-        }, 
-        {
-        onlyOnce: true
-    });
-  });
          
+        //-----del-------
+          function delrealtime(){
+            remove(ref(db,"UserList/"+ username.value))
+              .then(()=>{
+                alert("ลบบข้อมูลสำเร็จ");
+              })
+              .catch((error)=>{
+                alert("ไม่สำเร็จ"+error);
+              });
+          }
+
+        //----function----
+        function getUsername(){
+            let keepLoggedIn = localStorage.getItem('keepLoggedIn');
+            if(keepLoggedIn == "yes"){
+                currentuser = JSON.parse(localStorage.getItem('user'));
+            }
+            else{
+                currentuser = JSON.parse(sessionStorage.getItem('user'));
+            }
+            //console.log(keepLoggedIn);
+            //console.log(currentuser);
+        }  
+
+        //---------windows load--------------
+        window.onload = function(){
+            getUsername();
+            if(currentuser == null){
+                window.location = "login.html";
+            }
+            else if(currentuser.rank == "barber"){
+                window.location = "indexBarber.html";
+            }
+            else{
+            }
+        }
       </script>
 </body>
 </html>
