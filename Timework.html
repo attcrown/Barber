@@ -4,21 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sign up</title>
+    <title>TimeWork</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <style>
-        /* body{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 50vh;
-            width: 100vw;
-            margin: 0px;
-        } */
-    </style>
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg bg-dark">
@@ -46,9 +36,16 @@
       </div>
     </div>
   </nav>
-  <br>
     <div class="container col-8 col-md-2 mt-5">
-        <h3>Sign Up</h3>
+        <center><h3>ตารางงาน</h3></center>
+        <div class="dropdown" align="center">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Name Barber
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#" id="barbtn"></a></li>
+          </ul>
+        </div>
         <input type="text" placeholder="Fullname" id="nameInp" class="form-control mt-3">
         <input type="text" placeholder="Email" id="emailInp" class="form-control mt-3">
         <input type="text" placeholder="Username" id="userInp" class="form-control mt-3">
@@ -58,27 +55,24 @@
           <label class="form-check-label" for="flexSwitchCheckDefault">ต้องการให้ยศ Admin</label>
         </div>
         <button type="text" id="sub_btn" class="btn btn-outline-primary mb-3 form-control mt-3">Sign Up</button>
-        <a href="login.html" class="mb-3">กลับสู่หน้า Login</a>
     </div>
     <br>
     <hr>
     <br>
 
     <div class="container col-8 col-md-2">
+      <button type="submit" id="deltime" class="btn btn-outline-primary mb-3 form-control mt-3">Del users</button>
+      <input type="text" placeholder="username" id="delInp" class="form-control mt-3">
       <button type="submit" id="showdata4" class="btn btn-outline-primary mb-3 form-control mt-3">Show users</button>
         <table class="table table-bordered" id="table">
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">User</th>
-                <th scope="col">Rank</th>
+                <th scope="col">Email</th>
                 <!-- <th scope="col">del</th> -->
               </tr>
         </table>
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" id="delInp" placeholder="Username confirm" aria-label="Recipient's username" aria-describedby="button-addon2">
-          <button class="btn btn-outline-secondary btn-danger text-dark" type="button" id="deltime" >Delete</button>
-        </div>
     </div>
   
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
@@ -107,10 +101,10 @@
         const pass = document.getElementById('passInp');
         const submit = document.getElementById('sub_btn');
         const showdata4 = document.getElementById('showdata4');
-        const dbReftable = ref(db,'UserList/');
+        const dbReftable = ref(db,'Timework/date/');
+        const bardrop = document.getElementById('barbtn');
         const deltime = document.getElementById('deltime');
         const delInp = document.getElementById('delInp');
-        const dbRef = ref(db);
         var currentuser = null;
 
         //----------function Validation----
@@ -148,12 +142,13 @@
           if(!Validation()){    //
             return;             //ถ้าตรวจสอบค่าที่ใส่มาแล้วไม่ถูกต้องให้ return กลับ
           }                    //
-            get(child(dbRef, "UserList/"+ username.value)).then(function(snapshot){  
+            const dbRef = ref(db);
+            get(child(dbRef, "Timework/date/"+ username.value)).then(function(snapshot){  
             if(snapshot.exists()){
               alert("ชื่อบัญชีซ้ำ");
             }
             else{
-              set(ref(db, "UserList/"+ username.value), // set ถ้าซ้ำกันจะไม่บันทึก
+              set(ref(db, "Timework/date/"+ username.value), // set ถ้าซ้ำกันจะไม่บันทึก
               {
                 fullname: name.value,
                 email: email.value,
@@ -199,43 +194,58 @@
         showdata4.addEventListener('click',(e)=>{
           $('#table td').remove();
           var rowNum = 0; 
-          onValue(dbReftable,(snapshot)=>{
+          onValue(dbReftable,(snapshot)=>{ //--อ่านฐานข้อมูล----
             snapshot.forEach((childSnapshot)=>{
               const childKey = childSnapshot.key;
               const childData = childSnapshot.val();
               rowNum += 1; 
-              var row = "<tr><td>" + rowNum + "</td><td>" + childData.fullname + "</td><td>" + childData.username + "</td><td>" + childData.rank + "</td></tr>";
+              var row = "<tr><td>" + rowNum + "</td><td>" + childData.fullname + "</td><td>" + childData.username + "</td><td>" + childData.email + "</td></tr>";
+     
+              //---------------
               $(row).appendTo('#table');
+              console.log(childData);
             });
           }, 
           {
             onlyOnce: true
           });
         });
-         
-        //-----del-------
-        deltime.addEventListener('click',delrealtime);
-          function delrealtime(){
-            get(child(dbRef, "UserList/"+ delInp.value)).then(function(snapshot){
-              if(delInp.value == ""){
-                alert("ลบไม่สำเร็จกรุณาใส่ Username");
-                return;
-              }
-              else if(snapshot.exists()){
-                remove(ref(db,"UserList/"+ delInp.value))
-                  .then(()=>{
-                  alert("ลบข้อมูลสำเร็จ");
-                  })
-                  .catch((error)=>{
-                  alert("ไม่สำเร็จ"+error);
-                  });
-              }
-              else{
-                alert("ชื่อไม่ถูกต้อง");
-              }
-          }
-          )};
+
+        //----------show auto-------
+        // function showdata(){
+        //   $('#table td').remove();
+        //   var rowNum = 0; 
+        //   onValue(dbReftable,(snapshot)=>{ //--อ่านฐานข้อมูล----
+        //     snapshot.forEach((childSnapshot)=>{
+        //       const childKey = childSnapshot.key;
+        //       const childData = childSnapshot.val();
+        //       rowNum += 1; 
+        //       var row = "<tr><td>" + rowNum + "</td><td>" + childData.fullname + "</td><td>" + childData.username + "</td><td>" + childData.email + "</td></tr>";
+     
+        //       //---------------
+        //       $(row).appendTo('#table');
+        //       console.log(childData);
+        //     });
+        //   }, 
+        //   {
+        //     onlyOnce: true
+        //   });
+        // }
+
+        //---------assign the events-------
         
+        deltime.addEventListener('click',delrealtime);
+        //-----del-------
+          function delrealtime(){
+            remove(ref(db,"Timework/date/"+ delInp.value))
+              .then(()=>{
+                alert("ลบข้อมูลสำเร็จ");
+              })
+              .catch((error)=>{
+                alert("ไม่สำเร็จ"+error);
+              });
+          }
+
         //----function----
         function getUsername(){
             let keepLoggedIn = localStorage.getItem('keepLoggedIn');
@@ -245,13 +255,12 @@
             else{
                 currentuser = JSON.parse(sessionStorage.getItem('user'));
             }
-            //console.log(keepLoggedIn);
-            //console.log(currentuser);
         }  
 
-        //---------windows load--------------
+        //-------windows loads--------
         window.onload = function(){
-            getUsername();
+          getUsername();
+          //showdata(); //สั่งทำงานอัตโนมัติ
             if(currentuser == null){
                 window.location = "login.html";
             }
