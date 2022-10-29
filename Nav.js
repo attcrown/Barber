@@ -14,8 +14,8 @@ window.onload = function(){
     else{
         userlink.innerText = "User : "+currentuser.username;
         // header.innerText = "welcome " + currentuser.fullname;
-        userlink.classList.replace("nav-link","btn");
-        userlink.classList.remove("btn-primary");
+        //userlink.classList.replace("nav-link","btn");
+        //userlink.classList.remove("btn-primary");
         userlink.href = "#";
     }
 }
@@ -39,5 +39,5 @@ function getUsername(){
         currentuser = JSON.parse(sessionStorage.getItem("user"));
     }
     //console.log(keepLoggedIn);
-    //console.log(currentuser);
+    console.log(currentuser);
 }

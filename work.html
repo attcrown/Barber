@@ -50,31 +50,11 @@
                   </tr>
             </table>
         </div>
-      <!-- <center><button class="btn btn-success" id="sub_btnshow">Show</button></center> -->
+        <!-- <center><button class="btn btn-success" id="sub_btn">Show</button></center> -->
         <br>
         <hr>
-        <center><h3>เลือกวันหยุดร้าน</h3></center>
-        <div class="input-group mt-2">
-          <span class="input-group-text" >เลือกวันหยุดร้าน</span>
-          <input class="form-control" type="date" id="dateInp" name="day" min="">
-        </div>
 
-        <button type="text" id="sub_btn" class="btn btn-outline-primary mb-3 form-control mt-3">ยืนยัน</button>
-        <div class="container">
-          <table class="table table-bordered" id="tablesummer">
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Date</th>
-                  <!-- <th scope="col">del</th> -->
-                </tr>
-          </table>
-      </div>
-    <br>
-    <hr>
-    <br>
-
-
-    <script src="Nav.js" type="module"></script>
+    <script src="Navbarber.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     <script type="module">
         //------------FirebaseConfig---------
@@ -95,81 +75,11 @@
         const db = getDatabase();
 
         //--------เก็บค่าจาก id------
-        const dateInp = document.getElementById('dateInp');
-        const submit = document.getElementById('sub_btn');
-        const dbRefsummer = ref(db,'Summer/');
-        const dbRefuser = ref(db,'userLineliff/');
-        //const submitshow = document.getElementById('sub_btnshow');
-  
-        //----------function Validation----
-        function isEmptyOrSpaces(str){
-          return str === null || str.match(/^ *$/) !== null;
-        }
-
-        function Validation(){
-          let nameregex = /^[a-zA-Zก-๏\s]+$/;
-          let emailregex = /^[a-zA-Z0-9]+@(gmail|yahoo|outlook)\.com$/;
-          let userregex = /^[a-zA-Z0-9]{5,}$/;
-
-          if(isEmptyOrSpaces(name.value) || isEmptyOrSpaces(email.value) || isEmptyOrSpaces(username.value) || isEmptyOrSpaces(pass.value)){
-            alert("กรุณากรอกข้อมูลให้ครบทุกช่อง");
-            return false;
-          }
-        
-        if(!nameregex.test(name.value)){
-          alert("กรุณาใส่ชื่อให้ถูกต้อง");
-          return false;
-        }
-        if(!emailregex.test(email.value)){
-          alert("กรุณาใส่ Email ให้ถูกต้อง");
-          return false;
-        }
-        if(!userregex.test(username.value)){
-          alert("กรุณาระบุชื่อเป็นตัวอักษรหรือตัวเลข \nอย่างน้อย5ตัว");
-          return false;
-        }
-        return true;
-      }
-
-        //----------register user to firebase-------
-        function RegisterUser(){
-          if(dateInp.value == "date"){    //
-            return;             //ถ้าตรวจสอบค่าที่ใส่มาแล้วไม่ถูกต้องให้ return กลับ
-          }                    //
-            const dbRef = ref(db);
-            get(child(dbRef, "Summer/"+ dateInp.value)).then(function(snapshot){  
-            if(snapshot.exists()){
-              alert("ซ้ำกัน");
-            }
-            else{
-              set(ref(db, "Summer/"+ dateInp.value), // set ถ้าซ้ำกันจะไม่บันทึก
-              {
-                Date: dateInp.value,
-              })
-              .then(function(){
-                alert("สมัครสมาชิคสำเร็จ");
-                console.log(a);
-              })
-              .catch((error)=>{
-                //alert("error"+ error);
-              })
-              
-            }
-            });
-        }
-
-        //---------Encription--------
-        function encPass(){
-          var pass12 = CryptoJS.AES.encrypt(pass.value, pass.value)
-          return pass12.toString();
-        }
-
-        //---------assign the events-------
-        submit.addEventListener('click',RegisterUser);
-
+        const dbRefuser = ref(db,'userLineliff/');   
+        //const submit = document.getElementById("sub_btn");
 
         //----------show-------
-        //submitshow.addEventListener('click',showdata);
+        //submit.addEventListener('click',showdata);
         function showdata(){
           $('#table td').remove();
           var rowNum = 0; 
@@ -182,29 +92,8 @@
      
               //---------------
               $(row).appendTo('#table');
-              //console.log(childData);
-
-            });
-          }, 
-          {
-            onlyOnce: true
-          });
-        }
-
-        //----------showsummer auto-------
-        function showsummer(){
-          $('#tablesummer td').remove();
-          var rowNum = 0; 
-          onValue(dbRefsummer,(snapshot)=>{ //--อ่านฐานข้อมูล----
-            snapshot.forEach((childSnapshot)=>{
-              const childKeysum = childSnapshot.key;
-              const childDatasum = childSnapshot.val();
-              rowNum += 1; 
-              var row = "<tr><td>" + rowNum + "</td><td>" + childDatasum.Date +"</td></tr>";
-     
-              //---------------
-              $(row).appendTo('#tablesummer');
-              //console.log(childDatasum);
+              console.log(childData);
+              //console.log(childKey);
             });
           }, 
           {
@@ -225,10 +114,9 @@
           //       alert("ไม่สำเร็จ"+error);
           //     });
           // }
-
+          
          window.onload = function(){
           showdata();
-          showsummer();
          } 
       </script>
 </body>
