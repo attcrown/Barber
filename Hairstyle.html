@@ -35,7 +35,7 @@
                     <a class="nav-link mx-3 text-light" href="" id="userlink">Username</a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link mx-3 text-danger" href="" id="signoutlink">Sign Out</a>
+                      <button type="button" class="btn nav-link text-danger mx-3" id="signoutlink">Sign Out</button>
                     </li>
                 </ul>
           </form>
@@ -43,7 +43,6 @@
       </div>
     </nav>
   <!------------------------------------------------------------------------>
-    <form id="addform">
       <div class="container">
         <div class="input-group mt-5">
           <span class="input-group-text">ชื่อทรงผม</span>
@@ -64,7 +63,7 @@
           </button>
         </div>
       </div>
-    </form>
+
     <hr />
     <div class="container" align="center">
       <h2>รายชื่อ</h2>
@@ -84,7 +83,7 @@
       integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
       crossorigin="anonymous"
     ></script>
-
+    <script src="Nav.js" type="module"></script>
     <!-- Save ข้อมูลทั่วไป -->
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-app.js";
@@ -110,6 +109,7 @@
       const database = getFirestore(app);
       const tableadmin = document.getElementById("tableMemberListAdmin");
       const form = document.getElementById("addform");
+      var currentuser = null;
 
       //------------ Link Firebase เข้ากับแอพ------------
       async function getEmployees(database) {
@@ -172,60 +172,7 @@
         }, 500);
       })
 
-      //ล้างช่องกรอกข้อมูล
-      function reset() {
-        document.getElementById("addform").reset();
-      }
 //------------------------task tar-------------
-      //-----references-----
-      let userlink = document.getElementById('userlink');
-        let signoutlink = document.getElementById('signoutlink');
-        // let header = document.getElementById('hh');
-        var currentuser = null;
-
-        //----function----
-        function getUsername(){
-            let keepLoggedIn = localStorage.getItem('keepLoggedIn');
-            if(keepLoggedIn == "yes"){
-                currentuser = JSON.parse(localStorage.getItem('user'));
-            }
-            else{
-                currentuser = JSON.parse(sessionStorage.getItem('user'));
-            }
-            //console.log(keepLoggedIn);
-            //console.log(currentuser);
-        }
-
-        function Signout(){
-            sessionStorage.removeItem('user');
-            localStorage.removeItem('user');
-            localStorage.removeItem('keepLoggedIn');
-            window.location = "login.html";
-        }
-
-        //-------windows loads--------
-        window.onload = function(){
-            getUsername();
-            if(currentuser == null){
-                window.location = "login.html";
-            }
-            else if(currentuser.rank == "barber"){
-                window.location = "indexBarber.html";
-            }
-            else{
-                userlink.innerText = "User : "+currentuser.username;
-                // header.innerText = "welcome " + currentuser.fullname;
-                userlink.classList.replace("nav-link","btn");
-                userlink.classList.remove("btn-primary");
-                userlink.href = "#";
-
-                signoutlink.innerText= "Sign Out";
-                signoutlink.classList.replace("nav-link","btn");
-                signoutlink.classList.remove("btn-success");
-                signoutlink.href = "login.html";
-            }
-        }
-
     </script>
   </body>
 </html>
