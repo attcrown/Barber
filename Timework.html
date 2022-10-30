@@ -25,9 +25,9 @@
                 <li class="nav-item">
                   <a class="nav-link mx-3 text-light" href="index.html" id="">Home</a>
                 </li>
-                <!-- <li class="nav-item">
+                <li class="nav-item">
                   <a class="nav-link mx-3 text-light" href="" id="userlink">Username</a>
-                </li> -->
+                </li>
                 <li class="nav-item">
                     <button type="button" class="btn nav-link text-danger mx-3" id="signoutlink">Sign Out</button>
                   </li>
@@ -101,36 +101,6 @@
         const dbRefuser = ref(db,'userLineliff/');
         //const submitshow = document.getElementById('sub_btnshow');
   
-        //----------function Validation----
-        function isEmptyOrSpaces(str){
-          return str === null || str.match(/^ *$/) !== null;
-        }
-
-        function Validation(){
-          let nameregex = /^[a-zA-Zก-๏\s]+$/;
-          let emailregex = /^[a-zA-Z0-9]+@(gmail|yahoo|outlook)\.com$/;
-          let userregex = /^[a-zA-Z0-9]{5,}$/;
-
-          if(isEmptyOrSpaces(name.value) || isEmptyOrSpaces(email.value) || isEmptyOrSpaces(username.value) || isEmptyOrSpaces(pass.value)){
-            alert("กรุณากรอกข้อมูลให้ครบทุกช่อง");
-            return false;
-          }
-        
-        if(!nameregex.test(name.value)){
-          alert("กรุณาใส่ชื่อให้ถูกต้อง");
-          return false;
-        }
-        if(!emailregex.test(email.value)){
-          alert("กรุณาใส่ Email ให้ถูกต้อง");
-          return false;
-        }
-        if(!userregex.test(username.value)){
-          alert("กรุณาระบุชื่อเป็นตัวอักษรหรือตัวเลข \nอย่างน้อย5ตัว");
-          return false;
-        }
-        return true;
-      }
-
         //----------register user to firebase-------
         function RegisterUser(){
           if(dateInp.value == "date"){    //
@@ -147,8 +117,10 @@
                 Date: dateInp.value,
               })
               .then(function(){
-                alert("สมัครสมาชิคสำเร็จ");
-                console.log(a);
+                alert("เพิ่มสำเร็จ");
+                setTimeout(() => {
+                  document.location.reload();
+                  }, 500);
               })
               .catch((error)=>{
                 //alert("error"+ error);
@@ -226,10 +198,11 @@
           //     });
           // }
 
-         window.onload = function(){
-          showdata();
+          setTimeout(() => {
           showsummer();
-         } 
+          showdata();
+        }, 500);
+      
       </script>
 </body>
 </html>

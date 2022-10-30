@@ -25,9 +25,9 @@
                 <li class="nav-item">
                   <a class="nav-link mx-3 text-light" href="index.html" id="">Home</a>
                 </li>
-                <!-- <li class="nav-item">
+                <li class="nav-item">
                   <a class="nav-link mx-3 text-light" href="" id="userlink">Username</a>
-                </li> -->
+                </li>
                 <li class="nav-item">
                     <button type="button" class="btn nav-link text-danger mx-3" id="signoutlink">Sign Out</button>
                   </li>
@@ -50,6 +50,10 @@
                   </tr>
             </table>
         </div>
+        <!-- <div class="input-group mb-3">
+          <input type="text" class="form-control" id="delInp" placeholder="Time" aria-label="Recipient's username" aria-describedby="button-addon2">
+          <button class="btn btn-outline-secondary btn-danger text-dark" type="button" id="deltime" >ยกเลิกคิว</button>
+        </div> -->
         <!-- <center><button class="btn btn-success" id="sub_btn">Show</button></center> -->
         <br>
         <hr>
@@ -75,7 +79,10 @@
         const db = getDatabase();
 
         //--------เก็บค่าจาก id------
-        const dbRefuser = ref(db,'userLineliff/');   
+        const dbRefuser = ref(db,'userLineliff/'); 
+        const dbRef = ref(db);
+        // const deltime = document.getElementById('deltime');
+        // const delInp = document.getElementById('delInp');  
         //const submit = document.getElementById("sub_btn");
 
         //----------show-------
@@ -88,36 +95,77 @@
               const childKey = childSnapshot.key;
               const childData = childSnapshot.val();
               rowNum += 1; 
-              var row = "<tr><td>" + rowNum + "</td><td>" + childData.date + "</td><td>" + childData.time + "</td><td>" + childData.name + "</td><td>" + childData.perple + "</td></tr>";
-     
+              var row = "<tr><td>" + rowNum + "</td><td>" + childData.date + 
+              "</td><td>" + childData.time + "</td><td>" + childData.name + 
+              "</td><td>" + childData.perple + 
+              "</td></tr>";
+              // <td><button class='btn btn-danger' id="+rowNum+" >ยกเลิกคิว</button></td>
               //---------------
               $(row).appendTo('#table');
               console.log(childData);
-              //console.log(childKey);
-            });
+              // setTimeout(() => {  
+              //   document.getElementById(rowNum).onclick = function() {delQ()};
+              // }, 700);                 
+              });
           }, 
           {
             onlyOnce: true
           });
         }
 
-        //---------assign the events-------
-        
-        //deltime.addEventListener('click',delrealtime);
         //-----del-------
-          // function delrealtime(){
-          //   remove(ref(db,"Summer/"+ delInp.value))
-          //     .then(()=>{
-          //       alert("ลบข้อมูลสำเร็จ");
-          //     })
-          //     .catch((error)=>{
-          //       alert("ไม่สำเร็จ"+error);
-          //     });
-          // }
-          
-         window.onload = function(){
+        // deltime.addEventListener('click',delrealtime);
+        //   function delrealtime(){
+        //     get(child(dbRef,"userLineliff/"+ delInp.value)).then(function(snapshot){
+        //       if(delInp.value == ""){
+        //         alert("ยกเลิกไม่สำเร็จ \nกรุณาใส่เวลาที่ต้องการจะยกเลิก");
+        //         return;
+        //       }
+        //       else if(snapshot.exists()){
+        //         remove(ref(db,"userLineliff/"+delInp.value))
+        //           .then(()=>{
+        //           alert("ลบข้อมูลสำเร็จ");
+        //           setTimeout(() => {
+        //           document.location.reload();
+        //           }, 500);
+        //           })
+        //           .catch((error)=>{
+        //           alert("ไม่สำเร็จ"+error);
+        //           });
+        //       }
+        //       else{
+        //         alert("ชื่อไม่ถูกต้อง");
+        //       }
+        //   }
+        //   )};
+        
+        //---------ลบทั้งหมด-------
+        // function delQ(){
+        // onValue(dbRefuser,(snapshot)=>{ //--อ่านฐานข้อมูล----
+        //     snapshot.forEach((childSnapshot)=>{
+        //       const childKey = childSnapshot.key;
+        //       console.log(childKey);
+        //       update(ref(db, "userLineliff/"+childKey), // set ถ้าซ้ำกันจะไม่บันทึก
+        //       {
+        //         summinute: "",
+        //       })
+        //       .then(function(){
+        //         alert("ยกเลิกสำเร็จ");
+        //       })
+        //       .catch((error)=>{
+        //         //alert("error"+ error);
+        //       })
+        //     })
+        //   });  
+        // }  
+
+        
+        setTimeout(() => {  
           showdata();
-         } 
+        }, 500);
+
+               
+        
       </script>
 </body>
 </html>
