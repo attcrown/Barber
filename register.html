@@ -162,11 +162,26 @@
               })
               .then(function(){
                 alert("สมัครสมาชิคสำเร็จ");
-                console.log(a);
               })
               .catch((error)=>{
                 //alert("error"+ error);
               })
+              if(ranks() == "barber"){
+                  set(ref(db, "BarberName/"+username.value), // set ถ้าซ้ำกันจะไม่บันทึก
+                  {
+                    fullname: name.value,
+                    email: email.value,
+                    username: username.value,
+                    password: encPass(),
+                    rank: ranks()
+                  })
+                  .then(function(){
+                    alert("เพิ่มรายชื่อช่างแล้ว");
+                  })
+                  .catch((error)=>{
+                  //alert("error"+ error);
+                  })
+              }            
             }
             });
         }
@@ -228,6 +243,14 @@
                   .catch((error)=>{
                   alert("ไม่สำเร็จ"+error);
                   });
+
+                  remove(ref(db,"BarberName/"+ delInp.value))
+                  .then(()=>{
+                  //alert("ลบข้อมูลสำเร็จ");
+                  })
+                  .catch((error)=>{
+                  //alert("ไม่สำเร็จ"+error);
+                  });  
               }
               else{
                 alert("ชื่อไม่ถูกต้อง");

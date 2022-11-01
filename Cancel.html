@@ -45,8 +45,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Date</th>
                     <th scope="col">Time</th>
-                    <th scope="col">UserID</th>
-                    <th scope="col">Queue</th>
+                    <!-- <th scope="col">UserID</th> -->
                     <!-- <th scope="col">del</th> -->
                   </tr>
             </table>
@@ -91,9 +90,9 @@
               const childKey = childSnapshot.key;
               const childData = childSnapshot.val();
               rowNum += 1; 
-              var row = "<tr><td>" + rowNum + "</td><td>" + childData.date + 
-              "</td><td>" + childData.time + "</td><td>" + childData.userId + 
-              "</td><td>" + childData.summinute + "</td></tr>";
+              var row = "<tr><td>" + rowNum + "</td><th scope='col'>Date</th><td>" + childData.date + 
+              "</td></tr> <tr><td></td><th scope='col'>Time</th><td>" + childData.time + "</td></tr> <tr><td></td><th scope='col'>UserID</th><td>" + childData.userId + 
+              "</td></tr> <tr><td></td><th scope='col'>Queue</th><td>" + childData.summinute + "</td></tr> <tr><td><br></td></tr>";
               $(row).appendTo('#table');
               console.log(childData);                
               });
