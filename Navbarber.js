@@ -36,5 +36,5 @@ function getUsername(){
         currentuser = JSON.parse(sessionStorage.getItem("user"));
     }
     //console.log(keepLoggedIn);
-    //console.log(currentuser);
+    console.log(currentuser);
 }

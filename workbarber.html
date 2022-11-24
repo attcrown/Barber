@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>workbarber</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand text-light" href="#">ADMIN PAGE</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarScroll">
+        <ul id="menu" class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+        </ul>
+        <form class="d-flex" role="search">
+            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                <li class="nav-item">
+                  <a class="nav-link mx-3 text-light" href="index.html" id="">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link mx-3 text-light" href="" id="userlink">Username</a>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn nav-link text-danger mx-3" id="signoutlink">Sign Out</button>
+                  </li>
+              </ul>
+        </form>
+      </div>
+    </div>
+  </nav>
+    <div class="container">
+        <center><h3>ตารางงาน</h3></center>
+        <div class="container">
+            <table class="table table-bordered" id="table">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Barber</th>
+                    <!-- <th scope="col">del</th> -->
+                  </tr>
+            </table>
+        </div>
+        <!-- <div class="input-group mb-3">
+          <input type="text" class="form-control" id="delInp" placeholder="Time" aria-label="Recipient's username" aria-describedby="button-addon2">
+          <button class="btn btn-outline-secondary btn-danger text-dark" type="button" id="deltime" >ยกเลิกคิว</button>
+        </div> -->
+        <!-- <center><button class="btn btn-success" id="sub_btn">Show</button></center> -->
+        <br>
+        <hr>
+
+    <!-- <script src="Navbarber.js" type="module"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script type="module">
+        //------------FirebaseConfig---------
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
+        import{getDatabase ,ref ,set ,child ,get ,update ,remove ,onValue} from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js";
+        const firebaseConfig = {
+          apiKey: "AIzaSyC9Wj5xc54F8z4NcK-7RBJBuVfMh6zh-xc",
+          authDomain: "projectbarber64-9435e.firebaseapp.com",
+          databaseURL: "https://projectbarber64-9435e-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "projectbarber64-9435e",
+          storageBucket: "projectbarber64-9435e.appspot.com",
+          messagingSenderId: "31761681328",
+          appId: "1:31761681328:web:9cacd2e8ed95f3b7a4a475",
+          measurementId: "G-E9B3F9EB0E"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase();
+
+        //--------เก็บค่าจาก id------
+        const dbRefuser = ref(db,'userLineliff/'); 
+        const dbRef = ref(db);
+        // const deltime = document.getElementById('deltime');
+        // const delInp = document.getElementById('delInp');  
+        //const submit = document.getElementById("sub_btn");
+
+        //----------show-------
+        //submit.addEventListener('click',showdata);
+        function showdata(){
+          $('#table td').remove();
+          var rowNum = 0; 
+          onValue(dbRefuser,(snapshot)=>{ //--อ่านฐานข้อมูล----
+            snapshot.forEach((childSnapshot)=>{
+              const childKey = childSnapshot.key;
+              const childData = childSnapshot.val();
+              rowNum += 1;
+              if(childData.perple == currentuser.username){
+
+               
+              var row = "<tr><td>" + rowNum + "</td><td>" + childData.date + 
+              "</td><td>" + childData.time + "</td><td>" + childData.name + 
+              "</td><td>" + childData.perple + 
+              "</td></tr>";
+              }
+              // <td><button class='btn btn-danger' id="+rowNum+" >ยกเลิกคิว</button></td>
+              //---------------
+              $(row).appendTo('#table');
+              console.log(childData);
+              // setTimeout(() => {  
+              //   document.getElementById(rowNum).onclick = function() {delQ()};
+              // }, 700);                 
+              });
+          }, 
+          {
+            onlyOnce: true
+          });
+        }
+
+        //-----del-------
+        // deltime.addEventListener('click',delrealtime);
+        //   function delrealtime(){
+        //     get(child(dbRef,"userLineliff/"+ delInp.value)).then(function(snapshot){
+        //       if(delInp.value == ""){
+        //         alert("ยกเลิกไม่สำเร็จ \nกรุณาใส่เวลาที่ต้องการจะยกเลิก");
+        //         return;
+        //       }
+        //       else if(snapshot.exists()){
+        //         remove(ref(db,"userLineliff/"+delInp.value))
+        //           .then(()=>{
+        //           alert("ลบข้อมูลสำเร็จ");
+        //           setTimeout(() => {
+        //           document.location.reload();
+        //           }, 500);
+        //           })
+        //           .catch((error)=>{
+        //           alert("ไม่สำเร็จ"+error);
+        //           });
+        //       }
+        //       else{
+        //         alert("ชื่อไม่ถูกต้อง");
+        //       }
+        //   }
+        //   )};
+        
+        //---------ลบทั้งหมด-------
+        // function delQ(){
+        // onValue(dbRefuser,(snapshot)=>{ //--อ่านฐานข้อมูล----
+        //     snapshot.forEach((childSnapshot)=>{
+        //       const childKey = childSnapshot.key;
+        //       console.log(childKey);
+        //       update(ref(db, "userLineliff/"+childKey), // set ถ้าซ้ำกันจะไม่บันทึก
+        //       {
+        //         summinute: "",
+        //       })
+        //       .then(function(){
+        //         alert("ยกเลิกสำเร็จ");
+        //       })
+        //       .catch((error)=>{
+        //         //alert("error"+ error);
+        //       })
+        //     })
+        //   });  
+        // }  
+
+        
+        setTimeout(() => {  
+          showdata();
+        }, 500);
+
+       //test
+        let userlink = document.getElementById("userlink");
+        let signoutlink = document.getElementById('signoutlink');
+        var currentuser = null;
+
+        //-------windows loads--------
+        window.onload = function(){
+            getUsername();
+            if(currentuser == null){
+                window.location = "login.html";
+            }
+            else{
+                userlink.innerText = "User : "+currentuser.username;
+                // header.innerText = "welcome " + currentuser.fullname;
+                userlink.classList.replace("nav-link","btn");
+                userlink.classList.remove("btn-primary");
+                userlink.href = "#";
+            }
+        }
+
+        signoutlink.addEventListener('click',Signouts);
+
+            function Signouts(){
+                sessionStorage.removeItem("user");
+                localStorage.removeItem("user");
+                localStorage.removeItem("keepLoggedIn");
+                window.location = "login.html";
+            }
+
+        //----function----
+        function getUsername(){
+            let keepLoggedIn = localStorage.getItem("keepLoggedIn");
+            if(keepLoggedIn == "yes"){
+                currentuser = JSON.parse(localStorage.getItem("user"));
+            }
+            else{
+                currentuser = JSON.parse(sessionStorage.getItem("user"));
+            }
+            //console.log(keepLoggedIn);
+            console.log(currentuser);
+        }        
+        
+      </script>
+</body>
+</html>
