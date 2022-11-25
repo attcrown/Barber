@@ -166,22 +166,146 @@
               .catch((error)=>{
                 //alert("error"+ error);
               })
-              if(ranks() == "barber"){
-                  set(ref(db, "BarberName/"+username.value), // set ถ้าซ้ำกันจะไม่บันทึก
+              if(ranks() == "barber"){ 
+                get(child(dbRef, "BarberName")).then((snapshot) => {
+                const childData = snapshot.val();  
+                console.log(snapshot.val());
+                if(childData.b0 == ""){
+                  console.log("b0");
+                  update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
                   {
-                    fullname: name.value,
-                    email: email.value,
-                    username: username.value,
-                    password: encPass(),
-                    rank: ranks()
+                    b0: name.value
                   })
                   .then(function(){
-                    alert("เพิ่มรายชื่อช่างแล้ว");
+                    alert("เพิ่มรายชื่อช่างสำเร็จ");
                   })
                   .catch((error)=>{
-                  //alert("error"+ error);
+                    //alert("error"+ error);
                   })
-              }            
+                }
+                else if(childData.b1 == ""){
+                  console.log("b1");
+                  update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
+                  {
+                    b1: name.value
+                  })
+                  .then(function(){
+                    alert("เพิ่มรายชื่อช่างสำเร็จ");
+                  })
+                  .catch((error)=>{
+                    //alert("error"+ error);
+                  })
+                }
+                else if(childData.b2 == ""){
+                  console.log("b2");
+                  update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
+                  {
+                    b2: name.value
+                  })
+                  .then(function(){
+                    alert("เพิ่มรายชื่อช่างสำเร็จ");
+                  })
+                  .catch((error)=>{
+                    //alert("error"+ error);
+                  })
+                }
+                else if(childData.b3 == ""){
+                  console.log("b3");
+                  update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
+                  {
+                    b3: name.value
+                  })
+                  .then(function(){
+                    alert("เพิ่มรายชื่อช่างสำเร็จ");
+                  })
+                  .catch((error)=>{
+                    //alert("error"+ error);
+                  })
+                }
+                else if(childData.b4 == ""){
+                  console.log("b4");
+                  update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
+                  {
+                    b4: name.value
+                  })
+                  .then(function(){
+                    alert("เพิ่มรายชื่อช่างสำเร็จ");
+                  })
+                  .catch((error)=>{
+                    //alert("error"+ error);
+                  })
+                }
+                else if(childData.b5 == ""){
+                  console.log("b5");
+                  update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
+                  {
+                    b5: name.value
+                  })
+                  .then(function(){
+                    alert("เพิ่มรายชื่อช่างสำเร็จ");
+                  })
+                  .catch((error)=>{
+                    //alert("error"+ error);
+                  })
+                }
+                else if(childData.b6 == ""){
+                  console.log("b6");
+                  update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
+                  {
+                    b6: name.value
+                  })
+                  .then(function(){
+                    alert("เพิ่มรายชื่อช่างสำเร็จ");
+                  })
+                  .catch((error)=>{
+                    //alert("error"+ error);
+                  })
+                }
+                else if(childData.b7 == ""){
+                  console.log("b7");
+                  update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
+                  {
+                    b7: name.value
+                  })
+                  .then(function(){
+                    alert("เพิ่มรายชื่อช่างสำเร็จ");
+                  })
+                  .catch((error)=>{
+                    //alert("error"+ error);
+                  })
+                }
+                else if(childData.b8 == ""){
+                  console.log("b8");
+                  update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
+                  {
+                    b8: name.value
+                  })
+                  .then(function(){
+                    alert("เพิ่มรายชื่อช่างสำเร็จ");
+                  })
+                  .catch((error)=>{
+                    //alert("error"+ error);
+                  })
+                }
+                else if(childData.b9 == ""){
+                  console.log("b9");
+                  update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
+                  {
+                    b9: name.value
+                  })
+                  .then(function(){
+                    alert("เพิ่มรายชื่อช่างสำเร็จ");
+                  })
+                  .catch((error)=>{
+                    //alert("error"+ error);
+                  })
+                } else {
+                  console.log("No data available");
+                }
+              }).catch((error) => {
+                console.error(error);
+              }); 
+              }             
             }
             });
         }
@@ -228,9 +352,41 @@
         });
          
         //-----del-------
-        deltime.addEventListener('click',delrealtime);
+        // deltime.addEventListener('click',delrealtime);
+        //   function delrealtime(){
+        //     get(child(dbRef, "UserList/"+ delInp.value)).then(function(snapshot){
+        //       if(delInp.value == ""){
+        //         alert("ลบไม่สำเร็จกรุณาใส่ Username");
+        //         return;
+        //       }
+        //       else if(snapshot.exists()){
+        //         remove(ref(db,"UserList/"+ delInp.value))
+        //           .then(()=>{
+        //           alert("ลบข้อมูลสำเร็จ");
+        //           })
+        //           .catch((error)=>{
+        //           alert("ไม่สำเร็จ"+error);
+        //           });
+
+        //           remove(ref(db,"BarberName/"+ delInp.value))
+        //           .then(()=>{
+        //           //alert("ลบข้อมูลสำเร็จ");
+        //           })
+        //           .catch((error)=>{
+        //           //alert("ไม่สำเร็จ"+error);
+        //           });  
+        //       }
+        //       else{
+        //         alert("ชื่อไม่ถูกต้อง");
+        //       }
+        //   }
+        //   )};
+
+          deltime.addEventListener('click',delrealtime);
           function delrealtime(){
             get(child(dbRef, "UserList/"+ delInp.value)).then(function(snapshot){
+              const datauser = snapshot.val();
+              console.log(datauser.fullname);
               if(delInp.value == ""){
                 alert("ลบไม่สำเร็จกรุณาใส่ Username");
                 return;
@@ -244,15 +400,132 @@
                   alert("ไม่สำเร็จ"+error);
                   });
 
-                  remove(ref(db,"BarberName/"+ delInp.value))
-                  .then(()=>{
-                  //alert("ลบข้อมูลสำเร็จ");
-                  })
-                  .catch((error)=>{
-                  //alert("ไม่สำเร็จ"+error);
-                  });  
-              }
-              else{
+                  get(child(dbRef, "BarberName")).then((snapshot) => {
+                  const childData = snapshot.val();  
+                  console.log(snapshot.val());
+                  if(childData.b0 == datauser.fullname){
+                    update(ref(db, "BarberName"), 
+                    {
+                      b0: ""
+                    })
+                    .then(function(){
+                      //alert("เพิ่มรายชื่อช่างสำเร็จ");
+                    })
+                    .catch((error)=>{
+                      //alert("error"+ error);
+                    }) 
+                  }
+                  if(childData.b1 == datauser.fullname){
+                    update(ref(db, "BarberName"), 
+                    {
+                      b1: ""
+                    })
+                    .then(function(){
+                      //alert("เพิ่มรายชื่อช่างสำเร็จ");
+                    })
+                    .catch((error)=>{
+                      //alert("error"+ error);
+                    })
+                  }  
+                  if(childData.b2 == datauser.fullname){
+                    update(ref(db, "BarberName"), 
+                    {
+                      b2: ""
+                    })
+                    .then(function(){
+                      //alert("เพิ่มรายชื่อช่างสำเร็จ");
+                    })
+                    .catch((error)=>{
+                      //alert("error"+ error);
+                    })
+                  }  
+                  if(childData.b3 == datauser.fullname){
+                    update(ref(db, "BarberName"), 
+                    {
+                      b3: ""
+                    })
+                    .then(function(){
+                      //alert("เพิ่มรายชื่อช่างสำเร็จ");
+                    })
+                    .catch((error)=>{
+                      //alert("error"+ error);
+                    })
+                  }  
+                  if(childData.b4 == datauser.fullname){
+                    update(ref(db, "BarberName"), 
+                    {
+                      b4: ""
+                    })
+                    .then(function(){
+                      //alert("เพิ่มรายชื่อช่างสำเร็จ");
+                    })
+                    .catch((error)=>{
+                      //alert("error"+ error);
+                    })
+                  }  
+                  if(childData.b5 == datauser.fullname){
+                    update(ref(db, "BarberName"), 
+                    {
+                      b5: ""
+                    })
+                    .then(function(){
+                      //alert("เพิ่มรายชื่อช่างสำเร็จ");
+                    })
+                    .catch((error)=>{
+                      //alert("error"+ error);
+                    })
+                  }  
+                  if(childData.b6 == datauser.fullname){
+                    update(ref(db, "BarberName"), 
+                    {
+                      b6: ""
+                    })
+                    .then(function(){
+                      //alert("เพิ่มรายชื่อช่างสำเร็จ");
+                    })
+                    .catch((error)=>{
+                      //alert("error"+ error);
+                    })
+                  }  
+                  if(childData.b7 == datauser.fullname){
+                    update(ref(db, "BarberName"), 
+                    {
+                      b7: ""
+                    })
+                    .then(function(){
+                      //alert("เพิ่มรายชื่อช่างสำเร็จ");
+                    })
+                    .catch((error)=>{
+                      //alert("error"+ error);
+                    })
+                  }  
+                  if(childData.b8 == datauser.fullname){
+                    update(ref(db, "BarberName"), 
+                    {
+                      b8: ""
+                    })
+                    .then(function(){
+                      //alert("เพิ่มรายชื่อช่างสำเร็จ");
+                    })
+                    .catch((error)=>{
+                      //alert("error"+ error);
+                    })
+                  }  
+                  if(childData.b9 == datauser.fullname){
+                    update(ref(db, "BarberName"),
+                    {
+                      b9: ""
+                    })
+                    .then(function(){
+                      //alert("เพิ่มรายชื่อช่างสำเร็จ");
+                    })
+                    .catch((error)=>{
+                      //alert("error"+ error);
+                    })
+                  }  
+                  });
+                   
+              } else {
                 alert("ชื่อไม่ถูกต้อง");
               }
           }
