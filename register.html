@@ -415,7 +415,7 @@
                       //alert("error"+ error);
                     }) 
                   }
-                  if(childData.b1 == datauser.fullname){
+                  else if(childData.b1 == datauser.fullname){
                     update(ref(db, "BarberName"), 
                     {
                       b1: ""
@@ -427,7 +427,7 @@
                       //alert("error"+ error);
                     })
                   }  
-                  if(childData.b2 == datauser.fullname){
+                  else if(childData.b2 == datauser.fullname){
                     update(ref(db, "BarberName"), 
                     {
                       b2: ""
@@ -439,7 +439,7 @@
                       //alert("error"+ error);
                     })
                   }  
-                  if(childData.b3 == datauser.fullname){
+                  else if(childData.b3 == datauser.fullname){
                     update(ref(db, "BarberName"), 
                     {
                       b3: ""
@@ -451,7 +451,7 @@
                       //alert("error"+ error);
                     })
                   }  
-                  if(childData.b4 == datauser.fullname){
+                  else if(childData.b4 == datauser.fullname){
                     update(ref(db, "BarberName"), 
                     {
                       b4: ""
@@ -463,7 +463,7 @@
                       //alert("error"+ error);
                     })
                   }  
-                  if(childData.b5 == datauser.fullname){
+                  else if(childData.b5 == datauser.fullname){
                     update(ref(db, "BarberName"), 
                     {
                       b5: ""
@@ -475,7 +475,7 @@
                       //alert("error"+ error);
                     })
                   }  
-                  if(childData.b6 == datauser.fullname){
+                  else if(childData.b6 == datauser.fullname){
                     update(ref(db, "BarberName"), 
                     {
                       b6: ""
@@ -487,7 +487,7 @@
                       //alert("error"+ error);
                     })
                   }  
-                  if(childData.b7 == datauser.fullname){
+                  else if(childData.b7 == datauser.fullname){
                     update(ref(db, "BarberName"), 
                     {
                       b7: ""
@@ -499,7 +499,7 @@
                       //alert("error"+ error);
                     })
                   }  
-                  if(childData.b8 == datauser.fullname){
+                  else if(childData.b8 == datauser.fullname){
                     update(ref(db, "BarberName"), 
                     {
                       b8: ""
@@ -511,7 +511,7 @@
                       //alert("error"+ error);
                     })
                   }  
-                  if(childData.b9 == datauser.fullname){
+                  else if(childData.b9 == datauser.fullname){
                     update(ref(db, "BarberName"),
                     {
                       b9: ""
@@ -522,7 +522,9 @@
                     .catch((error)=>{
                       //alert("error"+ error);
                     })
-                  }  
+                  } else {
+                    alert("Error del member barber")
+                  }
                   });
                    
               } else {
