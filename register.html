@@ -20,7 +20,7 @@
         } */
     </style>
 </head>
-<body>
+<body class="container">
   <nav class="navbar navbar-expand-lg bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand text-light" href="#">ADMIN PAGE</a>
@@ -64,7 +64,7 @@
     <hr>
     <br>
 
-    <div class="container col-8 col-md-2">
+    <div class="container">
       <button type="submit" id="showdata4" class="btn btn-outline-primary mb-3 form-control mt-3">Show users</button>
         <table class="table table-bordered" id="table">
               <tr>
@@ -147,19 +147,28 @@
           if(!Validation()){    //
             return;             //ถ้าตรวจสอบค่าที่ใส่มาแล้วไม่ถูกต้องให้ return กลับ
           }                    //
-            get(child(dbRef, "UserList/"+ username.value)).then(function(snapshot){  
-            if(snapshot.exists()){
+            get(child(dbRef, "UserList/")).then(function(snapshot){  
+            if(snapshot.exists() != true){
               alert("ชื่อบัญชีซ้ำ");
+              console.log(snapshot.exists());
             }
             else{
-              set(ref(db, "UserList/"+ username.value), // set ถ้าซ้ำกันจะไม่บันทึก
-              {
-                fullname: name.value,
-                email: email.value,
-                username: username.value,
-                password: encPass(),
-                rank: ranks()
-              })
+                set(ref(db, 'UserList/' + username.value), {
+                  fullname: name.value,
+                  email: email.value,
+                  username: username.value,
+                  password: encPass(),
+                  rank: ranks()
+                })
+            
+              // set(ref(db, "UserList/"+ userId), // set ถ้าซ้ำกันจะไม่บันทึก
+              // {
+              //   fullname: name.value,
+              //   email: email.value,
+              //   username: username.value,
+              //   password: encPass(),
+              //   rank: ranks()
+              // })
               .then(function(){
                 alert("สมัครสมาชิคสำเร็จ");
               })
@@ -382,17 +391,21 @@
         //   }
         //   )};
 
+        function encDel(){
+          var encDel = CryptoJS.AES.encrypt(delInp.value, delInp.value)
+          return encDel.toString();
+        }
+
           deltime.addEventListener('click',delrealtime);
           function delrealtime(){
-            get(child(dbRef, "UserList/"+ delInp.value)).then(function(snapshot){
+            get(child(dbRef, "UserList/" + delInp.value)).then(function(snapshot){
               const datauser = snapshot.val();
-              console.log(datauser.fullname);
               if(delInp.value == ""){
                 alert("ลบไม่สำเร็จกรุณาใส่ Username");
                 return;
               }
               else if(snapshot.exists()){
-                remove(ref(db,"UserList/"+ delInp.value))
+                remove(ref(db,"UserList/" + delInp.value))
                   .then(()=>{
                   alert("ลบข้อมูลสำเร็จ");
                   })

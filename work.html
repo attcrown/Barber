@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 </head>
-<body>
+<body class="container">
   <nav class="navbar navbar-expand-lg bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand text-light" href="#">ADMIN PAGE</a>
@@ -36,17 +36,16 @@
       </div>
     </div>
   </nav>
-    <div class="container">
+    <div>
         <center><h3>ตารางงาน</h3></center>
-        <div class="container">
+        <div>
             <table class="table table-bordered" id="table">
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Date</th>
                     <th scope="col">Time</th>
                     <th scope="col">Customer</th>
                     <th scope="col">Barber</th>
-                    <!-- <th scope="col">del</th> -->
+                    <th scope="col">ยกเลิกคิว</th>
                   </tr>
             </table>
         </div>
@@ -58,7 +57,7 @@
         <br>
         <hr>
 
-    <script src="Navbarber.js" type="module"></script>
+    <script src="Nav.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     <script type="module">
         //------------FirebaseConfig---------
@@ -81,6 +80,7 @@
         //--------เก็บค่าจาก id------
         const dbRefuser = ref(db,'userLineliff/'); 
         const dbRef = ref(db);
+        const table = document.getElementById('table');
         // const deltime = document.getElementById('deltime');
         // const delInp = document.getElementById('delInp');  
         //const submit = document.getElementById("sub_btn");
@@ -94,24 +94,122 @@
             snapshot.forEach((childSnapshot)=>{
               const childKey = childSnapshot.key;
               const childData = childSnapshot.val();
-              rowNum += 1; 
-              var row = "<tr><td>" + rowNum + "</td><td>" + childData.date + 
-              "</td><td>" + childData.time + "</td><td>" + childData.name + 
-              "</td><td>" + childData.perple + 
-              "</td></tr>";
-              // <td><button class='btn btn-danger' id="+rowNum+" >ยกเลิกคิว</button></td>
-              //---------------
+              if(childData.summinute != ""){
+                rowNum += 1;
+                var iduser = childKey;          
+                var row = "<tr><td>" + rowNum + "</td><td>" + childData.time + 
+                "</td><td>" + childData.name + "</td><td>" + childData.perple + 
+                "</td><td><button class='btn btn-danger' id='del" + rowNum + "' value="
+                + iduser + ">ยกเลิกคิว</button></td></tr>";
+              }
               $(row).appendTo('#table');
-              console.log(childData);
-              // setTimeout(() => {  
-              //   document.getElementById(rowNum).onclick = function() {delQ()};
-              // }, 700);                 
-              });
+              //console.log(iduser);
+            });
+
+            del1.addEventListener('click',del01);
+            function del01(){
+              let del1 = document.getElementById('del1').value;
+              console.log(del1);
+              get(child(dbRef,"userLineliff/"+ del1)).then(function(snapshot){
+                if(del1 == ""){
+                  alert("ยกเลิกไม่สำเร็จ \nกรุณาใส่เวลาที่ต้องการจะยกเลิก");
+                  return;
+                }
+                else if(snapshot.exists()){
+                  update(ref(db,"userLineliff/"+ del1), // set ถ้าซ้ำกันจะไม่บันทึก
+                {
+                  summinute: "",
+                })
+                .then(function(){
+                  alert("ยกเลิกคิวสำเร็จ");
+                  setTimeout(() => {
+                    document.location.reload();
+                    }, 500);
+                })
+                .catch((error)=>{
+                  //alert("error"+ error);
+                })
+                }
+                else{
+                  alert("UserID ไม่ถูกต้อง");
+                }
+              }
+              )
+            };
+            del2.addEventListener('click',del02);
+            function del02(){
+              let del2 = document.getElementById('del2').value;
+              console.log(del2);
+              get(child(dbRef,"userLineliff/"+ del2)).then(function(snapshot){
+                if(del2 == ""){
+                  alert("ยกเลิกไม่สำเร็จ \nกรุณาใส่เวลาที่ต้องการจะยกเลิก");
+                  return;
+                }
+                else if(snapshot.exists()){
+                  update(ref(db,"userLineliff/"+ del2), // set ถ้าซ้ำกันจะไม่บันทึก
+                {
+                  summinute: "",
+                })
+                .then(function(){
+                  alert("ยกเลิกคิวสำเร็จ");
+                  setTimeout(() => {
+                    document.location.reload();
+                    }, 500);
+                })
+                .catch((error)=>{
+                  //alert("error"+ error);
+                })
+                }
+                else{
+                  alert("UserID ไม่ถูกต้อง");
+                }
+              }
+              )
+            };
+            del3.addEventListener('click',del03);
+            function del03(){
+              let del3 = document.getElementById('del3').value;
+              console.log(del3);
+              get(child(dbRef,"userLineliff/"+ del3)).then(function(snapshot){
+                if(del3 == ""){
+                  alert("ยกเลิกไม่สำเร็จ \nกรุณาใส่เวลาที่ต้องการจะยกเลิก");
+                  return;
+                }
+                else if(snapshot.exists()){
+                  update(ref(db,"userLineliff/"+ del3), // set ถ้าซ้ำกันจะไม่บันทึก
+                {
+                  summinute: "",
+                })
+                .then(function(){
+                  alert("ยกเลิกคิวสำเร็จ");
+                  setTimeout(() => {
+                    document.location.reload();
+                    }, 500);
+                })
+                .catch((error)=>{
+                  //alert("error"+ error);
+                })
+                }
+                else{
+                  alert("UserID ไม่ถูกต้อง");
+                }
+              }
+              )
+            };
+
           }, 
           {
             onlyOnce: true
           });
-        }
+        }   
+  
+        // del1.addEventListener('click',del01);
+        // function del01(){
+        //   let del1 = document.getElementById('del1').value;
+        //   console.log(del1);
+        // }
+        
+        
 
         //-----del-------
         // deltime.addEventListener('click',delrealtime);
@@ -140,7 +238,7 @@
         //   )};
         
         //---------ลบทั้งหมด-------
-        // function delQ(){
+        // function del(){
         // onValue(dbRefuser,(snapshot)=>{ //--อ่านฐานข้อมูล----
         //     snapshot.forEach((childSnapshot)=>{
         //       const childKey = childSnapshot.key;
