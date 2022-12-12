@@ -42,7 +42,7 @@
     <script type="module">
         //------------FirebaseConfig---------
     import {initializeApp} from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
-    import {getDatabase ,ref ,set ,child ,get ,update} from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js";
+    import {getDatabase ,ref ,set ,child ,get ,update ,onValue} from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js";
     const firebaseConfig = {
     apiKey: "AIzaSyC9Wj5xc54F8z4NcK-7RBJBuVfMh6zh-xc",
     authDomain: "projectbarber64-9435e.firebaseapp.com",
@@ -61,32 +61,87 @@
         const username = document.getElementById('userInp');
         const pass = document.getElementById('passInp');
         const submit = document.getElementById('sub_btn');
-
-
+        const dbRef = ref(db);
+        const dbRefer = ref(db,"UserList/");
+       
         //-------Authentication---------
         function AuthenticateUser(){
-          const dbRef = ref(db);
-          
-          get(child(dbRef, "UserList/"+ username.value)).then(function(snapshot){
-            if(username.value == "" && pass.value == ""){
-                alert("กรุณาใส่ Username และ Password");
-            }
-            else if(snapshot.exists()){
-              let dbpass = decPass(snapshot.val().password);
-                if(dbpass == pass.value){
-                    login(snapshot.val());
-                }
-                else{
-                    alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง");
-                    console.log(dbpass +"\n"+pass.value );
-                }
-            }
-            else{
-                alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง");
-            }
-            
-          });
+          onValue(dbRefer,(snapshot)=>{
+            snapshot.forEach((childSnapshot)=>{
+              const childKey = childSnapshot.key;
+              const childData = childSnapshot.val();
+              if(username.value == childData.username){
+                var keyid = childKey;
+                console.log(keyid);
+                get(child(dbRef,"UserList/"+keyid)).then(function(snapshot){
+                  if(username.value == "" && pass.value == ""){
+                      alert("กรุณาใส่ Username และ Password");
+                  }
+                  else if(snapshot.exists()){
+                    let dbpass = decPass(snapshot.val().password);
+                      if(dbpass == pass.value){
+                          login(snapshot.val());
+                      }
+                      else{
+                          alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง");
+                          console.log(dbpass +"\n"+pass.value );
+                      }
+                  }
+                  else{
+                      alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง");
+                  }
+                });
+              }
+              //console.log(childKey);
+              //console.log(childData.username);
+            })
+          })
         }
+
+        //function AuthenticateUser(){
+          // onValue(dbRef,(snapshot)=>{
+          //   snapshot.forEach((childSnapshot)=>{
+          //     const childKey = childSnapshot.key;
+          //     const childData = childSnapshot.val();
+          //     console.log(childKey);
+          //     console.log(childData.username);
+          //     if(username.value == "" && pass.value == ""){
+          //         alert("กรุณาใส่ Username และ Password");
+          //     }
+          //     else if(username.value == childData.username){
+          //       let dbpass = decPass(childData.password);
+          //         if(dbpass == pass.value){
+          //             login(snapshot.val());
+          //         }
+          //         else{
+          //             alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง");
+          //             console.log(dbpass +"\n"+pass.value );
+          //         }
+          //     }
+          //     else{
+          //         alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง");
+          //     }
+          //   })
+          // })
+        // get(child(dbRef,"UserList/")).then(function(snapshot){
+        //   if(username.value == "" && pass.value == ""){
+        //       alert("กรุณาใส่ Username และ Password");
+        //   }
+        //   else if(snapshot.exists()){
+        //     let dbpass = decPass(snapshot.val().password);
+        //       if(dbpass == pass.value){
+        //           login(snapshot.val());
+        //       }
+        //       else{
+        //           alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง");
+        //           console.log(dbpass +"\n"+pass.value );
+        //       }
+        //   }
+        //   else{
+        //       alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง");
+        //   }
+        // });
+        // }
 
         //---------Decript--------
         function decPass(dbpass){
