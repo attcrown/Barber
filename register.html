@@ -69,16 +69,13 @@
         <table class="table table-bordered" id="table">
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">User</th>
-                <th scope="col">Rank</th>
+                <th scope="col">ชื่อผู้ใช้</th>
+                <th scope="col">ชื่อบัญชี</th>
+                <th scope="col">ตำแหน่ง</th>
                 <!-- <th scope="col">del</th> -->
               </tr>
         </table>
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" id="delInp" placeholder="Username confirm" aria-label="Recipient's username" aria-describedby="button-addon2">
-          <button class="btn btn-outline-secondary btn-danger text-dark" type="button" id="deltime" >Delete</button>
-        </div>
+        
     </div>
     <script src="Nav.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
@@ -153,7 +150,8 @@
               console.log(snapshot.exists());
             }
             else{
-                set(ref(db, 'UserList/' + username.value), {
+                let key = new Date().getTime(); 
+                set(ref(db, 'UserList/' + key), {
                   fullname: name.value,
                   email: email.value,
                   username: username.value,
@@ -179,11 +177,11 @@
                 get(child(dbRef, "BarberName")).then((snapshot) => {
                 const childData = snapshot.val();  
                 console.log(snapshot.val());
-                if(childData.b0 == ""){
+                if(childData.b10 == ""){
                   console.log("b0");
                   update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
                   {
-                    b0: name.value
+                    b10: name.value
                   })
                   .then(function(){
                     alert("เพิ่มรายชื่อช่างสำเร็จ");
@@ -344,22 +342,1149 @@
 
         //----show users realtime-----
         showdata4.addEventListener('click',(e)=>{
+            setTimeout(() => {
+              document.location.reload();
+            }, 500);
+        });
+        //   $('#table td').remove();
+        //   var rowNum = 0; 
+        //   onValue(dbReftable,(snapshot)=>{
+        //     snapshot.forEach((childSnapshot)=>{
+        //       const childKey = childSnapshot.key;
+        //       const childData = childSnapshot.val();
+        //       rowNum += 1; 
+        //       var row = "<tr><td>" + rowNum + "</td><td>" + childData.fullname + "</td><td>" + childData.username + "</td><td>" + childData.rank + "</td></tr>";
+        //       $(row).appendTo('#table');
+        //     });
+        //   }, 
+        //   {
+        //     onlyOnce: true
+        //   });
+        // });
+
+        function showdata(){
           $('#table td').remove();
           var rowNum = 0; 
-          onValue(dbReftable,(snapshot)=>{
+          onValue(dbReftable,(snapshot)=>{ //--อ่านฐานข้อมูล----
             snapshot.forEach((childSnapshot)=>{
               const childKey = childSnapshot.key;
               const childData = childSnapshot.val();
-              rowNum += 1; 
-              var row = "<tr><td>" + rowNum + "</td><td>" + childData.fullname + "</td><td>" + childData.username + "</td><td>" + childData.rank + "</td></tr>";
+                rowNum += 1;       
+                var iduser = childKey;        
+                var row = "<tr><td>" + rowNum + "</td><td>" + childData.fullname + 
+                "</td><td>" + childData.username + "</td><td>" + childData.rank + 
+                "</td><td><button class='btn btn-danger' id='del" + rowNum + "' value="
+                + iduser + " style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;'>ลบ</button></td></tr>";
+  
               $(row).appendTo('#table');
-            });
-          }, 
+              //console.log(childData);              
+              });
+
+            del1.addEventListener('click',del01);
+              function del01(){
+              let del1 = document.getElementById('del1').value;
+              console.log(del1);
+              get(child(dbRef,"UserList/"+ del1)).then(function(snapshot){
+                if(del1 == ""){
+                  alert("ยกเลิกไม่สำเร็จ \nไม่มี Userid");
+                  return;
+                }
+                else if(snapshot.exists()){
+                  const data = snapshot.val()
+                  console.log(data.fullname)
+                  remove(ref(db,"UserList/" + del1))
+                  .then(()=>{
+                      get(child(dbRef, "BarberName")).then((snapshot) => {
+                        const childData = snapshot.val();  
+                        console.log(snapshot.val());
+                        if(childData.b10 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b10 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b1 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b1 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b2 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b2 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b3 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b3 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b4 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b4 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b5 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b5 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b6 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b6 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b7 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b7 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b8 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b8 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b9 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b9 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                      })
+                  alert("ลบข้อมูลสำเร็จ");
+                  setTimeout(() => {
+                  document.location.reload();
+                  }, 500);
+                  })
+                  .catch((error)=>{
+                  alert("ไม่สำเร็จ"+error);
+                  });
+                }
+                else{
+                  alert("ไม่พบฐานข้อมูล");
+                }
+              }
+              )
+            };
+            del2.addEventListener('click',del02);
+              function del02(){
+              let del2 = document.getElementById('del2').value;
+              console.log(del2);
+              get(child(dbRef,"UserList/"+ del2)).then(function(snapshot){
+                if(del2 == ""){
+                  alert("ยกเลิกไม่สำเร็จ \nไม่มี Userid");
+                  return;
+                }
+                else if(snapshot.exists()){
+                  const data = snapshot.val()
+                  remove(ref(db,"UserList/" + del2))
+                  .then(()=>{
+                      get(child(dbRef, "BarberName")).then((snapshot) => {
+                        const childData = snapshot.val();  
+                        console.log(snapshot.val());
+                        if(childData.b10 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b10 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b1 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b1 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b2 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b2 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b3 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b3 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b4 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b4 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b5 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b5 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b6 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b6 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b7 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b7 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b8 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b8 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b9 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b9 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                      })
+                  alert("ลบข้อมูลสำเร็จ");
+                  setTimeout(() => {
+                  document.location.reload();
+                  }, 500);
+                  })
+                  .catch((error)=>{
+                  alert("ไม่สำเร็จ"+error);
+                  });
+                }
+                else{
+                  alert("ไม่พบฐานข้อมูล");
+                }
+              }
+              )
+            };
+            del3.addEventListener('click',del03);
+              function del03(){
+              let del3 = document.getElementById('del3').value;
+              console.log(del3);
+              get(child(dbRef,"UserList/"+ del3)).then(function(snapshot){
+                if(del3 == ""){
+                  alert("ยกเลิกไม่สำเร็จ \nไม่มี Userid");
+                  return;
+                }
+                else if(snapshot.exists()){
+                  const data = snapshot.val()
+                  remove(ref(db,"UserList/" + del3))
+                  .then(()=>{
+                      get(child(dbRef, "BarberName")).then((snapshot) => {
+                        const childData = snapshot.val();  
+                        console.log(snapshot.val());
+                        if(childData.b10 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b10 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b1 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b1 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b2 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b2 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b3 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b3 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b4 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b4 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b5 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b5 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b6 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b6 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b7 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b7 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b8 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b8 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b9 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b9 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                      })
+                  alert("ลบข้อมูลสำเร็จ");
+                  setTimeout(() => {
+                  document.location.reload();
+                  }, 500);
+                  })
+                  .catch((error)=>{
+                  alert("ไม่สำเร็จ"+error);
+                  });
+                }
+                else{
+                  alert("ไม่พบฐานข้อมูล");
+                }
+              }
+              )
+            };
+            del4.addEventListener('click',del04);
+              function del04(){
+              let del4 = document.getElementById('del4').value;
+              console.log(del4);
+              get(child(dbRef,"UserList/"+ del4)).then(function(snapshot){
+                if(del4 == ""){
+                  alert("ยกเลิกไม่สำเร็จ \nไม่มี Userid");
+                  return;
+                }
+                else if(snapshot.exists()){
+                  const data = snapshot.val()
+                  remove(ref(db,"UserList/" + del4))
+                  .then(()=>{
+                      get(child(dbRef, "BarberName")).then((snapshot) => {
+                        const childData = snapshot.val();  
+                        console.log(snapshot.val());
+                        if(childData.b10 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b10 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b1 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b1 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b2 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b2 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b3 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b3 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b4 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b4 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b5 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b5 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b6 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b6 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b7 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b7 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b8 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b8 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b9 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b9 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                      })
+                  alert("ลบข้อมูลสำเร็จ");
+                  setTimeout(() => {
+                  document.location.reload();
+                  }, 500);
+                  })
+                  .catch((error)=>{
+                  alert("ไม่สำเร็จ"+error);
+                  });
+                }
+                else{
+                  alert("ไม่พบฐานข้อมูล");
+                }
+              }
+              )
+            };
+            del5.addEventListener('click',del05);
+              function del05(){
+              let del5 = document.getElementById('del5').value;
+              console.log(del5);
+              get(child(dbRef,"UserList/"+ del5)).then(function(snapshot){
+                if(del5 == ""){
+                  alert("ยกเลิกไม่สำเร็จ \nไม่มี Userid");
+                  return;
+                }
+                else if(snapshot.exists()){
+                  const data = snapshot.val()
+                  remove(ref(db,"UserList/" + del5))
+                  .then(()=>{
+                      get(child(dbRef, "BarberName")).then((snapshot) => {
+                        const childData = snapshot.val();  
+                        console.log(snapshot.val());
+                        if(childData.b10 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b10 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b1 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b1 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b2 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b2 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b3 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b3 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b4 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b4 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b5 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b5 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b6 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b6 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b7 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b7 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b8 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b8 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b9 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b9 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                      })
+                  alert("ลบข้อมูลสำเร็จ");
+                  setTimeout(() => {
+                  document.location.reload();
+                  }, 500);
+                  })
+                  .catch((error)=>{
+                  alert("ไม่สำเร็จ"+error);
+                  });
+                }
+                else{
+                  alert("ไม่พบฐานข้อมูล");
+                }
+              }
+              )
+            };
+            del6.addEventListener('click',del06);
+              function del06(){
+              let del6 = document.getElementById('del6').value;
+              console.log(del6);
+              get(child(dbRef,"UserList/"+ del6)).then(function(snapshot){
+                if(del6 == ""){
+                  alert("ยกเลิกไม่สำเร็จ \nไม่มี Userid");
+                  return;
+                }
+                else if(snapshot.exists()){
+                  const data = snapshot.val()
+                  remove(ref(db,"UserList/" + del6))
+                  .then(()=>{
+                      get(child(dbRef, "BarberName")).then((snapshot) => {
+                        const childData = snapshot.val();  
+                        console.log(snapshot.val());
+                        if(childData.b10 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b10 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b1 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b1 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b2 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b2 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b3 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b3 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b4 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b4 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b5 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b5 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b6 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b6 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b7 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b7 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b8 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b8 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b9 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b9 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                      })
+                  alert("ลบข้อมูลสำเร็จ");
+                  setTimeout(() => {
+                  document.location.reload();
+                  }, 500);
+                  })
+                  .catch((error)=>{
+                  alert("ไม่สำเร็จ"+error);
+                  });
+                }
+                else{
+                  alert("ไม่พบฐานข้อมูล");
+                }
+              }
+              )
+            };
+            del7.addEventListener('click',del07);
+              function del07(){
+              let del7 = document.getElementById('del7').value;
+              console.log(del7);
+              get(child(dbRef,"UserList/"+ del7)).then(function(snapshot){
+                if(del7 == ""){
+                  alert("ยกเลิกไม่สำเร็จ \nไม่มี Userid");
+                  return;
+                }
+                else if(snapshot.exists()){
+                  const data = snapshot.val()
+                  remove(ref(db,"UserList/" + del7))
+                  .then(()=>{
+                      get(child(dbRef, "BarberName")).then((snapshot) => {
+                        const childData = snapshot.val();  
+                        console.log(snapshot.val());
+                        if(childData.b10 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b10 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b1 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b1 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b2 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b2 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b3 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b3 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b4 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b4 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b5 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b5 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b6 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b6 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b7 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b7 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b8 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b8 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b9 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b9 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                      })
+                  alert("ลบข้อมูลสำเร็จ");
+                  setTimeout(() => {
+                  document.location.reload();
+                  }, 500);
+                  })
+                  .catch((error)=>{
+                  alert("ไม่สำเร็จ"+error);
+                  });
+                }
+                else{
+                  alert("ไม่พบฐานข้อมูล");
+                }
+              }
+              )
+            };
+            del8.addEventListener('click',del08);
+              function del08(){
+              let del8 = document.getElementById('del8').value;
+              console.log(del8);
+              get(child(dbRef,"UserList/"+ del8)).then(function(snapshot){
+                if(del8 == ""){
+                  alert("ยกเลิกไม่สำเร็จ \nไม่มี Userid");
+                  return;
+                }
+                else if(snapshot.exists()){
+                  const data = snapshot.val()
+                  remove(ref(db,"UserList/" + del8))
+                  .then(()=>{
+                      get(child(dbRef, "BarberName")).then((snapshot) => {
+                        const childData = snapshot.val();  
+                        console.log(snapshot.val());
+                        if(childData.b10 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b10 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b1 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b1 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b2 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b2 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b3 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b3 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b4 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b4 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b5 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b5 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b6 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b6 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b7 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b7 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b8 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b8 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b9 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b9 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                      })
+                  alert("ลบข้อมูลสำเร็จ");
+                  setTimeout(() => {
+                  document.location.reload();
+                  }, 500);
+                  })
+                  .catch((error)=>{
+                  alert("ไม่สำเร็จ"+error);
+                  });
+                }
+                else{
+                  alert("ไม่พบฐานข้อมูล");
+                }
+              }
+              )
+            };
+            del9.addEventListener('click',del09);
+              function del09(){
+              let del9 = document.getElementById('del9').value;
+              console.log(del9);
+              get(child(dbRef,"UserList/"+ del9)).then(function(snapshot){
+                if(del9 == ""){
+                  alert("ยกเลิกไม่สำเร็จ \nไม่มี Userid");
+                  return;
+                }
+                else if(snapshot.exists()){
+                  const data = snapshot.val()
+                  remove(ref(db,"UserList/" + del9))
+                  .then(()=>{
+                      get(child(dbRef, "BarberName")).then((snapshot) => {
+                        const childData = snapshot.val();  
+                        console.log(snapshot.val());
+                        if(childData.b10 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b10 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b1 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b1 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b2 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b2 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b3 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b3 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b4 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b4 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b5 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b5 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b6 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b6 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b7 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b7 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b8 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b8 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                        if(childData.b9 == data.fullname){
+                          update(ref(db, "BarberName"), 
+                          {
+                            b9 : ""
+                          })
+                          .then(function(){
+                            alert("นำชื่อช่างออกสำเร็จ");
+                          }) 
+                        }
+                      })
+                  alert("ลบข้อมูลสำเร็จ");
+                  setTimeout(() => {
+                  document.location.reload();
+                  }, 500);
+                  })
+                  .catch((error)=>{
+                  alert("ไม่สำเร็จ"+error);
+                  });
+                }
+                else{
+                  alert("ไม่พบฐานข้อมูล");
+                }
+              }
+              )
+            };
+            }, 
           {
             onlyOnce: true
           });
-        });
-         
+        }
+
         //-----del-------
         // deltime.addEventListener('click',delrealtime);
         //   function delrealtime(){
@@ -391,160 +1516,106 @@
         //   }
         //   )};
 
-        function encDel(){
-          var encDel = CryptoJS.AES.encrypt(delInp.value, delInp.value)
-          return encDel.toString();
-        }
+        //  deltime.addEventListener('click',delrealtime);
+        //   function delrealtime(){
+        //     get(child(dbRef, "UserList/" + delInp.value)).then(function(snapshot){
+        //       const datauser = snapshot.val();
+        //       if(delInp.value == ""){
+        //         alert("ลบไม่สำเร็จกรุณาใส่ Username");
+        //         return;
+        //       }
+        //       else if(snapshot.exists()){
+        //         remove(ref(db,"UserList/" + delInp.value))
+        //           .then(()=>{
+        //           alert("ลบข้อมูลสำเร็จ");
+        //           })
+        //           .catch((error)=>{
+        //           alert("ไม่สำเร็จ"+error);
+        //           });
 
-          deltime.addEventListener('click',delrealtime);
-          function delrealtime(){
-            get(child(dbRef, "UserList/" + delInp.value)).then(function(snapshot){
-              const datauser = snapshot.val();
-              if(delInp.value == ""){
-                alert("ลบไม่สำเร็จกรุณาใส่ Username");
-                return;
-              }
-              else if(snapshot.exists()){
-                remove(ref(db,"UserList/" + delInp.value))
-                  .then(()=>{
-                  alert("ลบข้อมูลสำเร็จ");
-                  })
-                  .catch((error)=>{
-                  alert("ไม่สำเร็จ"+error);
-                  });
-
-                  get(child(dbRef, "BarberName")).then((snapshot) => {
-                  const childData = snapshot.val();  
-                  console.log(snapshot.val());
-                  if(childData.b0 == datauser.fullname){
-                    update(ref(db, "BarberName"), 
-                    {
-                      b0: ""
-                    })
-                    .then(function(){
-                      //alert("เพิ่มรายชื่อช่างสำเร็จ");
-                    })
-                    .catch((error)=>{
-                      //alert("error"+ error);
-                    }) 
-                  }
-                  else if(childData.b1 == datauser.fullname){
-                    update(ref(db, "BarberName"), 
-                    {
-                      b1: ""
-                    })
-                    .then(function(){
-                      //alert("เพิ่มรายชื่อช่างสำเร็จ");
-                    })
-                    .catch((error)=>{
-                      //alert("error"+ error);
-                    })
-                  }  
-                  else if(childData.b2 == datauser.fullname){
-                    update(ref(db, "BarberName"), 
-                    {
-                      b2: ""
-                    })
-                    .then(function(){
-                      //alert("เพิ่มรายชื่อช่างสำเร็จ");
-                    })
-                    .catch((error)=>{
-                      //alert("error"+ error);
-                    })
-                  }  
-                  else if(childData.b3 == datauser.fullname){
-                    update(ref(db, "BarberName"), 
-                    {
-                      b3: ""
-                    })
-                    .then(function(){
-                      //alert("เพิ่มรายชื่อช่างสำเร็จ");
-                    })
-                    .catch((error)=>{
-                      //alert("error"+ error);
-                    })
-                  }  
-                  else if(childData.b4 == datauser.fullname){
-                    update(ref(db, "BarberName"), 
-                    {
-                      b4: ""
-                    })
-                    .then(function(){
-                      //alert("เพิ่มรายชื่อช่างสำเร็จ");
-                    })
-                    .catch((error)=>{
-                      //alert("error"+ error);
-                    })
-                  }  
-                  else if(childData.b5 == datauser.fullname){
-                    update(ref(db, "BarberName"), 
-                    {
-                      b5: ""
-                    })
-                    .then(function(){
-                      //alert("เพิ่มรายชื่อช่างสำเร็จ");
-                    })
-                    .catch((error)=>{
-                      //alert("error"+ error);
-                    })
-                  }  
-                  else if(childData.b6 == datauser.fullname){
-                    update(ref(db, "BarberName"), 
-                    {
-                      b6: ""
-                    })
-                    .then(function(){
-                      //alert("เพิ่มรายชื่อช่างสำเร็จ");
-                    })
-                    .catch((error)=>{
-                      //alert("error"+ error);
-                    })
-                  }  
-                  else if(childData.b7 == datauser.fullname){
-                    update(ref(db, "BarberName"), 
-                    {
-                      b7: ""
-                    })
-                    .then(function(){
-                      //alert("เพิ่มรายชื่อช่างสำเร็จ");
-                    })
-                    .catch((error)=>{
-                      //alert("error"+ error);
-                    })
-                  }  
-                  else if(childData.b8 == datauser.fullname){
-                    update(ref(db, "BarberName"), 
-                    {
-                      b8: ""
-                    })
-                    .then(function(){
-                      //alert("เพิ่มรายชื่อช่างสำเร็จ");
-                    })
-                    .catch((error)=>{
-                      //alert("error"+ error);
-                    })
-                  }  
-                  else if(childData.b9 == datauser.fullname){
-                    update(ref(db, "BarberName"),
-                    {
-                      b9: ""
-                    })
-                    .then(function(){
-                      //alert("เพิ่มรายชื่อช่างสำเร็จ");
-                    })
-                    .catch((error)=>{
-                      //alert("error"+ error);
-                    })
-                  } else {
-                    alert("Error del member barber")
-                  }
-                  });
+        //           get(child(dbRef, "BarberName")).then((snapshot) => {
+        //           const childData = snapshot.val();  
+        //           console.log(snapshot.val());
+        //           if(childData.b0 == datauser.fullname){
+        //             update(ref(db, "BarberName"), 
+        //             {
+        //               b0: ""
+        //             })
+        //             .then(function(){
+        //               //alert("เพิ่มรายชื่อช่างสำเร็จ");
+        //             })
+        //             .catch((error)=>{
+        //               //alert("error"+ error);
+        //             }) 
+        //           }
+        //           else if(childData.b1 == datauser.fullname){
+        //             update(ref(db, "BarberName"), 
+        //             {
+        //               b1: ""
+        //             })
+        //           }  
+        //           else if(childData.b2 == datauser.fullname){
+        //             update(ref(db, "BarberName"), 
+        //             {
+        //               b2: ""
+        //             })
+        //           }  
+        //           else if(childData.b3 == datauser.fullname){
+        //             update(ref(db, "BarberName"), 
+        //             {
+        //               b3: ""
+        //             })
+        //           }  
+        //           else if(childData.b4 == datauser.fullname){
+        //             update(ref(db, "BarberName"), 
+        //             {
+        //               b4: ""
+        //             })
+        //           }  
+        //           else if(childData.b5 == datauser.fullname){
+        //             update(ref(db, "BarberName"), 
+        //             {
+        //               b5: ""
+        //             })
+        //           }  
+        //           else if(childData.b6 == datauser.fullname){
+        //             update(ref(db, "BarberName"), 
+        //             {
+        //               b6: ""
+        //             })
+        //           }  
+        //           else if(childData.b7 == datauser.fullname){
+        //             update(ref(db, "BarberName"), 
+        //             {
+        //               b7: ""
+        //             })
+        //           }  
+        //           else if(childData.b8 == datauser.fullname){
+        //             update(ref(db, "BarberName"), 
+        //             {
+        //               b8: ""
+        //             })
+        //           }  
+        //           else if(childData.b9 == datauser.fullname){
+        //             update(ref(db, "BarberName"),
+        //             {
+        //               b9: ""
+        //             })
+        //           } else {
+        //             alert("Error del member barber")
+        //           }
+        //           });
                    
-              } else {
-                alert("ชื่อไม่ถูกต้อง");
-              }
-          }
-          )};
+        //       } else {
+        //         alert("ชื่อไม่ถูกต้อง");
+        //       }
+        //   }
+        //   )};
+
+          setTimeout(() => {  
+          showdata();
+        }, 500);
+
       </script>
 </body>
 </html>

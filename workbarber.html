@@ -115,7 +115,7 @@
               console.log(del1);
               get(child(dbRef,"userLineliff/"+ del1)).then(function(snapshot){
                 if(del1 == ""){
-                  alert("ยกเลิกไม่สำเร็จ \nกรุณาใส่เวลาที่ต้องการจะยกเลิก");
+                  alert("ยกเลิกไม่สำเร็จ \nไม่มี Userid");
                   return;
                 }
                 else if(snapshot.exists()){
