@@ -139,24 +139,48 @@
         return true;
       }
 
+        //---------Checkuser--------
+        function Checkuser(){
+          var x = 0;
+          var rowset = 0;
+          onValue(dbReftable,(snapshot)=>{
+          snapshot.forEach((childSnapshot)=>{
+            const childKey = childSnapshot.key;
+            const childData = childSnapshot.val();
+            rowset += 1;
+            x++;
+            if(childData.username == username.value){
+              console.log("ซ้ำ");
+              x--;
+            }else if((childData.username != username.value)){
+              console.log("ไม่ซ้ำ");
+            }else{
+              console.log("error");
+            }
+          });
+          console.log(rowset);
+          console.log(x);
+          if(x == rowset){
+              console.log(x,rowset);
+              return true;
+            }else{
+              return false;
+            }
+        },{
+            onlyOnce: true
+        });
+      }      
+ 
         //----------register user to firebase-------
         function RegisterUser(){
           if(!Validation()){    //
             return;             //ถ้าตรวจสอบค่าที่ใส่มาแล้วไม่ถูกต้องให้ return กลับ
           }     
-          const dbRefer = ref(db,"UserList/");               //
-          // onValue(dbRefer,(snapshot)=>{
-          //   snapshot.forEach((childSnapshot)=>{
-          //     const childKey = childSnapshot.key;
-          //     const childData = childSnapshot.val();
-          //     if(childData.username == username.value){
-          //       alert("ชื่อบัญชีซ้ำ");
-          //     }
-          //  })
-          // })
+          console.log(Checkuser());
+          if(false){//Checkuser() == true){
             get(child(dbRef, "UserList/")).then(function(snapshot){  
             if(snapshot.exists() != true){
-              alert("ชื่อบัญชีซ้ำ");
+              alert("IDuserซ้ำ");
               console.log(snapshot.exists());
             }
             else{
@@ -313,9 +337,10 @@
               }).catch((error) => {
                 console.error(error);
               }); 
-              }             
+             }             
             }
             });
+          }
         }
 
         //---------Encription--------
