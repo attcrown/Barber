@@ -152,6 +152,7 @@
             });
             if(chestname.username == username.value){
               console.log("ชื่อUserซ้ำ");
+              //alert("ชื่อ Username ซ้ำ");
               return;
             } else if(chestname.username != username.value){
               console.log("ผ่าน");
@@ -523,6 +524,12 @@
             setTimeout(() => {
               document.location.reload();
             }, 500);
+        });
+
+        submit.addEventListener('click',(e)=>{
+          setTimeout(()=>{
+            document.location.reload();
+          },500);
         });
 
         //----show Data Userlist-----
