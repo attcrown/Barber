@@ -48,7 +48,7 @@
                   <center><h5>วันหยุดประจำสัปดาห์</h5></center>
                   <br>
                   <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="Sunday">
+                    <input class="form-check-input" type="checkbox" role="switch" id="Sunday"> 
                     <label class="form-check-label"for="Sunday">Sunday</label>
                   </div>
                   <div class="form-check form-switch">
@@ -82,7 +82,7 @@
                     <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="Openbarber">
                       <option selected>Open Barber</option>
                       <option value="00.00">00.00 น.</option>
-                      <option value="00.00">00.30 น.</option>
+                      <option value="00.30">00.30 น.</option>
                       <option value="01.00">01.00 น.</option>
                       <option value="01.30">01.30 น.</option>
                       <option value="02.00">02.00 น.</option>
@@ -215,26 +215,60 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase();
+        const dbRef = ref(getDatabase());
 
         //--------เก็บค่าจาก id------
         const submit = document.getElementById('sub_btn');
-        
-        //const submitshow = document.getElementById('sub_btnshow');
-        
-        //submit
+        const Closebar = document.getElementById('Closebarber');
+        const Openbar = document.getElementById('Openbarber');
+
+        get(child(dbRef,"Stopday/")).then((snapshot) => {
+          if (snapshot.exists()) {
+            console.log(snapshot.val());
+            if(snapshot.val().Sun != ""){
+              document.getElementById("Sunday").checked=true;
+            }
+            if(snapshot.val().Mon != ""){
+              document.getElementById("Monday").checked=true;
+            }
+            if(snapshot.val().Tue != ""){
+              document.getElementById("Tuesday").checked=true;
+            }
+            if(snapshot.val().Wed != ""){
+              document.getElementById("Wednesday").checked=true;
+            }
+            if(snapshot.val().Thu != ""){
+              document.getElementById("Thursday").checked=true;
+            }
+            if(snapshot.val().Fir != ""){
+              document.getElementById("Firday").checked=true;
+            }
+            if(snapshot.val().Sat != ""){
+              document.getElementById("Saturday").checked=true;
+            }
+          } else {
+            console.log("No data available");
+          }
+        }).catch((error) => {
+          console.error(error);
+        });
+                
         //---------assign the events-------
         submit.addEventListener('click',SaveDay);
 
-        // showOPenCLose
-        function show(){
-          var Closebar = document.getElementById('Closebarber').value;
-          var Openbar = document.getElementById('Openbarber').value;
-          console.log(Closebar);
-          console.log(Openbar);
-        }
-
         // save day
         function SaveDay(){
+          if(Openbar.value == "Open Barber" || Closebar.value == "Close Barber"){
+            alert("กรุณาระบุเวลาเปิด-ปิดร้าน");
+            return;
+          }
+          console.log(Openbar.value);
+          console.log(Closebar.value);
+          update(ref(db,"Timebarber/"),
+              {
+                open: Openbar.value,
+                close: Closebar.value
+              }),   
           update(ref(db, "Stopday/"), // set ถ้าซ้ำกันจะไม่บันทึก
               {
                 Sun: Sunday()
@@ -275,8 +309,6 @@
         //---------DAY------------
         function Sunday(){
             let Sun = document.getElementById('Sunday').checked;
-             //alert(rank+"บันทึกRank");
-            
             if(Sun == false){
               Sun = "";
             }
@@ -287,8 +319,6 @@
         }
         function Monday(){
             let Mon = document.getElementById('Monday').checked;
-             //alert(rank+"บันทึกRank");
-            
             if(Mon == false){
               Mon = "";
             }
@@ -298,8 +328,6 @@
           return Mon;  
         }function Tuesday(){
             let Tue = document.getElementById('Tuesday').checked;
-             //alert(rank+"บันทึกRank");
-            
             if(Tue == false){
               Tue = "";
             }
@@ -309,8 +337,6 @@
           return Tue;  
         }function Wednesday(){
             let Wed = document.getElementById('Wednesday').checked;
-             //alert(rank+"บันทึกRank");
-            
             if(Wed == false){
               Wed = "";
             }
@@ -320,8 +346,6 @@
           return Wed;  
         }function Thursday(){
             let Thu = document.getElementById('Thursday').checked;
-             //alert(rank+"บันทึกRank");
-            
             if(Thu == false){
               Thu = "";
             }
@@ -331,8 +355,6 @@
           return Thu;  
         }function Firday(){
             let Fir = document.getElementById('Firday').checked;
-             //alert(rank+"บันทึกRank");
-            
             if(Fir == false){
               Fir = "";
             }
@@ -342,8 +364,6 @@
           return Fir;  
         }function Saturday(){
             let Sat = document.getElementById('Saturday').checked;
-             //alert(rank+"บันทึกRank");
-            
             if(Sat == false){
               Sat = "";
             }
