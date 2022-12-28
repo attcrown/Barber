@@ -80,7 +80,7 @@
               namearray[i] = childData.username;
               if(username.value == childData.username){
                 var keyid = childKey;
-                console.log(keyid);
+                //console.log(keyid);
                 get(child(dbRef,"UserList/"+keyid)).then(function(snapshot){
                   if(snapshot.exists()){
                     let dbpass = decPass(snapshot.val().password);
@@ -102,7 +102,7 @@
             //console.log(namearray);
             if(username.value != namearray[0]){
               alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง",'danger');
-              console.log(username.value);
+              //console.log(username.value);
             }
           })
         }
