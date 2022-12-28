@@ -21,7 +21,7 @@
     </style>
 </head>
 <body class="container">
-  <nav class="navbar navbar-expand-lg bg-dark">
+  <nav class="navbar navbar-expand-lg bg-success">
     <div class="container-fluid">
       <a class="navbar-brand text-light" href="#">ADMIN PAGE</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,13 +66,13 @@
 
     <div class="container">
       <button type="submit" id="showdata4" class="btn btn-outline-primary mb-3 form-control mt-3">Show users</button>
-        <table class="table table-bordered" id="table">
+        <table class="table table-striped table-hover" id="table">
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">ชื่อผู้ใช้</th>
-                <th scope="col">ชื่อบัญชี</th>
+                <!-- <th scope="col">ชื่อบัญชี</th> -->
                 <th scope="col">ตำแหน่ง</th>
-                <!-- <th scope="col">del</th> -->
+                <th scope="col"></th>
               </tr>
         </table>
         
@@ -323,178 +323,6 @@
             } else{console.log("Error");}
           })
         }
- 
-        //----------register user to firebase-------
-        // function RegisterUser(){
-        //   if(!Validation()){    //
-        //     return;             //ถ้าตรวจสอบค่าที่ใส่มาแล้วไม่ถูกต้องให้ return กลับ
-        //   }     
-        //   console.log(Checkuser());
-        //   if(false){//Checkuser() == true){
-        //     get(child(dbRef, "UserList/")).then(function(snapshot){  
-        //     if(snapshot.exists() != true){
-        //       alert("IDuserซ้ำ");
-        //       console.log(snapshot.exists());
-        //     }
-        //     else{
-        //         let key = new Date().getTime(); 
-        //         set(ref(db, 'UserList/' + key), {
-        //           fullname: name.value,
-        //           email: email.value,
-        //           username: username.value,
-        //           password: encPass(),
-        //           rank: ranks()
-        //         })
-        //       .then(function(){
-        //         alert("สมัครสมาชิคสำเร็จ");
-        //       })
-        //       .catch((error)=>{
-        //         //alert("error"+ error);
-        //       })
-        //       if(ranks() == "barber"){ 
-        //         get(child(dbRef, "BarberName")).then((snapshot) => {
-        //         const childData = snapshot.val();  
-        //         console.log(snapshot.val());
-        //         if(childData.b10 == ""){
-        //           console.log("b10");
-        //           update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
-        //           {
-        //             b10: name.value
-        //           })
-        //           .then(function(){
-        //             alert("เพิ่มรายชื่อช่างสำเร็จ");
-        //           })
-        //           .catch((error)=>{
-        //             //alert("error"+ error);
-        //           })
-        //         }
-        //         else if(childData.b1 == ""){
-        //           console.log("b1");
-        //           update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
-        //           {
-        //             b1: name.value
-        //           })
-        //           .then(function(){
-        //             alert("เพิ่มรายชื่อช่างสำเร็จ");
-        //           })
-        //           .catch((error)=>{
-        //             //alert("error"+ error);
-        //           })
-        //         }
-        //         else if(childData.b2 == ""){
-        //           console.log("b2");
-        //           update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
-        //           {
-        //             b2: name.value
-        //           })
-        //           .then(function(){
-        //             alert("เพิ่มรายชื่อช่างสำเร็จ");
-        //           })
-        //           .catch((error)=>{
-        //             //alert("error"+ error);
-        //           })
-        //         }
-        //         else if(childData.b3 == ""){
-        //           console.log("b3");
-        //           update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
-        //           {
-        //             b3: name.value
-        //           })
-        //           .then(function(){
-        //             alert("เพิ่มรายชื่อช่างสำเร็จ");
-        //           })
-        //           .catch((error)=>{
-        //             //alert("error"+ error);
-        //           })
-        //         }
-        //         else if(childData.b4 == ""){
-        //           console.log("b4");
-        //           update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
-        //           {
-        //             b4: name.value
-        //           })
-        //           .then(function(){
-        //             alert("เพิ่มรายชื่อช่างสำเร็จ");
-        //           })
-        //           .catch((error)=>{
-        //             //alert("error"+ error);
-        //           })
-        //         }
-        //         else if(childData.b5 == ""){
-        //           console.log("b5");
-        //           update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
-        //           {
-        //             b5: name.value
-        //           })
-        //           .then(function(){
-        //             alert("เพิ่มรายชื่อช่างสำเร็จ");
-        //           })
-        //           .catch((error)=>{
-        //             //alert("error"+ error);
-        //           })
-        //         }
-        //         else if(childData.b6 == ""){
-        //           console.log("b6");
-        //           update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
-        //           {
-        //             b6: name.value
-        //           })
-        //           .then(function(){
-        //             alert("เพิ่มรายชื่อช่างสำเร็จ");
-        //           })
-        //           .catch((error)=>{
-        //             //alert("error"+ error);
-        //           })
-        //         }
-        //         else if(childData.b7 == ""){
-        //           console.log("b7");
-        //           update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
-        //           {
-        //             b7: name.value
-        //           })
-        //           .then(function(){
-        //             alert("เพิ่มรายชื่อช่างสำเร็จ");
-        //           })
-        //           .catch((error)=>{
-        //             //alert("error"+ error);
-        //           })
-        //         }
-        //         else if(childData.b8 == ""){
-        //           console.log("b8");
-        //           update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
-        //           {
-        //             b8: name.value
-        //           })
-        //           .then(function(){
-        //             alert("เพิ่มรายชื่อช่างสำเร็จ");
-        //           })
-        //           .catch((error)=>{
-        //             //alert("error"+ error);
-        //           })
-        //         }
-        //         else if(childData.b9 == ""){
-        //           console.log("b9");
-        //           update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
-        //           {
-        //             b9: name.value
-        //           })
-        //           .then(function(){
-        //             alert("เพิ่มรายชื่อช่างสำเร็จ");
-        //           })
-        //           .catch((error)=>{
-        //             //alert("error"+ error);
-        //           })
-        //         } else {
-        //           console.log("No data available");
-        //         }
-        //       }).catch((error) => {
-        //         console.error(error);
-        //       }); 
-        //      }             
-        //     }
-        //     });
-        //   }
-        // }
 
         //---------Encription--------
         function encPass(){
@@ -543,7 +371,7 @@
                 rowNum += 1;       
                 var iduser = childKey;        
                 var row = "<tr><td>" + rowNum + "</td><td>" + childData.fullname + 
-                "</td><td>" + childData.username + "</td><td>" + childData.rank + 
+                "</td><td>" + childData.rank + 
                 "</td><td><button class='btn btn-danger' id='del" + rowNum + "' value="
                 + iduser + " style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;'>ลบ</button></td></tr>";
   
