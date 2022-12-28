@@ -22,6 +22,7 @@
 <body>
     <div class="container">
       <div class="container" align="center"><img src="images/logo-login.jpg" width="300" height="300"></div>
+      <div id="liveAlertPlaceholder"></div>
         <h3 align="center">Login</h3>
         <div class="input-group mb-3">
           <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
@@ -66,35 +67,42 @@
        
         //-------Authentication---------
         function AuthenticateUser(){
+          if(username.value == "" || pass.value == ""){
+                alert("กรุณาใส่ Username และ Password",'danger');
+                return;
+          }
+          let i = 0;
+          const namearray = [];
           onValue(dbRefer,(snapshot)=>{
             snapshot.forEach((childSnapshot)=>{
               const childKey = childSnapshot.key;
-              const childData = childSnapshot.val();
+              const childData = childSnapshot.val();              
+              namearray[i] = childData.username;
               if(username.value == childData.username){
                 var keyid = childKey;
                 console.log(keyid);
                 get(child(dbRef,"UserList/"+keyid)).then(function(snapshot){
-                  if(username.value == "" && pass.value == ""){
-                      alert("กรุณาใส่ Username และ Password");
-                  }
-                  else if(snapshot.exists()){
+                  if(snapshot.exists()){
                     let dbpass = decPass(snapshot.val().password);
                       if(dbpass == pass.value){
                           login(snapshot.val());
-                      }
-                      else{
-                          alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง");
+                      } else{
+                          alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง",'danger');
                           console.log(dbpass +"\n"+pass.value );
+                          return;
                       }
-                  }
-                  else{
-                      alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง");
+                  } else{
+                      alert("Error DataBase",'danger');
                   }
                 });
-              }
-              //console.log(childKey);
-              //console.log(childData.username);
-            })
+              }else{return;}
+              i++;
+            });
+            console.log(namearray);
+            if(username.value != namearray[0]){
+              alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง",'danger');
+              console.log(username.value);
+            }else{}
           })
         }
 
@@ -168,6 +176,19 @@
 
          //---------assign the events-------
          submit.addEventListener('click',AuthenticateUser);
+
+         //----------alert------------
+        const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+        const alert = (message, type) => {
+          const wrapper = document.createElement('div')
+          wrapper.innerHTML = [
+            `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+            `   <div>${message}</div>`,
+            '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+            '</div>'
+          ].join('')
+          alertPlaceholder.append(wrapper)
+        }
 
     </script>
 </body>
