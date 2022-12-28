@@ -88,21 +88,22 @@
                           login(snapshot.val());
                       } else{
                           alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง",'danger');
-                          console.log(dbpass +"\n"+pass.value );
+                          //console.log(dbpass +"\n"+pass.value );
                           return;
                       }
                   } else{
                       alert("Error DataBase",'danger');
+                      return;
                   }
                 });
-              }else{return;}
+              } else{return;}
               i++;
             });
-            console.log(namearray);
+            //console.log(namearray);
             if(username.value != namearray[0]){
               alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง",'danger');
               console.log(username.value);
-            }else{}
+            }
           })
         }
 
