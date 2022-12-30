@@ -501,6 +501,10 @@
         var a = d.getMonth();
         pre.addEventListener('click',(e)=>{
           a = a-1;
+          if(a == -1){
+            a = 11;
+            years -= 1;
+          }
           name = month[a];
           MonthYear.innerHTML = name+" "+years;
           sum = "";
@@ -508,6 +512,10 @@
         });
         next.addEventListener('click',(e)=>{
           a = a+1;
+          if(a == 12){
+            a = 0;
+            years += 1;
+          }
           name = month[a];
           MonthYear.innerHTML = name+" "+years;
           sum = "";
@@ -518,16 +526,6 @@
         function dateday(){
           const n = new Date(name+","+years);
           n.setDate(1);
-          if(a == -1){
-            a = 11;
-            years = years-1;
-            MonthYear.innerHTML = month[a]+" "+years;
-          }
-          if(a == 12){
-            a = 0;
-            years = years+1;
-            MonthYear.innerHTML = month[a]+" "+years;
-          }
           sum = tr; 
           if(n.getDay() > 0){
             for(let i = 0;i<n.getDay();i++){
@@ -540,6 +538,7 @@
               sum += trend+tr;
             }
           }
+          console.log(n);
         days.innerHTML = sum;
         }
 
