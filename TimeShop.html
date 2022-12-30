@@ -44,10 +44,49 @@
                 <div class="col-md-5"></div>
                 <div class="col-md-3">
                   <br>
-                  <center><h3>เวลาทำการ</h3></center>
-                  <br>
-                  <center><h5>วันหยุดประจำสัปดาห์</h5></center>
-                  <br>
+                  <center><h3>เวลาทำการ</h3></center>                  
+                  <div class="container text-center mb-3">
+                    <div class="row align-items-start">
+                      <div class="col">
+                        <select class="form-select" aria-label="Disabled select example" id="TimeMonth">
+                          <option selected>เดือน</option>
+                          <option value="Jan">มกราคม</option>
+                          <option value="Feb">กุมภาพันธ์</option>
+                          <option value="Mar">มีนาคม</option>
+                          <option value="Api">เมษายน</option>
+                          <option value="May">พฤษภาคม</option>
+                          <option value="Ju">มิถุนายน</option>
+                          <option value="Jul">กรกฏาคม</option>
+                          <option value="Aug">สิงหาคม</option>
+                          <option value="Set">กันยายน</option>
+                          <option value="Oct">ตุลาคม</option>
+                          <option value="Nov">พฤศจิกายน</option>
+                          <option value="Dec">ธันวาคม</option>
+                        </select>
+                      </div>
+                      <div class="col">
+                        <select class="form-select" aria-label="Disabled select example" id="TimeWeek">
+                          <option selected>สัปดาห์</option>
+                          <option value="Week1">1</option>
+                          <option value="Week2">2</option>
+                          <option value="Week3">3</option>
+                          <option value="Week4">4</option>
+                          <option value="Week5">5</option>
+                          <option value="Allweek">ทั้งหมด</option>
+                        </select>
+                      </div>
+                      <div class="col">
+                        <select class="form-select" aria-label="Disabled select example" id="TimeYear">
+                          <option selected>ปี</option>
+                          <option value="2565">2565</option>
+                          <option value="2566">2566</option>
+                          <option value="2567">2567</option>
+                          <option value="2568">2568</option>                          
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <h3>วันที่เปิดร้าน</h1>
                   <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" role="switch" id="Sunday"> 
                     <label class="form-check-label"for="Sunday">Sunday</label>
@@ -198,15 +237,15 @@
 <!--ปฎิทิน-->
 <div class="container text-center">
   <div class="row align-items-start">
-    <div class="col me-4">
-      <h5 id="MonthYear">Months</h1>
+    <div class="col me-1">
+      <h5 id="MonthYear" class="bg-info p-1 bg-opacity-25">Months</h1>
     </div>
     <div class="col">
       <button class="btn btn-light" id="pre"><i class="bi bi-caret-left"></i></button>
       <button class="btn btn-light" id="next"><i class="bi bi-caret-right-fill"></i></button>
     </div>
     <div class="col-12 align-self-center">
-      <table class="table table-info table-striped">
+      <table class="table table-info table-striped mt-3">
         <thead>
           <th>Sun</th>
           <th>Mon</th>
@@ -250,41 +289,44 @@
         const Closebar = document.getElementById('Closebarber');
         const Openbar = document.getElementById('Openbarber');
 
-        get(child(dbRef,"Stopday/")).then((snapshot) => {
-          if (snapshot.exists()) {
-            console.log(snapshot.val());
-            if(snapshot.val().Sun != ""){
-              document.getElementById("Sunday").checked=true;
-            }
-            if(snapshot.val().Mon != ""){
-              document.getElementById("Monday").checked=true;
-            }
-            if(snapshot.val().Tue != ""){
-              document.getElementById("Tuesday").checked=true;
-            }
-            if(snapshot.val().Wed != ""){
-              document.getElementById("Wednesday").checked=true;
-            }
-            if(snapshot.val().Thu != ""){
-              document.getElementById("Thursday").checked=true;
-            }
-            if(snapshot.val().Fir != ""){
-              document.getElementById("Firday").checked=true;
-            }
-            if(snapshot.val().Sat != ""){
-              document.getElementById("Saturday").checked=true;
-            }
-          } else {
-            console.log("No data available");
-          }
-        }).catch((error) => {
-          console.error(error);
-        });
+        // get(child(dbRef,"Stopday/")).then((snapshot) => {
+        //   if (snapshot.exists()) {
+        //     console.log(snapshot.val());
+        //     if(snapshot.val().Sun != ""){
+        //       document.getElementById("Sunday").checked=true;
+        //     }
+        //     if(snapshot.val().Mon != ""){
+        //       document.getElementById("Monday").checked=true;
+        //     }
+        //     if(snapshot.val().Tue != ""){
+        //       document.getElementById("Tuesday").checked=true;
+        //     }
+        //     if(snapshot.val().Wed != ""){
+        //       document.getElementById("Wednesday").checked=true;
+        //     }
+        //     if(snapshot.val().Thu != ""){
+        //       document.getElementById("Thursday").checked=true;
+        //     }
+        //     if(snapshot.val().Fir != ""){
+        //       document.getElementById("Firday").checked=true;
+        //     }
+        //     if(snapshot.val().Sat != ""){
+        //       document.getElementById("Saturday").checked=true;
+        //     }
+        //   } else {
+        //     console.log("No data available");
+        //   }
+        // }).catch((error) => {
+        //   console.error(error);
+        // });
                 
         //---------assign the events-------
         submit.addEventListener('click',SaveDay);
 
         // save day
+        const TimeMonth = document.getElementById("TimeMonth");
+        const TimeWeek = document.getElementById("TimeWeek");
+        const TimeYear = document.getElementById("TimeYear");
         function SaveDay(){
           if(Openbar.value == "Open Barber" || Closebar.value == "Close Barber"){
             alert("กรุณาระบุเวลาเปิด-ปิดร้าน");
@@ -292,10 +334,17 @@
           }
           console.log(Openbar.value);
           console.log(Closebar.value);
-          update(ref(db,"Timebarber/"),
+          update(ref(db,"TimeShop/"+TimeYear.value+"/"+TimeMonth.value+"/"+TimeWeek.value),
               {
                 open: Openbar.value,
-                close: Closebar.value
+                close: Closebar.value,
+                Sun: Sunday(),
+                Mon: Monday(),
+                Tue: Tuesday(),
+                Wed: Wednesday(),
+                Thu: Thursday(),
+                Fir: Firday(),
+                Sat: Saturday()
               }),   
           update(ref(db, "Stopday/"), // set ถ้าซ้ำกันจะไม่บันทึก
               {
@@ -402,78 +451,40 @@
         }
 
         //------calderปฎิทิน------
-        setTimeout(() => {  
-          calder();
-        }, 500);
 
         var numday;
+        var name;
+        var sum;  
         const d = new Date();
+        let years = d.getFullYear();
         const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-        let name = month[d.getMonth()];
-        let Year = d.getFullYear(); 
         const MonthYear = document.getElementById("MonthYear");
         const days = document.getElementById("Calbody");
-        let monthprenext = d.getMonth();
-        MonthYear.innerHTML = name+" "+Year;
+        MonthYear.innerHTML = month[d.getMonth()]+" "+d.getFullYear();
         var tr = "<tr>";
         var trend = "</tr>";
         var td = "<td>";
         var tdend = "</td>"
-        var sum;  
         var tdclass = "<td style='color:rgb(140, 140, 140);'>"
         sum = tr;
-        let premonth;
-        let prenext = monthprenext-1;
-        console.log(d.getDay()+"=getday");
-        console.log(monthprenext + "=monthprenext");
         d.setDate(1);
 
-        if(monthprenext==1){
-            let feb = Year % 4;
+        if(d.getMonth()==1){
+            let feb = d.getFullYear() % 4;
             if(feb == 3){
               numday = 29;
             }else{numday = 28;}
-          }else if(monthprenext == 0 || monthprenext == 2 || monthprenext == 4 
-            || monthprenext == 6 || monthprenext == 7 || monthprenext == 9 
-            || monthprenext == 11){
+          }else if(d.getMonth() == 0 || d.getMonth() == 2 || d.getMonth() == 4 
+            || d.getMonth() == 6 || d.getMonth() == 7 || d.getMonth() == 9 
+            || d.getMonth() == 11){
             numday = 31;
-          }else if(monthprenext == 3 || monthprenext == 5 || monthprenext == 8 
-            || monthprenext == 10){
+          }else if(d.getMonth() == 3 || d.getMonth() == 5 || d.getMonth() == 8 
+            || d.getMonth() == 10){
             numday = 30;
-          }
-          console.log(numday+"=numday");
-
-        function calder(){    
-          if(monthprenext==1){
-            let feb = Year % 4;
-            if(feb == 3){
-              numday = 29;
-            }else{numday = 28;}
-          }else if(monthprenext == 0 || monthprenext == 2 || monthprenext == 4 
-            || monthprenext == 6 || monthprenext == 7 || monthprenext == 9 
-            || monthprenext == 11){
-            numday = 31;
-          }else if(monthprenext == 3 || monthprenext == 5 || monthprenext == 8 
-            || monthprenext == 10){
-            numday = 30;
-          }
-          console.log(numday+"=numday");
-
-          if(prenext == 0 || prenext == 2 || prenext == 4 
-            || prenext == 6 || prenext == 7 || prenext == 9 
-            || prenext == 11){
-            premonth = 32;
-          }if(prenext == 3 || prenext == 5 || prenext == 8 
-            || prenext == 10){
-            premonth = 31;
-          }  
-          
-          premonth -= d.getDay();
-          console.log(premonth+"=premonth");
-          if(monthprenext > 0){
+          }          
+          if(d.getDay() > 0){
             for(let i = 0;i<d.getDay();i++){
-              sum += tdclass+premonth+tdend;
-              premonth++; 
+              sum += tdclass+tdend; 
             }
           }
           for(let i = 1; i<=numday; i++){
@@ -483,32 +494,64 @@
             }
           }
         days.innerHTML = sum;
-        }
 
-        // function calder
+        // function calder pre Next
         const pre = document.getElementById("pre");
         const next = document.getElementById("next");
-        var a = monthprenext;
+        var a = d.getMonth();
         pre.addEventListener('click',(e)=>{
           a = a-1;
           name = month[a];
-          MonthYear.innerHTML = name+" "+Year;
-          console.log("กดแล้ว");
-          monthprenext = a;
-          console.log(monthprenext);
+          MonthYear.innerHTML = name+" "+years;
           sum = "";
-          calder();
+          dateday();
         });
         next.addEventListener('click',(e)=>{
           a = a+1;
           name = month[a];
-          MonthYear.innerHTML = name+" "+Year;
-          console.log("กดแล้ว");
-          monthprenext = a;
-          console.log(monthprenext);
+          MonthYear.innerHTML = name+" "+years;
           sum = "";
-          calder();
+          dateday();
         });
+
+        //Function pre Next
+        function dateday(){
+          const n = new Date(name+","+years);
+          n.setDate(1);
+          if(a == -1){
+            a = 11;
+            years = years-1;
+            MonthYear.innerHTML = month[a]+" "+years;
+          }
+          if(a == 12){
+            a = 0;
+            years = years+1;
+            MonthYear.innerHTML = month[a]+" "+years;
+          }
+          sum = tr; 
+          if(n.getDay() > 0){
+            for(let i = 0;i<n.getDay();i++){
+              sum += tdclass+tdend; 
+            }
+          }
+          for(let i = 1; i<=numday; i++){
+            sum += td+i+tdend;
+            if(i+n.getDay() == 7 || i+n.getDay() == 14 || i+n.getDay() == 21 || i+n.getDay() == 28 || i+n.getDay() == 35){
+              sum += trend+tr;
+            }
+          }
+        days.innerHTML = sum;
+        }
+
+        // get(child(dbRef,"Stopday/")).then((snapshot) => {
+        //   if (snapshot.exists()) {
+
+        //   } else{
+        //     console.log("No data available");
+        //   }
+        // }).catch((error) => {
+        //   console.error(error);
+        // });
       </script>
 </body>
 </html>
