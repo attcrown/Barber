@@ -237,15 +237,23 @@
 <!--ปฎิทิน-->
 <div class="container text-center">
   <div class="row align-items-start">
-    <div class="col me-1">
-      <h5 id="MonthYear" class="bg-info p-1 bg-opacity-25">Months</h1>
+    <div class="col-6 ">
+      <button type='button' class='btn btn-dark' id="MonthYear">Month</button>
     </div>
-    <div class="col">
+    <div class="col-6">
       <button class="btn btn-light" id="pre"><i class="bi bi-caret-left"></i></button>
       <button class="btn btn-light" id="next"><i class="bi bi-caret-right-fill"></i></button>
     </div>
     <div class="col-12 align-self-center">
-      <table class="table table-info table-striped mt-3">
+      <style>
+        table, th, td {
+          border:1px solid rgb(0, 0, 0);
+        }
+        th {
+          background-color: #dddddd;
+        }
+      </style>
+      <table class="  mt-3 mb-5" style="width:90% ">
         <thead>
           <th>Sun</th>
           <th>Mon</th>
@@ -488,7 +496,7 @@
             }
           }
           for(let i = 1; i<=numday; i++){
-            sum += td+i+tdend;
+            sum += td+"<button type='button' class='btn btn-light btn-sm' style='font-size:15px'>"+i+"</button>"+tdend;
             if(i+d.getDay() == 7 || i+d.getDay() == 14 || i+d.getDay() == 21 || i+d.getDay() == 28 || i+d.getDay() == 35){
               sum += trend+tr;
             }
@@ -533,7 +541,7 @@
             }
           }
           for(let i = 1; i<=numday; i++){
-            sum += td+i+tdend;
+            sum += td+"<button type='button' class='btn btn-light btn-sm'>"+i+"</button>"+tdend;
             if(i+n.getDay() == 7 || i+n.getDay() == 14 || i+n.getDay() == 21 || i+n.getDay() == 28 || i+n.getDay() == 35){
               sum += trend+tr;
             }
