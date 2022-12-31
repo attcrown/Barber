@@ -253,7 +253,7 @@
           background-color: #dddddd;
         }
       </style>
-      <table class="  mt-3 mb-5" style="width:90% ">
+      <table class="  mt-3 mb-5" style="width:95% ">
         <thead>
           <th>Sun</th>
           <th>Mon</th>
@@ -269,6 +269,9 @@
       </table>
     </div>
   </div>  
+  <div>
+    <h1 id="popup"></h1>
+  </div>
 </div>
 
     <script src="Nav.js" type="module"></script>
@@ -496,7 +499,7 @@
             }
           }
           for(let i = 1; i<=numday; i++){
-            sum += td+"<button type='button' class='btn btn-light btn-sm' style='font-size:15px'>"+i+"</button>"+tdend;
+            sum += td+"<button type='button' class='btn btn-light btn-sm' style='font-size:15px' onclick='showdaycal(value,id)' id="+"day"+i+" value="+month[d.getMonth()]+" data-bs-toggle='modal' data-bs-target='#staticBackdrop'>"+i+"</button>"+tdend;
             if(i+d.getDay() == 7 || i+d.getDay() == 14 || i+d.getDay() == 21 || i+d.getDay() == 28 || i+d.getDay() == 35){
               sum += trend+tr;
             }
@@ -541,7 +544,7 @@
             }
           }
           for(let i = 1; i<=numday; i++){
-            sum += td+"<button type='button' class='btn btn-light btn-sm'>"+i+"</button>"+tdend;
+            sum += td+"<button type='button' class='btn btn-light btn-sm' onclick='showdaycal(value,id)' id="+"day"+i+" value="+name+" data-bs-toggle='modal' data-bs-target='#staticBackdrop'>"+i+"</button>"+tdend;
             if(i+n.getDay() == 7 || i+n.getDay() == 14 || i+n.getDay() == 21 || i+n.getDay() == 28 || i+n.getDay() == 35){
               sum += trend+tr;
             }
@@ -549,6 +552,9 @@
           console.log(n);
         days.innerHTML = sum;
         }
+
+        
+        
 
         // get(child(dbRef,"Stopday/")).then((snapshot) => {
         //   if (snapshot.exists()) {
@@ -560,5 +566,44 @@
         //   console.error(error);
         // });
       </script>
+     <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="mybase(value,id)" value="ทำไรนิ" id="12"></button>
+          </div>
+          <div class="modal-body" id="show1">
+            <p id="Dataday"></p>
+          </div>
+          <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="Subday" data-bs-dismiss="modal">Save</button>
+          </div>
+      </div>
+      </div>
+  </div>
 </body>
+
+<script>
+  const Subday =  document.getElementById("Subday");
+  const Dataday = document.getElementById('Dataday');
+  let aa;
+  let bb;
+  //----ปุ่มปฎิทิน------
+  function showdaycal(a,b){
+    console.log(a,b);
+    Dataday.innerHTML = "<p id='Dataday'>"+a+" "+b+"</p>";
+    aa = a;
+    bb = b;
+  }
+
+  Subday.addEventListener('click',(e)=>{
+    console.log(aa,bb+" Hello a b");
+  });
+
+
+</script>
+
 </html>
