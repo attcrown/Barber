@@ -50,18 +50,18 @@
                       <div class="col">
                         <select class="form-select" aria-label="Disabled select example" id="TimeMonth">
                           <option selected>เดือน</option>
-                          <option value="Jan">มกราคม</option>
-                          <option value="Feb">กุมภาพันธ์</option>
-                          <option value="Mar">มีนาคม</option>
-                          <option value="Api">เมษายน</option>
+                          <option value="January">มกราคม</option>
+                          <option value="February">กุมภาพันธ์</option>
+                          <option value="March">มีนาคม</option>
+                          <option value="April">เมษายน</option>
                           <option value="May">พฤษภาคม</option>
-                          <option value="Ju">มิถุนายน</option>
-                          <option value="Jul">กรกฏาคม</option>
-                          <option value="Aug">สิงหาคม</option>
-                          <option value="Set">กันยายน</option>
-                          <option value="Oct">ตุลาคม</option>
-                          <option value="Nov">พฤศจิกายน</option>
-                          <option value="Dec">ธันวาคม</option>
+                          <option value="June">มิถุนายน</option>
+                          <option value="July">กรกฏาคม</option>
+                          <option value="August">สิงหาคม</option>
+                          <option value="Setember">กันยายน</option>
+                          <option value="October">ตุลาคม</option>
+                          <option value="November">พฤศจิกายน</option>
+                          <option value="December">ธันวาคม</option>
                         </select>
                       </div>
                       <div class="col">
@@ -78,10 +78,10 @@
                       <div class="col">
                         <select class="form-select" aria-label="Disabled select example" id="TimeYear">
                           <option selected>ปี</option>
-                          <option value="2565">2565</option>
-                          <option value="2566">2566</option>
-                          <option value="2567">2567</option>
-                          <option value="2568">2568</option>                          
+                          <option value="2023">2566</option>
+                          <option value="2024">2567</option>
+                          <option value="2025">2568</option>
+                          <option value="2026">2569</option>                          
                         </select>
                       </div>
                     </div>
@@ -273,337 +273,28 @@
     <h1 id="popup"></h1>
   </div>
 </div>
-
-    <script src="Nav.js" type="module"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-    <script type="module">
-        //------------FirebaseConfig---------
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
-        import{getDatabase ,ref ,set ,child ,get ,update ,remove ,onValue} from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js";
-        const firebaseConfig = {
-          apiKey: "AIzaSyC9Wj5xc54F8z4NcK-7RBJBuVfMh6zh-xc",
-          authDomain: "projectbarber64-9435e.firebaseapp.com",
-          databaseURL: "https://projectbarber64-9435e-default-rtdb.asia-southeast1.firebasedatabase.app",
-          projectId: "projectbarber64-9435e",
-          storageBucket: "projectbarber64-9435e.appspot.com",
-          messagingSenderId: "31761681328",
-          appId: "1:31761681328:web:9cacd2e8ed95f3b7a4a475",
-          measurementId: "G-E9B3F9EB0E"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase();
-        const dbRef = ref(getDatabase());
-
-        //--------เก็บค่าจาก id------
-        const submit = document.getElementById('sub_btn');
-        const Closebar = document.getElementById('Closebarber');
-        const Openbar = document.getElementById('Openbarber');
-
-        // get(child(dbRef,"Stopday/")).then((snapshot) => {
-        //   if (snapshot.exists()) {
-        //     console.log(snapshot.val());
-        //     if(snapshot.val().Sun != ""){
-        //       document.getElementById("Sunday").checked=true;
-        //     }
-        //     if(snapshot.val().Mon != ""){
-        //       document.getElementById("Monday").checked=true;
-        //     }
-        //     if(snapshot.val().Tue != ""){
-        //       document.getElementById("Tuesday").checked=true;
-        //     }
-        //     if(snapshot.val().Wed != ""){
-        //       document.getElementById("Wednesday").checked=true;
-        //     }
-        //     if(snapshot.val().Thu != ""){
-        //       document.getElementById("Thursday").checked=true;
-        //     }
-        //     if(snapshot.val().Fir != ""){
-        //       document.getElementById("Firday").checked=true;
-        //     }
-        //     if(snapshot.val().Sat != ""){
-        //       document.getElementById("Saturday").checked=true;
-        //     }
-        //   } else {
-        //     console.log("No data available");
-        //   }
-        // }).catch((error) => {
-        //   console.error(error);
-        // });
-                
-        //---------assign the events-------
-        submit.addEventListener('click',SaveDay);
-
-        // save day
-        const TimeMonth = document.getElementById("TimeMonth");
-        const TimeWeek = document.getElementById("TimeWeek");
-        const TimeYear = document.getElementById("TimeYear");
-        function SaveDay(){
-          if(Openbar.value == "Open Barber" || Closebar.value == "Close Barber"){
-            alert("กรุณาระบุเวลาเปิด-ปิดร้าน");
-            return;
-          }
-          console.log(Openbar.value);
-          console.log(Closebar.value);
-          update(ref(db,"TimeShop/"+TimeYear.value+"/"+TimeMonth.value+"/"+TimeWeek.value),
-              {
-                open: Openbar.value,
-                close: Closebar.value,
-                Sun: Sunday(),
-                Mon: Monday(),
-                Tue: Tuesday(),
-                Wed: Wednesday(),
-                Thu: Thursday(),
-                Fir: Firday(),
-                Sat: Saturday()
-              }),   
-          update(ref(db, "Stopday/"), // set ถ้าซ้ำกันจะไม่บันทึก
-              {
-                Sun: Sunday()
-              }),
-          update(ref(db, "Stopday/"), // set ถ้าซ้ำกันจะไม่บันทึก
-              {
-                Mon: Monday()
-              }),
-          update(ref(db, "Stopday/"), // set ถ้าซ้ำกันจะไม่บันทึก
-              {
-                Tue: Tuesday()
-              }),
-          update(ref(db, "Stopday/"), // set ถ้าซ้ำกันจะไม่บันทึก
-              {
-                Wed: Wednesday()
-              }),   
-          update(ref(db, "Stopday/"), // set ถ้าซ้ำกันจะไม่บันทึก
-              {
-                Thu: Thursday()
-              }),     
-          update(ref(db, "Stopday/"), // set ถ้าซ้ำกันจะไม่บันทึก
-              {
-                Fir: Firday()
-              }),
-          update(ref(db, "Stopday/"), // set ถ้าซ้ำกันจะไม่บันทึก
-              {
-                Sat: Saturday()
-              })
-              .then(function(){
-                alert("บันทึกสำเร็จ");
-              })
-              .catch((error)=>{
-                alert("error"+ error);
-              })                 
-        }
-
-
-        //---------DAY------------
-        function Sunday(){
-            let Sun = document.getElementById('Sunday').checked;
-            if(Sun == false){
-              Sun = "";
-            }
-            else{
-              Sun = "Sun";
-            }
-          return Sun;  
-        }
-        function Monday(){
-            let Mon = document.getElementById('Monday').checked;
-            if(Mon == false){
-              Mon = "";
-            }
-            else{
-              Mon = "Mon";
-            }
-          return Mon;  
-        }function Tuesday(){
-            let Tue = document.getElementById('Tuesday').checked;
-            if(Tue == false){
-              Tue = "";
-            }
-            else{
-              Tue = "Tue";
-            }
-          return Tue;  
-        }function Wednesday(){
-            let Wed = document.getElementById('Wednesday').checked;
-            if(Wed == false){
-              Wed = "";
-            }
-            else{
-              Wed = "Wed";
-            }
-          return Wed;  
-        }function Thursday(){
-            let Thu = document.getElementById('Thursday').checked;
-            if(Thu == false){
-              Thu = "";
-            }
-            else{
-              Thu = "Thu";
-            }
-          return Thu;  
-        }function Firday(){
-            let Fir = document.getElementById('Firday').checked;
-            if(Fir == false){
-              Fir = "";
-            }
-            else{
-              Fir = "Fir";
-            }
-          return Fir;  
-        }function Saturday(){
-            let Sat = document.getElementById('Saturday').checked;
-            if(Sat == false){
-              Sat = "";
-            }
-            else{
-              Sat = "Sat";
-            }
-          return Sat;  
-        }
-
-        //------calderปฎิทิน------
-
-        var numday;
-        var name;
-        var sum;  
-        const d = new Date();
-        let years = d.getFullYear();
-        const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-        const MonthYear = document.getElementById("MonthYear");
-        const days = document.getElementById("Calbody");
-        MonthYear.innerHTML = month[d.getMonth()]+" "+d.getFullYear();
-        var tr = "<tr>";
-        var trend = "</tr>";
-        var td = "<td>";
-        var tdend = "</td>"
-        var tdclass = "<td style='color:rgb(140, 140, 140);'>"
-        sum = tr;
-        d.setDate(1);
-
-        if(d.getMonth()==1){
-            let feb = d.getFullYear() % 4;
-            if(feb == 3){
-              numday = 29;
-            }else{numday = 28;}
-          }else if(d.getMonth() == 0 || d.getMonth() == 2 || d.getMonth() == 4 
-            || d.getMonth() == 6 || d.getMonth() == 7 || d.getMonth() == 9 
-            || d.getMonth() == 11){
-            numday = 31;
-          }else if(d.getMonth() == 3 || d.getMonth() == 5 || d.getMonth() == 8 
-            || d.getMonth() == 10){
-            numday = 30;
-          }          
-          if(d.getDay() > 0){
-            for(let i = 0;i<d.getDay();i++){
-              sum += tdclass+tdend; 
-            }
-          }
-          for(let i = 1; i<=numday; i++){
-            sum += td+"<button type='button' class='btn btn-light btn-sm' style='font-size:15px' onclick='showdaycal(value,id)' id="+"day"+i+" value="+month[d.getMonth()]+" data-bs-toggle='modal' data-bs-target='#staticBackdrop'>"+i+"</button>"+tdend;
-            if(i+d.getDay() == 7 || i+d.getDay() == 14 || i+d.getDay() == 21 || i+d.getDay() == 28 || i+d.getDay() == 35){
-              sum += trend+tr;
-            }
-          }
-        days.innerHTML = sum;
-
-        // function calder pre Next
-        const pre = document.getElementById("pre");
-        const next = document.getElementById("next");
-        var a = d.getMonth();
-        pre.addEventListener('click',(e)=>{
-          a = a-1;
-          if(a == -1){
-            a = 11;
-            years -= 1;
-          }
-          name = month[a];
-          MonthYear.innerHTML = name+" "+years;
-          sum = "";
-          dateday();
-        });
-        next.addEventListener('click',(e)=>{
-          a = a+1;
-          if(a == 12){
-            a = 0;
-            years += 1;
-          }
-          name = month[a];
-          MonthYear.innerHTML = name+" "+years;
-          sum = "";
-          dateday();
-        });
-
-        //Function pre Next
-        function dateday(){
-          const n = new Date(name+","+years);
-          n.setDate(1);
-          sum = tr; 
-          if(n.getDay() > 0){
-            for(let i = 0;i<n.getDay();i++){
-              sum += tdclass+tdend; 
-            }
-          }
-          for(let i = 1; i<=numday; i++){
-            sum += td+"<button type='button' class='btn btn-light btn-sm' onclick='showdaycal(value,id)' id="+"day"+i+" value="+name+" data-bs-toggle='modal' data-bs-target='#staticBackdrop'>"+i+"</button>"+tdend;
-            if(i+n.getDay() == 7 || i+n.getDay() == 14 || i+n.getDay() == 21 || i+n.getDay() == 28 || i+n.getDay() == 35){
-              sum += trend+tr;
-            }
-          }
-          console.log(n);
-        days.innerHTML = sum;
-        }
-
-        
-        
-
-        // get(child(dbRef,"Stopday/")).then((snapshot) => {
-        //   if (snapshot.exists()) {
-
-        //   } else{
-        //     console.log("No data available");
-        //   }
-        // }).catch((error) => {
-        //   console.error(error);
-        // });
-      </script>
-     <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="mybase(value,id)" value="ทำไรนิ" id="12"></button>
-          </div>
-          <div class="modal-body" id="show1">
-            <p id="Dataday"></p>
-          </div>
-          <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="Subday" data-bs-dismiss="modal">Save</button>
-          </div>
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+      <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" value="ทำไรนิ" id="12"></button>
       </div>
+      <div class="modal-body" id="show1">
+        <p id="Dataday"></p>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-danger" id="Subday" data-bs-dismiss="modal">Delete</button>
       </div>
   </div>
+  </div>
+</div>
+<script src="Nav.js" type="module"></script>
+<script src="TimeShop.js" type="module"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+<script type="module" src="calderModul.js"></script> 
 </body>
-
-<script>
-  const Subday =  document.getElementById("Subday");
-  const Dataday = document.getElementById('Dataday');
-  let aa;
-  let bb;
-  //----ปุ่มปฎิทิน------
-  function showdaycal(a,b){
-    console.log(a,b);
-    Dataday.innerHTML = "<p id='Dataday'>"+a+" "+b+"</p>";
-    aa = a;
-    bb = b;
-  }
-
-  Subday.addEventListener('click',(e)=>{
-    console.log(aa,bb+" Hello a b");
-  });
-
-
-</script>
-
+<script src="calder.js"></script>
 </html>
