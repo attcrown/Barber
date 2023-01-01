@@ -17,7 +17,6 @@ const db = getDatabase();
 const dbRef = ref(getDatabase());
 
 var numday;
-
 var sum;  
 const d = new Date();
 let years = d.getFullYear();
@@ -53,13 +52,13 @@ if(d.getMonth()==1){
     }
   }
   for(let i = 1; i<=numday; i++){
-    sum += td+"<button type='button' class='btn btn-light btn-sm' style='font-size:15px' onclick='showdaycal(value,id)' id="+i+" value="+month[d.getMonth()]+" data-bs-toggle='modal' data-bs-target='#staticBackdrop'>"+i+"</button>"+tdend;
+    sum += td+"<button type='button' class='btn btn-light btn-sm' style='font-size:15px' onclick='showdaycal(value,id)' id="+i+" value="+name+" data-bs-toggle='modal' data-bs-target='#staticBackdrop'>"+i+"</button>"+tdend;
     if(i+d.getDay() == 7 || i+d.getDay() == 14 || i+d.getDay() == 21 || i+d.getDay() == 28 || i+d.getDay() == 35){
       sum += trend+tr;
     }
   }
 days.innerHTML = sum;
-
+importyears(years);
 // function calder pre Next
 const pre = document.getElementById("pre");
 const next = document.getElementById("next");
@@ -105,6 +104,7 @@ function dateday(){
   }
   console.log(n);
 days.innerHTML = sum;
+importyears(years);
 }
 
 //---------ตรวจสอบวันที่---------
@@ -122,11 +122,21 @@ function dataday(){
 }
 
 //-------delete day calder-------
-const Subday = document.getElementById('Subday');
-Subday.addEventListener('click',(e)=>{
+const Delday = document.getElementById('Delday');
+Delday.addEventListener('click',(e)=>{
     
     // remove(ref(db,"TimeShop/"+years+"/"+name),{
 
     // })
-    console.log(montha,dayb);
+    console.log("ลบ"+montha,dayb,importyear);
 });
+
+
+
+
+
+
+
+
+
+
