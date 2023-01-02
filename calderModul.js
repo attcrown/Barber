@@ -59,6 +59,8 @@ if(d.getMonth()==1){
   }
 days.innerHTML = sum;
 importyears(years);
+editbtn();
+
 // function calder pre Next
 const pre = document.getElementById("pre");
 const next = document.getElementById("next");
@@ -105,30 +107,247 @@ function dateday(){
   console.log(n);
 days.innerHTML = sum;
 importyears(years);
-}
-
-//---------ตรวจสอบวันที่---------
-dataday();
-function dataday(){
-  get(child(dbRef,"TimeShop/"+years)).then((snapshot) => {
-    if (snapshot.exists()) {
-      console.log(snapshot.val());
-    } else{
-      console.log("No data available");
-    }
-    }).catch((error) => {
-      console.error(error);
-    });
+editbtn();
 }
 
 //-------delete day calder-------
 const Delday = document.getElementById('Delday');
 Delday.addEventListener('click',(e)=>{
-    
-    // remove(ref(db,"TimeShop/"+years+"/"+name),{
+    remove(ref(db,"TimeShop/"+importyear+"/"+montha+"/"+dayb),{})
+    console.log("ลบ "+montha,dayb,importyear);
+    setTimeout(() => {  
+      document.location.reload();
+    }, 500);
+});
 
-    // })
-    console.log("ลบ"+montha,dayb,importyear);
+//-------saveCalder----------
+const Subday = document.getElementById('Subday');
+const editopens = document.getElementById('editOpenbarber');
+const editcloses = document.getElementById('editClosebarber');
+Subday.addEventListener('click',(e)=>{
+  if(editopens.value == "Open Barber" || editcloses.value == "Close Barber"){
+    alert("กรุณาระบุเวลาเปิด-ปิดร้าน");
+    return;
+  }
+  set(ref(db,"TimeShop/"+importyear+"/"+montha+"/"+dayb),{
+    openshop : editopens.value,
+    closeshop : editcloses.value
+  })
+  setTimeout(() => {  
+    document.location.reload();
+  }, 500);
+});
+
+//------savetick-------
+//--------เก็บค่าจาก id------
+const submit = document.getElementById('sub_btn');
+const Closebar = document.getElementById('Closebarber');
+const Openbar = document.getElementById('Openbarber');
+
+//---------assign the events-------
+submit.addEventListener('click',SaveDay);
+
+// save day
+const TimeMonth = document.getElementById("TimeMonth");
+const TimeWeek = document.getElementById("TimeWeek");
+const TimeYear = document.getElementById("TimeYear");
+
+function SaveDay(){
+  if(Openbar.value == "Open Barber" || Closebar.value == "Close Barber"){
+    alert("กรุณาระบุเวลาเปิด-ปิดร้าน");
+    return;
+  }
+  console.log(Openbar.value);
+  console.log(Closebar.value);
+  update(ref(db,"TimeShop/"+TimeYear.value+"/"+TimeMonth.value+"/"+TimeWeek.value),
+      {
+        open: Openbar.value,
+        close: Closebar.value,
+        Sun: Sunday(),
+        Mon: Monday(),
+        Tue: Tuesday(),
+        Wed: Wednesday(),
+        Thu: Thursday(),
+        Fir: Firday(),
+        Sat: Saturday()
+      }) 
+      .then(function(){
+        alert("บันทึกสำเร็จ");
+      })
+      .catch((error)=>{
+        alert("บันทึกerror"+ error);
+      })                 
+}
+
+//---------DAY------------
+function Sunday(){
+    let Sun = document.getElementById('Sunday').checked;
+    if(Sun == false){
+      Sun = "";
+    }
+    else{
+      Sun = "Sun";
+    }
+  return Sun;  
+}
+function Monday(){
+    let Mon = document.getElementById('Monday').checked;
+    if(Mon == false){
+      Mon = "";
+    }
+    else{
+      Mon = "Mon";
+    }
+  return Mon;  
+}function Tuesday(){
+    let Tue = document.getElementById('Tuesday').checked;
+    if(Tue == false){
+      Tue = "";
+    }
+    else{
+      Tue = "Tue";
+    }
+  return Tue;  
+}function Wednesday(){
+    let Wed = document.getElementById('Wednesday').checked;
+    if(Wed == false){
+      Wed = "";
+    }
+    else{
+      Wed = "Wed";
+    }
+  return Wed;  
+}function Thursday(){
+    let Thu = document.getElementById('Thursday').checked;
+    if(Thu == false){
+      Thu = "";
+    }
+    else{
+      Thu = "Thu";
+    }
+  return Thu;  
+}function Firday(){
+    let Fir = document.getElementById('Firday').checked;
+    if(Fir == false){
+      Fir = "";
+    }
+    else{
+      Fir = "Fir";
+    }
+  return Fir;  
+}function Saturday(){
+    let Sat = document.getElementById('Saturday').checked;
+    if(Sat == false){
+      Sat = "";
+    }
+    else{
+      Sat = "Sat";
+    }
+  return Sat;  
+}
+//---------Checktick---------
+// get(child(dbRef,"Stopday/")).then((snapshot) => {
+//   if (snapshot.exists()) {
+//     console.log(snapshot.val());
+//     if(snapshot.val().Sun != ""){
+//       document.getElementById("Sunday").checked=true;
+//     }
+//     if(snapshot.val().Mon != ""){
+//       document.getElementById("Monday").checked=true;
+//     }
+//     if(snapshot.val().Tue != ""){
+//       document.getElementById("Tuesday").checked=true;
+//     }
+//     if(snapshot.val().Wed != ""){
+//       document.getElementById("Wednesday").checked=true;
+//     }
+//     if(snapshot.val().Thu != ""){
+//       document.getElementById("Thursday").checked=true;
+//     }
+//     if(snapshot.val().Fir != ""){
+//       document.getElementById("Firday").checked=true;
+//     }
+//     if(snapshot.val().Sat != ""){
+//       document.getElementById("Saturday").checked=true;
+//     }
+//   } else {
+//     console.log("No data available");
+//   }
+// }).catch((error) => {
+//   console.error(error);
+// });
+
+//---------ตรวจสอบวันที่---------
+// dataday();
+// function dataday(){
+//   get(child(dbRef,"TimeShop/"+years)).then((snapshot) => {
+//     if (snapshot.exists()) {
+//       console.log(snapshot.val());
+//     } else{
+//       console.log("No data available");
+//     }
+//     }).catch((error) => {
+//       console.error(error);
+//     });
+// }
+
+//---------EditBTN---------
+function editbtn(){
+  const dbReff = ref(db,"TimeShop/"+years+"/"+name);
+  var keyday = [];
+  let i = 0;
+  onValue(dbReff,(snapshot) => {
+    snapshot.forEach((childSnapshot) => {
+      const childKey = childSnapshot.key;
+      keyday[i] = childKey; 
+      i++;
+    });
+    while(i >= 0){
+      for(let x=0; x<numday ;x++){
+        if(keyday[i] == x){
+          document.getElementById(x).classList.remove("btn-light");
+          document.getElementById(x).classList.add("btn-success");
+        }
+      }
+      //console.log(i);
+      i--;
+    }
+    //console.log(keyday);
+  }, {
+    onlyOnce: true
+  });
+}
+
+//---------ตรวจสอบวันที่---------
+const btndetail = document.getElementById('btndetail');
+btndetail.addEventListener('click',CloseOpentext);
+function CloseOpentext(){
+  const dbReff = ref(db,"TimeShop/"+years+"/"+name);
+  onValue(dbReff,(snapshot) => {
+    snapshot.forEach((childSnapshot) => {
+      const childKey = childSnapshot.key;
+      const childData = childSnapshot.val();
+      if(childKey == dayb){
+        console.log(childData);
+        document.getElementById('opentime').innerText = "เปิดร้าน "+childData.openshop+"น.";
+        document.getElementById('closetime').innerText = "ปิดร้าน "+childData.closeshop+"น.";
+      }  
+    });
+  }, {
+    onlyOnce: true
+  });
+}
+
+const Celday = document.getElementById('Celday');
+Celday.addEventListener('click',(e)=>{
+  document.getElementById('opentime').innerText = "";
+  document.getElementById('closetime').innerText = "";   
+});
+
+const Celday1 = document.getElementById('Celday1');
+Celday1.addEventListener('click',(e)=>{
+  document.getElementById('opentime').innerText = "";
+  document.getElementById('closetime').innerText = "";   
 });
 
 

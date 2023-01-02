@@ -6,10 +6,8 @@ var textpopup = document.getElementById('Dataday');
 function showdaycal(a,b){
     montha = a;
     dayb = b;
-    console.log(a,b);
-    textpopup.innerHTML ="<p id='Dataday'>"+montha+" "+dayb+" "+importyear+"</p>";
+    textpopup.innerText = montha+" "+dayb+" "+importyear;
 }
 function importyears(a){
     importyear = a;
 }
-//"+years+"
