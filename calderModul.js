@@ -303,7 +303,7 @@ function editbtn(){
       i++;
     });
     while(i >= 0){
-      for(let x=0; x<numday ;x++){
+      for(let x=0; x<=numday ;x++){
         if(keyday[i] == x){
           document.getElementById(x).classList.remove("btn-light");
           document.getElementById(x).classList.add("btn-success");
