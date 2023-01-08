@@ -19,12 +19,12 @@ window.onload = function(){
 
 signoutlink.addEventListener('click',Signouts);
 
-    function Signouts(){
-        sessionStorage.removeItem("user");
-        localStorage.removeItem("user");
-        localStorage.removeItem("keepLoggedIn");
-        window.location = "login.html";
-    }
+function Signouts(){
+    sessionStorage.removeItem("user");
+    localStorage.removeItem("user");
+    localStorage.removeItem("keepLoggedIn");
+    window.location = "login.html";
+}
 
 //----function----
 function getUsername(){
