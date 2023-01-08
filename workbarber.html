@@ -110,8 +110,8 @@
             snapshot.forEach((childSnapshot)=>{
               const childKey = childSnapshot.key;
               const childData = childSnapshot.val();
-              if(childData.summinute != ""){
-              //if(childData.perple == currentuser.fullname && childData.summinute != "" && childData.date == datesub){
+              // if(childData.summinute != ""){
+              if(childData.perple == currentuser.fullname && childData.summinute != "" && childData.date == datesub){
                 rowNum += 1;       
                 var iduser = childKey;        
                 var row = "<tr><td>" + rowNum + "</td><td>" + childData.time + 
