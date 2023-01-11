@@ -23,4 +23,4 @@ document.getElementById('navadmin').innerHTML=`<nav id="navadmin" class="navbar 
     </form>
   </div>
 </div>
-</nav>`
+</nav><br>`

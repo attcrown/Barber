@@ -22,4 +22,4 @@ document.getElementById('navbarber').innerHTML=`<nav id="navbarber" class="navba
     </form>
   </div>
 </div>
-</nav>`
+</nav><br>`

@@ -115,9 +115,8 @@ const Delday = document.getElementById('Delday');
 Delday.addEventListener('click',(e)=>{
     remove(ref(db,"TimeShop/"+importyear+"/"+montha+"/"+dayb),{})
     console.log("ลบ "+montha,dayb,importyear);
-    setTimeout(() => {  
-      document.location.reload();
-    }, 500);
+    document.getElementById(dayb).classList.remove("btn-success");
+    document.getElementById(dayb).classList.add("btn-light");
 });
 
 //-------saveCalder----------
@@ -133,9 +132,8 @@ Subday.addEventListener('click',(e)=>{
     openshop : editopens.value,
     closeshop : editcloses.value
   })
-  setTimeout(() => {  
-    document.location.reload();
-  }, 500);
+  setTimeout
+  editbtn();
 });
 
 //------savetick-------
@@ -245,51 +243,6 @@ function Monday(){
     }
   return Sat;  
 }
-//---------Checktick---------
-// get(child(dbRef,"Stopday/")).then((snapshot) => {
-//   if (snapshot.exists()) {
-//     console.log(snapshot.val());
-//     if(snapshot.val().Sun != ""){
-//       document.getElementById("Sunday").checked=true;
-//     }
-//     if(snapshot.val().Mon != ""){
-//       document.getElementById("Monday").checked=true;
-//     }
-//     if(snapshot.val().Tue != ""){
-//       document.getElementById("Tuesday").checked=true;
-//     }
-//     if(snapshot.val().Wed != ""){
-//       document.getElementById("Wednesday").checked=true;
-//     }
-//     if(snapshot.val().Thu != ""){
-//       document.getElementById("Thursday").checked=true;
-//     }
-//     if(snapshot.val().Fir != ""){
-//       document.getElementById("Firday").checked=true;
-//     }
-//     if(snapshot.val().Sat != ""){
-//       document.getElementById("Saturday").checked=true;
-//     }
-//   } else {
-//     console.log("No data available");
-//   }
-// }).catch((error) => {
-//   console.error(error);
-// });
-
-//---------ตรวจสอบวันที่---------
-// dataday();
-// function dataday(){
-//   get(child(dbRef,"TimeShop/"+years)).then((snapshot) => {
-//     if (snapshot.exists()) {
-//       console.log(snapshot.val());
-//     } else{
-//       console.log("No data available");
-//     }
-//     }).catch((error) => {
-//       console.error(error);
-//     });
-// }
 
 //---------EditBTN---------
 function editbtn(){
@@ -338,6 +291,8 @@ function CloseOpentext(){
   });
 }
 
+
+//----DelDetail-----X----Close----
 const Celday = document.getElementById('Celday');
 Celday.addEventListener('click',(e)=>{
   document.getElementById('opentime').innerText = "";
