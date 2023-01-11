@@ -13,399 +13,379 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
   </head>
 <body>
-  <nav class="navbar navbar-expand-lg bg-success">
-    <div class="container-fluid">
-      <a class="navbar-brand text-light" href="#">ADMIN PAGE</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarScroll">
-        <ul id="menu" class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-        </ul>
-        <form class="d-flex" role="search">
-            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                <li class="nav-item">
-                  <a class="nav-link mx-3 text-light" href="index.html" id="">Home</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link mx-3 text-light" href="" id="userlink">Username</a>
-                </li>
-                <li class="nav-item">
-                    <button type="button" class="btn nav-link text-dark mx-3" id="signoutlink">Sign Out</button>
-                  </li>
-              </ul>
-        </form>
-      </div>
-    </div>
-  </nav>
+  <nav id="navadmin"></nav>
     <div class="container">
-        <div class="row align-items-start">
-            <div class="row align-items-start" >
-                <div class="col-md-5"></div>
-                <div class="col-md-3">
-                  <br>
-                  <center><h3>เวลาทำการ</h3></center>                  
-                  <div class="container text-center mb-3">
-                    <div class="row align-items-start">
-                      <div class="col">
-                        <select class="form-select" aria-label="Disabled select example" id="TimeMonth">
-                          <option selected>เดือน</option>
-                          <option value="January">มกราคม</option>
-                          <option value="February">กุมภาพันธ์</option>
-                          <option value="March">มีนาคม</option>
-                          <option value="April">เมษายน</option>
-                          <option value="May">พฤษภาคม</option>
-                          <option value="June">มิถุนายน</option>
-                          <option value="July">กรกฏาคม</option>
-                          <option value="August">สิงหาคม</option>
-                          <option value="Setember">กันยายน</option>
-                          <option value="October">ตุลาคม</option>
-                          <option value="November">พฤศจิกายน</option>
-                          <option value="December">ธันวาคม</option>
-                        </select>
-                      </div>
-                      <div class="col">
-                        <select class="form-select" aria-label="Disabled select example" id="TimeWeek">
-                          <option selected>สัปดาห์</option>
-                          <option value="Week1">1</option>
-                          <option value="Week2">2</option>
-                          <option value="Week3">3</option>
-                          <option value="Week4">4</option>
-                          <option value="Week5">5</option>
-                          <option value="Allweek">ทั้งหมด</option>
-                        </select>
-                      </div>
-                      <div class="col">
-                        <select class="form-select" aria-label="Disabled select example" id="TimeYear">
-                          <option selected>ปี</option>
-                          <option value="2023">2566</option>
-                          <option value="2024">2567</option>
-                          <option value="2025">2568</option>
-                          <option value="2026">2569</option>                          
-                        </select>
-                      </div>
+      <div class="row align-items-start">
+          <div class="row align-items-start" >
+              <div class="col-md-5"></div>
+              <div class="col-md-3">
+                <br>
+                <center><h3>เวลาทำการ</h3></center>                  
+                <div class="container text-center mb-3">
+                  <div class="row align-items-start">
+                    <div class="col">
+                      <select class="form-select" aria-label="Disabled select example" id="TimeMonth">
+                        <option selected>เดือน</option>
+                        <option value="January">มกราคม</option>
+                        <option value="February">กุมภาพันธ์</option>
+                        <option value="March">มีนาคม</option>
+                        <option value="April">เมษายน</option>
+                        <option value="May">พฤษภาคม</option>
+                        <option value="June">มิถุนายน</option>
+                        <option value="July">กรกฏาคม</option>
+                        <option value="August">สิงหาคม</option>
+                        <option value="Setember">กันยายน</option>
+                        <option value="October">ตุลาคม</option>
+                        <option value="November">พฤศจิกายน</option>
+                        <option value="December">ธันวาคม</option>
+                      </select>
+                    </div>
+                    <!-- <div class="col">
+                      <select class="form-select" aria-label="Disabled select example" id="TimeWeek">
+                        <option selected>สัปดาห์</option>
+                        <option value="Week1">1</option>
+                        <option value="Week2">2</option>
+                        <option value="Week3">3</option>
+                        <option value="Week4">4</option>
+                        <option value="Week5">5</option>
+                        <option value="Allweek">ทั้งหมด</option>
+                      </select>
+                    </div> -->
+                    <div class="col">
+                      <select class="form-select" aria-label="Disabled select example" id="TimeYear">
+                        <option selected>ปี</option>
+                        <option value="2023">2566</option>
+                        <option value="2024">2567</option>
+                        <option value="2025">2568</option>
+                        <option value="2026">2569</option>                          
+                      </select>
                     </div>
                   </div>
-                  <h3>วันที่เปิดร้าน</h1>
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="Sunday"> 
-                    <label class="form-check-label"for="Sunday">Sunday</label>
-                  </div>
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="Monday">
-                    <label class="form-check-label"for="Monday">Monday</label>
-                  </div>
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="Tuesday">
-                    <label class="form-check-label" for="Tuesday">Tuesday</label>
-                  </div>
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="Wednesday">
-                    <label class="form-check-label" for="Wednesday">Wednesday</label>
-                  </div>
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="Thursday">
-                    <label class="form-check-label" for="Thursday">Thursday</label>
-                  </div>
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="Firday">
-                    <label class="form-check-label" for="Firday">Firday</label>
-                  </div>
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="Saturday">
-                    <label class="form-check-label" for="Saturday">Saturday</label>
-                  </div>
-                  <br>
-                  <h4>เวลาทำการร้าน</h4>
-                  <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">ร้านเปิด</label>
-                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="Openbarber">
-                      <option selected>Open Barber</option>
-                      <option value="00.00">00.00 น.</option>
-                      <option value="00.30">00.30 น.</option>
-                      <option value="01.00">01.00 น.</option>
-                      <option value="01.30">01.30 น.</option>
-                      <option value="02.00">02.00 น.</option>
-                      <option value="02.30">02.30 น.</option>
-                      <option value="03.00">03.00 น.</option>
-                      <option value="03.30">03.30 น.</option>
-                      <option value="04.00">04.00 น.</option>
-                      <option value="04.30">04.30 น.</option>
-                      <option value="05.00">05.00 น.</option>
-                      <option value="05.30">05.30 น.</option>
-                      <option value="06.00">06.00 น.</option>
-                      <option value="06.30">06.30 น.</option>
-                      <option value="07.00">07.00 น.</option>
-                      <option value="07.30">07.30 น.</option>
-                      <option value="08.00">08.00 น.</option>
-                      <option value="08.30">08.30 น.</option>
-                      <option value="09.00">09.00 น.</option>
-                      <option value="09.30">09.30 น.</option>
-                      <option value="10.00">10.00 น.</option>
-                      <option value="10.30">10.30 น.</option>
-                      <option value="11.00">11.00 น.</option>
-                      <option value="11.30">11.30 น.</option>
-                      <option value="12.00">12.00 น.</option>
-                      <option value="12.30">12.30 น.</option>
-                      <option value="13.00">13.00 น.</option>
-                      <option value="13.30">13.30 น.</option>
-                      <option value="14.00">14.00 น.</option>
-                      <option value="14.30">14.30 น.</option>
-                      <option value="15.00">15.00 น.</option>
-                      <option value="15.30">15.30 น.</option>
-                      <option value="16.00">16.00 น.</option>
-                      <option value="16.30">16.30 น.</option>
-                      <option value="17.00">17.00 น.</option>
-                      <option value="17.30">17.30 น.</option>
-                      <option value="18.00">18.00 น.</option>
-                      <option value="18.30">18.30 น.</option>
-                      <option value="19.00">19.00 น.</option>
-                      <option value="19.30">19.30 น.</option>
-                      <option value="20.00">20.00 น.</option>
-                      <option value="20.30">20.30 น.</option>
-                      <option value="21.00">21.00 น.</option>
-                      <option value="21.30">21.30 น.</option>
-                      <option value="22.00">22.00 น.</option>
-                      <option value="22.30">22.30 น.</option>
-                      <option value="23.00">23.00 น.</option>
-                      <option value="23.30">23.30 น.</option>
-                    </select>
-                  </div>
-                  <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">ร้านปิด</label>
-                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="Closebarber">
-                      <option selected>Close Barber</option>
-                      <option value="00.00">00.00 น.</option>
-                      <option value="00.00">00.30 น.</option>
-                      <option value="01.00">01.00 น.</option>
-                      <option value="01.30">01.30 น.</option>
-                      <option value="02.00">02.00 น.</option>
-                      <option value="02.30">02.30 น.</option>
-                      <option value="03.00">03.00 น.</option>
-                      <option value="03.30">03.30 น.</option>
-                      <option value="04.00">04.00 น.</option>
-                      <option value="04.30">04.30 น.</option>
-                      <option value="05.00">05.00 น.</option>
-                      <option value="05.30">05.30 น.</option>
-                      <option value="06.00">06.00 น.</option>
-                      <option value="06.30">06.30 น.</option>
-                      <option value="07.00">07.00 น.</option>
-                      <option value="07.30">07.30 น.</option>
-                      <option value="08.00">08.00 น.</option>
-                      <option value="08.30">08.30 น.</option>
-                      <option value="09.00">09.00 น.</option>
-                      <option value="09.30">09.30 น.</option>
-                      <option value="10.00">10.00 น.</option>
-                      <option value="10.30">10.30 น.</option>
-                      <option value="11.00">11.00 น.</option>
-                      <option value="11.30">11.30 น.</option>
-                      <option value="12.00">12.00 น.</option>
-                      <option value="12.30">12.30 น.</option>
-                      <option value="13.00">13.00 น.</option>
-                      <option value="13.30">13.30 น.</option>
-                      <option value="14.00">14.00 น.</option>
-                      <option value="14.30">14.30 น.</option>
-                      <option value="15.00">15.00 น.</option>
-                      <option value="15.30">15.30 น.</option>
-                      <option value="16.00">16.00 น.</option>
-                      <option value="16.30">16.30 น.</option>
-                      <option value="17.00">17.00 น.</option>
-                      <option value="17.30">17.30 น.</option>
-                      <option value="18.00">18.00 น.</option>
-                      <option value="18.30">18.30 น.</option>
-                      <option value="19.00">19.00 น.</option>
-                      <option value="19.30">19.30 น.</option>
-                      <option value="20.00">20.00 น.</option>
-                      <option value="20.30">20.30 น.</option>
-                      <option value="21.00">21.00 น.</option>
-                      <option value="21.30">21.30 น.</option>
-                      <option value="22.00">22.00 น.</option>
-                      <option value="22.30">22.30 น.</option>
-                      <option value="23.00">23.00 น.</option>
-                      <option value="23.30">23.30 น.</option>
-                    </select>
-                  </div>
-                  <center><button type="text" id="sub_btn" class="btn btn-outline-primary mb-3 form-control mt-3">Save</button></center>
                 </div>
-                <div class="col-md-4"></div>
-            </div>    
-        </div>
-        
-      </div>  
-      <!-- <center><button class="btn btn-success" id="sub_btnshow">Show</button></center> -->
-        <hr>
+                <br>
+                <center><h3>วันที่เปิดร้าน</h3></center>
+                <div class="form-check form-switch ms-3">
+                  <input class="form-check-input" type="checkbox" role="switch" id="Sunday"> 
+                  <label class="form-check-label"for="Sunday">Sunday</label>
+                </div>
+                <div class="form-check form-switch ms-3">
+                  <input class="form-check-input" type="checkbox" role="switch" id="Monday">
+                  <label class="form-check-label"for="Monday">Monday</label>
+                </div>
+                <div class="form-check form-switch ms-3">
+                  <input class="form-check-input" type="checkbox" role="switch" id="Tuesday">
+                  <label class="form-check-label" for="Tuesday">Tuesday</label>
+                </div>
+                <div class="form-check form-switch ms-3">
+                  <input class="form-check-input" type="checkbox" role="switch" id="Wednesday">
+                  <label class="form-check-label" for="Wednesday">Wednesday</label>
+                </div>
+                <div class="form-check form-switch ms-3">
+                  <input class="form-check-input" type="checkbox" role="switch" id="Thursday">
+                  <label class="form-check-label" for="Thursday">Thursday</label>
+                </div>
+                <div class="form-check form-switch ms-3">
+                  <input class="form-check-input" type="checkbox" role="switch" id="Firday">
+                  <label class="form-check-label" for="Firday">Firday</label>
+                </div>
+                <div class="form-check form-switch ms-3">
+                  <input class="form-check-input" type="checkbox" role="switch" id="Saturday">
+                  <label class="form-check-label" for="Saturday">Saturday</label>
+                </div>
+                <br>
+                <center><h4>เวลาทำการร้าน</h4></center>
+                <div class="row align-items-start">
+                <div class="col ms-3 mb-4">
+                  <label for="exampleFormControlInput1" class="form-label">ร้านเปิด</label>
+                  <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="Openbarber">
+                    <option selected>Open Barber</option>
+                    <option value="00.00">00.00 น.</option>
+                    <option value="00.30">00.30 น.</option>
+                    <option value="01.00">01.00 น.</option>
+                    <option value="01.30">01.30 น.</option>
+                    <option value="02.00">02.00 น.</option>
+                    <option value="02.30">02.30 น.</option>
+                    <option value="03.00">03.00 น.</option>
+                    <option value="03.30">03.30 น.</option>
+                    <option value="04.00">04.00 น.</option>
+                    <option value="04.30">04.30 น.</option>
+                    <option value="05.00">05.00 น.</option>
+                    <option value="05.30">05.30 น.</option>
+                    <option value="06.00">06.00 น.</option>
+                    <option value="06.30">06.30 น.</option>
+                    <option value="07.00">07.00 น.</option>
+                    <option value="07.30">07.30 น.</option>
+                    <option value="08.00">08.00 น.</option>
+                    <option value="08.30">08.30 น.</option>
+                    <option value="09.00">09.00 น.</option>
+                    <option value="09.30">09.30 น.</option>
+                    <option value="10.00">10.00 น.</option>
+                    <option value="10.30">10.30 น.</option>
+                    <option value="11.00">11.00 น.</option>
+                    <option value="11.30">11.30 น.</option>
+                    <option value="12.00">12.00 น.</option>
+                    <option value="12.30">12.30 น.</option>
+                    <option value="13.00">13.00 น.</option>
+                    <option value="13.30">13.30 น.</option>
+                    <option value="14.00">14.00 น.</option>
+                    <option value="14.30">14.30 น.</option>
+                    <option value="15.00">15.00 น.</option>
+                    <option value="15.30">15.30 น.</option>
+                    <option value="16.00">16.00 น.</option>
+                    <option value="16.30">16.30 น.</option>
+                    <option value="17.00">17.00 น.</option>
+                    <option value="17.30">17.30 น.</option>
+                    <option value="18.00">18.00 น.</option>
+                    <option value="18.30">18.30 น.</option>
+                    <option value="19.00">19.00 น.</option>
+                    <option value="19.30">19.30 น.</option>
+                    <option value="20.00">20.00 น.</option>
+                    <option value="20.30">20.30 น.</option>
+                    <option value="21.00">21.00 น.</option>
+                    <option value="21.30">21.30 น.</option>
+                    <option value="22.00">22.00 น.</option>
+                    <option value="22.30">22.30 น.</option>
+                    <option value="23.00">23.00 น.</option>
+                    <option value="23.30">23.30 น.</option>
+                  </select>
+                </div> 
+                <div class="col mb-4">
+                  <label for="exampleFormControlInput1" class="form-label">ร้านปิด</label>
+                  <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="Closebarber">
+                    <option selected>Close Barber</option>
+                    <option value="00.00">00.00 น.</option>
+                    <option value="00.00">00.30 น.</option>
+                    <option value="01.00">01.00 น.</option>
+                    <option value="01.30">01.30 น.</option>
+                    <option value="02.00">02.00 น.</option>
+                    <option value="02.30">02.30 น.</option>
+                    <option value="03.00">03.00 น.</option>
+                    <option value="03.30">03.30 น.</option>
+                    <option value="04.00">04.00 น.</option>
+                    <option value="04.30">04.30 น.</option>
+                    <option value="05.00">05.00 น.</option>
+                    <option value="05.30">05.30 น.</option>
+                    <option value="06.00">06.00 น.</option>
+                    <option value="06.30">06.30 น.</option>
+                    <option value="07.00">07.00 น.</option>
+                    <option value="07.30">07.30 น.</option>
+                    <option value="08.00">08.00 น.</option>
+                    <option value="08.30">08.30 น.</option>
+                    <option value="09.00">09.00 น.</option>
+                    <option value="09.30">09.30 น.</option>
+                    <option value="10.00">10.00 น.</option>
+                    <option value="10.30">10.30 น.</option>
+                    <option value="11.00">11.00 น.</option>
+                    <option value="11.30">11.30 น.</option>
+                    <option value="12.00">12.00 น.</option>
+                    <option value="12.30">12.30 น.</option>
+                    <option value="13.00">13.00 น.</option>
+                    <option value="13.30">13.30 น.</option>
+                    <option value="14.00">14.00 น.</option>
+                    <option value="14.30">14.30 น.</option>
+                    <option value="15.00">15.00 น.</option>
+                    <option value="15.30">15.30 น.</option>
+                    <option value="16.00">16.00 น.</option>
+                    <option value="16.30">16.30 น.</option>
+                    <option value="17.00">17.00 น.</option>
+                    <option value="17.30">17.30 น.</option>
+                    <option value="18.00">18.00 น.</option>
+                    <option value="18.30">18.30 น.</option>
+                    <option value="19.00">19.00 น.</option>
+                    <option value="19.30">19.30 น.</option>
+                    <option value="20.00">20.00 น.</option>
+                    <option value="20.30">20.30 น.</option>
+                    <option value="21.00">21.00 น.</option>
+                    <option value="21.30">21.30 น.</option>
+                    <option value="22.00">22.00 น.</option>
+                    <option value="22.30">22.30 น.</option>
+                    <option value="23.00">23.00 น.</option>
+                    <option value="23.30">23.30 น.</option>
+                  </select>
+                </div>
+                </div>
+                <div class="d-grid gap-2 col-6 mx-auto mb-3">
+                  <button type="text" id="sub_btn" class="btn btn-outline-primary form-control col-6">Save</button>
+                </div>
+              </div>
+          </div>    
+      </div>
+    </div>  
+    <hr>
+
 <!--ปฎิทิน-->
-<div class="container text-center">
-  <div class="row align-items-start">
-    <div class="col-6 ">
-      <button type='button' class='btn btn-dark' id="MonthYear">Month</button>
-    </div>
-    <div class="col-6">
-      <button class="btn btn-light" id="pre"><i class="bi bi-caret-left"></i></button>
-      <button class="btn btn-light" id="next"><i class="bi bi-caret-right-fill"></i></button>
-    </div>
-    <div class="col-12 align-self-center">
-      <style>
-        table, th, td {
-          border:1px solid rgb(0, 0, 0);
-        }
-        th {
-          background-color: #dddddd;
-        }
-      </style>
-      <table class="  mt-3 mb-5" style="width:95% ">
-        <thead>
-          <th>Sun</th>
-          <th>Mon</th>
-          <th>Tu</th>
-          <th>Wed</th>
-          <th>Th</th>
-          <th>Fri</th>
-          <th>Sat</th>
-        </thead>
-        <tbody id="Calbody">
-          
-        </tbody>
-      </table>
-    </div>
-  </div>  
-  <div>
-    <h1 id="popup"></h1>
+<div class="container text-center mt-4">
+<div class="row align-items-start">
+  <div class="col-6 ">
+    <button type='button' class='btn btn-dark' id="MonthYear">Month</button>
   </div>
+  <div class="col-6">
+    <button class="btn btn-light" id="pre"><i class="bi bi-caret-left"></i></button>
+    <button class="btn btn-light" id="next"><i class="bi bi-caret-right-fill"></i></button>
+  </div>
+  <div class="col-12 align-self-center">
+    <style>
+      table, th, td {
+        border:1px solid rgb(0, 0, 0);
+      }
+      th {
+        background-color: #dddddd;
+      }
+    </style>
+    <table class="  mt-3 mb-5" style="width:95% ">
+      <thead>
+        <th>Sun</th>
+        <th>Mon</th>
+        <th>Tu</th>
+        <th>Wed</th>
+        <th>Th</th>
+        <th>Fri</th>
+        <th>Sat</th>
+      </thead>
+      <tbody id="Calbody">
+        
+      </tbody>
+    </table>
+  </div>
+</div>  
+<div>
+  <h1 id="popup"></h1>
+</div>
 </div>
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-  <div class="modal-content">
-      <div class="modal-header">
-      <h1 class="modal-title fs-5" id="staticBackdropLabel">แก้ไขเวลาทำการร้านตัดผม</h1>
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="Celday1"></button>
+<div class="modal-dialog">
+<div class="modal-content">
+    <div class="modal-header">
+    <h1 class="modal-title fs-5" id="staticBackdropLabel">แก้ไขเวลาทำการร้านตัดผม</h1>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="Celday1"></button>
+    </div>
+    <div class="modal-body" id="show1">
+      <p id="Dataday"></p>
+      <button type="button" class="btn btn-link btn-sm" id="btndetail">Detail</button>
+      <p id="opentime"></p>
+      <p id="closetime"></p>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">ร้านเปิด</label>
+        <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="editOpenbarber">
+          <option selected>Open Barber</option>
+          <option value="00.00">00.00 น.</option>
+          <option value="00.30">00.30 น.</option>
+          <option value="01.00">01.00 น.</option>
+          <option value="01.30">01.30 น.</option>
+          <option value="02.00">02.00 น.</option>
+          <option value="02.30">02.30 น.</option>
+          <option value="03.00">03.00 น.</option>
+          <option value="03.30">03.30 น.</option>
+          <option value="04.00">04.00 น.</option>
+          <option value="04.30">04.30 น.</option>
+          <option value="05.00">05.00 น.</option>
+          <option value="05.30">05.30 น.</option>
+          <option value="06.00">06.00 น.</option>
+          <option value="06.30">06.30 น.</option>
+          <option value="07.00">07.00 น.</option>
+          <option value="07.30">07.30 น.</option>
+          <option value="08.00">08.00 น.</option>
+          <option value="08.30">08.30 น.</option>
+          <option value="09.00">09.00 น.</option>
+          <option value="09.30">09.30 น.</option>
+          <option value="10.00">10.00 น.</option>
+          <option value="10.30">10.30 น.</option>
+          <option value="11.00">11.00 น.</option>
+          <option value="11.30">11.30 น.</option>
+          <option value="12.00">12.00 น.</option>
+          <option value="12.30">12.30 น.</option>
+          <option value="13.00">13.00 น.</option>
+          <option value="13.30">13.30 น.</option>
+          <option value="14.00">14.00 น.</option>
+          <option value="14.30">14.30 น.</option>
+          <option value="15.00">15.00 น.</option>
+          <option value="15.30">15.30 น.</option>
+          <option value="16.00">16.00 น.</option>
+          <option value="16.30">16.30 น.</option>
+          <option value="17.00">17.00 น.</option>
+          <option value="17.30">17.30 น.</option>
+          <option value="18.00">18.00 น.</option>
+          <option value="18.30">18.30 น.</option>
+          <option value="19.00">19.00 น.</option>
+          <option value="19.30">19.30 น.</option>
+          <option value="20.00">20.00 น.</option>
+          <option value="20.30">20.30 น.</option>
+          <option value="21.00">21.00 น.</option>
+          <option value="21.30">21.30 น.</option>
+          <option value="22.00">22.00 น.</option>
+          <option value="22.30">22.30 น.</option>
+          <option value="23.00">23.00 น.</option>
+          <option value="23.30">23.30 น.</option>
+        </select>
       </div>
-      <div class="modal-body" id="show1">
-        <p id="Dataday"></p>
-        <button type="button" class="btn btn-link btn-sm" id="btndetail">Detail</button>
-        <p id="opentime"></p>
-        <p id="closetime"></p>
-        <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">ร้านเปิด</label>
-          <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="editOpenbarber">
-            <option selected>Open Barber</option>
-            <option value="00.00">00.00 น.</option>
-            <option value="00.30">00.30 น.</option>
-            <option value="01.00">01.00 น.</option>
-            <option value="01.30">01.30 น.</option>
-            <option value="02.00">02.00 น.</option>
-            <option value="02.30">02.30 น.</option>
-            <option value="03.00">03.00 น.</option>
-            <option value="03.30">03.30 น.</option>
-            <option value="04.00">04.00 น.</option>
-            <option value="04.30">04.30 น.</option>
-            <option value="05.00">05.00 น.</option>
-            <option value="05.30">05.30 น.</option>
-            <option value="06.00">06.00 น.</option>
-            <option value="06.30">06.30 น.</option>
-            <option value="07.00">07.00 น.</option>
-            <option value="07.30">07.30 น.</option>
-            <option value="08.00">08.00 น.</option>
-            <option value="08.30">08.30 น.</option>
-            <option value="09.00">09.00 น.</option>
-            <option value="09.30">09.30 น.</option>
-            <option value="10.00">10.00 น.</option>
-            <option value="10.30">10.30 น.</option>
-            <option value="11.00">11.00 น.</option>
-            <option value="11.30">11.30 น.</option>
-            <option value="12.00">12.00 น.</option>
-            <option value="12.30">12.30 น.</option>
-            <option value="13.00">13.00 น.</option>
-            <option value="13.30">13.30 น.</option>
-            <option value="14.00">14.00 น.</option>
-            <option value="14.30">14.30 น.</option>
-            <option value="15.00">15.00 น.</option>
-            <option value="15.30">15.30 น.</option>
-            <option value="16.00">16.00 น.</option>
-            <option value="16.30">16.30 น.</option>
-            <option value="17.00">17.00 น.</option>
-            <option value="17.30">17.30 น.</option>
-            <option value="18.00">18.00 น.</option>
-            <option value="18.30">18.30 น.</option>
-            <option value="19.00">19.00 น.</option>
-            <option value="19.30">19.30 น.</option>
-            <option value="20.00">20.00 น.</option>
-            <option value="20.30">20.30 น.</option>
-            <option value="21.00">21.00 น.</option>
-            <option value="21.30">21.30 น.</option>
-            <option value="22.00">22.00 น.</option>
-            <option value="22.30">22.30 น.</option>
-            <option value="23.00">23.00 น.</option>
-            <option value="23.30">23.30 น.</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">ร้านปิด</label>
-          <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="editClosebarber">
-            <option selected>Close Barber</option>
-            <option value="00.00">00.00 น.</option>
-            <option value="00.00">00.30 น.</option>
-            <option value="01.00">01.00 น.</option>
-            <option value="01.30">01.30 น.</option>
-            <option value="02.00">02.00 น.</option>
-            <option value="02.30">02.30 น.</option>
-            <option value="03.00">03.00 น.</option>
-            <option value="03.30">03.30 น.</option>
-            <option value="04.00">04.00 น.</option>
-            <option value="04.30">04.30 น.</option>
-            <option value="05.00">05.00 น.</option>
-            <option value="05.30">05.30 น.</option>
-            <option value="06.00">06.00 น.</option>
-            <option value="06.30">06.30 น.</option>
-            <option value="07.00">07.00 น.</option>
-            <option value="07.30">07.30 น.</option>
-            <option value="08.00">08.00 น.</option>
-            <option value="08.30">08.30 น.</option>
-            <option value="09.00">09.00 น.</option>
-            <option value="09.30">09.30 น.</option>
-            <option value="10.00">10.00 น.</option>
-            <option value="10.30">10.30 น.</option>
-            <option value="11.00">11.00 น.</option>
-            <option value="11.30">11.30 น.</option>
-            <option value="12.00">12.00 น.</option>
-            <option value="12.30">12.30 น.</option>
-            <option value="13.00">13.00 น.</option>
-            <option value="13.30">13.30 น.</option>
-            <option value="14.00">14.00 น.</option>
-            <option value="14.30">14.30 น.</option>
-            <option value="15.00">15.00 น.</option>
-            <option value="15.30">15.30 น.</option>
-            <option value="16.00">16.00 น.</option>
-            <option value="16.30">16.30 น.</option>
-            <option value="17.00">17.00 น.</option>
-            <option value="17.30">17.30 น.</option>
-            <option value="18.00">18.00 น.</option>
-            <option value="18.30">18.30 น.</option>
-            <option value="19.00">19.00 น.</option>
-            <option value="19.30">19.30 น.</option>
-            <option value="20.00">20.00 น.</option>
-            <option value="20.30">20.30 น.</option>
-            <option value="21.00">21.00 น.</option>
-            <option value="21.30">21.30 น.</option>
-            <option value="22.00">22.00 น.</option>
-            <option value="22.30">22.30 น.</option>
-            <option value="23.00">23.00 น.</option>
-            <option value="23.30">23.30 น.</option>
-          </select>
-        </div>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">ร้านปิด</label>
+        <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="editClosebarber">
+          <option selected>Close Barber</option>
+          <option value="00.00">00.00 น.</option>
+          <option value="00.00">00.30 น.</option>
+          <option value="01.00">01.00 น.</option>
+          <option value="01.30">01.30 น.</option>
+          <option value="02.00">02.00 น.</option>
+          <option value="02.30">02.30 น.</option>
+          <option value="03.00">03.00 น.</option>
+          <option value="03.30">03.30 น.</option>
+          <option value="04.00">04.00 น.</option>
+          <option value="04.30">04.30 น.</option>
+          <option value="05.00">05.00 น.</option>
+          <option value="05.30">05.30 น.</option>
+          <option value="06.00">06.00 น.</option>
+          <option value="06.30">06.30 น.</option>
+          <option value="07.00">07.00 น.</option>
+          <option value="07.30">07.30 น.</option>
+          <option value="08.00">08.00 น.</option>
+          <option value="08.30">08.30 น.</option>
+          <option value="09.00">09.00 น.</option>
+          <option value="09.30">09.30 น.</option>
+          <option value="10.00">10.00 น.</option>
+          <option value="10.30">10.30 น.</option>
+          <option value="11.00">11.00 น.</option>
+          <option value="11.30">11.30 น.</option>
+          <option value="12.00">12.00 น.</option>
+          <option value="12.30">12.30 น.</option>
+          <option value="13.00">13.00 น.</option>
+          <option value="13.30">13.30 น.</option>
+          <option value="14.00">14.00 น.</option>
+          <option value="14.30">14.30 น.</option>
+          <option value="15.00">15.00 น.</option>
+          <option value="15.30">15.30 น.</option>
+          <option value="16.00">16.00 น.</option>
+          <option value="16.30">16.30 น.</option>
+          <option value="17.00">17.00 น.</option>
+          <option value="17.30">17.30 น.</option>
+          <option value="18.00">18.00 น.</option>
+          <option value="18.30">18.30 น.</option>
+          <option value="19.00">19.00 น.</option>
+          <option value="19.30">19.30 น.</option>
+          <option value="20.00">20.00 น.</option>
+          <option value="20.30">20.30 น.</option>
+          <option value="21.00">21.00 น.</option>
+          <option value="21.30">21.30 น.</option>
+          <option value="22.00">22.00 น.</option>
+          <option value="22.30">22.30 น.</option>
+          <option value="23.00">23.00 น.</option>
+          <option value="23.30">23.30 น.</option>
+        </select>
       </div>
-      <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" id="Celday" data-bs-dismiss="modal">Close</button>
-      <button type="button" class="btn btn-danger" id="Delday" data-bs-dismiss="modal">Delete</button>
-      <button type="button" class="btn btn-success" id="Subday" data-bs-dismiss="modal">Apply</button>
-      </div>
-  </div>
-  </div>
+    </div>
+    <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" id="Celday" data-bs-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-danger" id="Delday" data-bs-dismiss="modal">Delete</button>
+    <button type="button" class="btn btn-success" id="Subday" data-bs-dismiss="modal">Apply</button>
+    </div>
+</div>
+</div>
 </div>
 <script src="Nav.js" type="module"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <script type="module" src="calderModul.js"></script> 
 </body>
 <script src="calder.js"></script>
+<script src="Navadminhtml.js"></script>
 </html>
