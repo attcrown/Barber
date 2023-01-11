@@ -57,6 +57,13 @@ if(d.getMonth()==1){
       sum += trend+tr;
     }
   }
+  d.setDate(numday);
+  if(d.getDay() < 6){
+    for(let i = d.getDay();i<6;i++){
+      sum += tdclass+tdend; 
+    }
+  }
+
 days.innerHTML = sum;
 importyears(years);
 editbtn();
@@ -102,6 +109,13 @@ function dateday(){
     sum += td+"<button type='button' class='btn btn-light btn-sm' onclick='showdaycal(value,id)' id="+i+" value="+name+" data-bs-toggle='modal' data-bs-target='#staticBackdrop'>"+i+"</button>"+tdend;
     if(i+n.getDay() == 7 || i+n.getDay() == 14 || i+n.getDay() == 21 || i+n.getDay() == 28 || i+n.getDay() == 35){
       sum += trend+tr;
+    }
+  }
+  n.setDate(numday);
+  console.log(n.getDay());
+  if(n.getDay() < 6){
+    for(let i = n.getDay();i<6;i++){
+      sum += tdclass+tdend; 
     }
   }
   console.log(n);
@@ -294,15 +308,18 @@ function CloseOpentext(){
 
 //----DelDetail-----X----Close----
 const Celday = document.getElementById('Celday');
+const Celday1 = document.getElementById('Celday1');
+
 Celday.addEventListener('click',(e)=>{
   document.getElementById('opentime').innerText = "";
   document.getElementById('closetime').innerText = "";   
 });
-
-const Celday1 = document.getElementById('Celday1');
 Celday1.addEventListener('click',(e)=>{
   document.getElementById('opentime').innerText = "";
   document.getElementById('closetime').innerText = "";   
+});
+Delday.addEventListener('click',(e)=>{
+  document.getElementById('opentime').innerText = "";  
 });
 
 
