@@ -149,9 +149,7 @@
             var uname = [],fname = []; 
             get(child(dbRef,"UserList")).then((snapshot) => {
               const childData = snapshot.val(); 
-              Object.keys(childData).forEach(function(key) {
-                    console.log(key); 
-                    console.log(childData[key].username); 
+              Object.keys(childData).forEach(function(key) { 
                     uname.push(childData[key].username);
                     fname.push(childData[key].fullname);
               });  
@@ -172,7 +170,6 @@
                   const keys = ["b1","b2","b3","b4","b5","b6","b7","b8","b9","b10"];
                   get(child(dbRef, "BarberName")).then((snapshot) => {
                   const childData = snapshot.val();  
-                  console.log(snapshot.val());
                     for(let i = 0; i < keys.length; i++){
                       if(childData[keys[i]] == ""){
                         update(ref(db, "BarberName"),{ 
