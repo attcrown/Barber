@@ -296,8 +296,10 @@ function CloseOpentext(){
       const childData = childSnapshot.val();
       if(childKey == dayb){
         console.log(childData);
-        document.getElementById('opentime').innerText = "เปิดร้าน "+childData.openshop+"น.";
-        document.getElementById('closetime').innerText = "ปิดร้าน "+childData.closeshop+"น.";
+        document.getElementById('opentime').innerText = "เข้างาน "+childData.openshop+"น.";
+        document.getElementById('closetime').innerText = "ออกงาน "+childData.closeshop+"น.";
+        document.getElementById('Breakstart').innerText = "เข้างาน "+childData.openshop+"น.";
+        document.getElementById('Breakstop').innerText = "ออกงาน "+childData.closeshop+"น.";
       }  
     });
   }, {
@@ -312,14 +314,21 @@ const Celday1 = document.getElementById('Celday1');
 
 Celday.addEventListener('click',(e)=>{
   document.getElementById('opentime').innerText = "";
-  document.getElementById('closetime').innerText = "";   
+  document.getElementById('closetime').innerText = "";  
+  document.getElementById('Breakstart').innerText = "";
+  document.getElementById('Breakstop').innerText = ""; 
 });
 Celday1.addEventListener('click',(e)=>{
   document.getElementById('opentime').innerText = "";
-  document.getElementById('closetime').innerText = "";   
+  document.getElementById('closetime').innerText = "";  
+  document.getElementById('Breakstart').innerText = "";
+  document.getElementById('Breakstop').innerText = "";  
 });
 Delday.addEventListener('click',(e)=>{
   document.getElementById('opentime').innerText = "";  
+  document.getElementById('closetime').innerText = ""; 
+  document.getElementById('Breakstart').innerText = "";
+  document.getElementById('Breakstop').innerText = ""; 
 });
 
 
