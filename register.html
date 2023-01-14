@@ -142,109 +142,52 @@
           return true;
         }
 
-        //---------Checkuser--------
+        // ---------Checkuser--------
         function RegisterUser(){
-          if(!Validation()){    //
-            return;             //ถ้าตรวจสอบค่าที่ใส่มาแล้วไม่ถูกต้องให้ return กลับ
-          } 
-          else{
-            let key = new Date().getTime(); 
-            set(ref(db, 'UserList/' + key),{
-              fullname: name.value,
-              email: email.value,
-              username: username.value,
-              password: encPass(),
-              rank: ranks()
-            })
-            .then(function(){
-              alert("สมัครสมาชิคสำเร็จ");
-              console.log(ranks());
-              update(ref(db,"BarberName/b11/"),{})
-            })
-            .catch((error)=>{
-              alert("error"+ error);
-            })
-          }
-
-          if(ranks() == 'barber'){ 
-            get(child(dbRef, "BarberName")).then((snapshot) => {
-            const childData = snapshot.val();  
-            console.log(snapshot.val());
-            if(childData.b10 == ""){
-              console.log("b10");
-              update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
-              {
-                b10: name.value
+          if(!Validation()){return;} 
+          else{ 
+            var uname = [],fname = []; 
+            get(child(dbRef,"UserList")).then((snapshot) => {
+              const childData = snapshot.val(); 
+              Object.keys(childData).forEach(function(key) {
+                    console.log(key); 
+                    console.log(childData[key].username); 
+                    uname.push(childData[key].username);
+                    fname.push(childData[key].fullname);
+              });  
+              if (uname.includes(username.value) || fname.includes(name.value)) {
+                alert("Username หรือ Fullname ซ้ำกันในฐานข้อมูล");
+                return;
+              }
+              let key = new Date().getTime(); 
+              set(ref(db, 'UserList/' + key),{
+                fullname: name.value,
+                email: email.value,
+                username: username.value,
+                password: encPass(),
+                rank: ranks()
               })
-            }
-            else if(childData.b1 == ""){
-              console.log("b1");
-              update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
-              {
-                b1: name.value
+              .then(function(){
+                if(ranks() == 'barber'){
+                  const keys = ["b1","b2","b3","b4","b5","b6","b7","b8","b9","b10"];
+                  get(child(dbRef, "BarberName")).then((snapshot) => {
+                  const childData = snapshot.val();  
+                  console.log(snapshot.val());
+                    for(let i = 0; i < keys.length; i++){
+                      if(childData[keys[i]] == ""){
+                        update(ref(db, "BarberName"),{ 
+                          [keys[i]]: name.value 
+                        }).catch(function(error){
+                          alert("รายชื่อช่างเต็มแล้ว");
+                        })
+                        return;
+                      }
+                    }
+                  });
+                }
+                alert("สมัครสมาชิคสำเร็จ");
               })
-            }
-            else if(childData.b2 == ""){
-              console.log("b2");
-              update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
-              {
-                b2: name.value
-              })
-            }
-            else if(childData.b3 == ""){
-              console.log("b3");
-              update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
-              {
-                b3: name.value
-              })
-            }
-            else if(childData.b4 == ""){
-              console.log("b4");
-              update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
-              {
-                b4: name.value
-              })
-            }
-            else if(childData.b5 == ""){
-              console.log("b5");
-              update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
-              {
-                b5: name.value
-              })
-            }
-            else if(childData.b6 == ""){
-              console.log("b6");
-              update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
-              {
-                b6: name.value
-              })
-            }
-            else if(childData.b7 == ""){
-              console.log("b7");
-              update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
-              {
-                b7: name.value
-              })
-            }
-            else if(childData.b8 == ""){
-              console.log("b8");
-              update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
-              {
-                b8: name.value
-              })
-            }
-            else if(childData.b9 == ""){
-              console.log("b9");
-              update(ref(db, "BarberName"), // set ถ้าซ้ำกันจะไม่บันทึก
-              {
-                b9: name.value
-              })
-            } else {
-              console.log("No data available");
-            }
-            }).catch((error) => {
-              console.error(error);
-            });              
+            });          
           }
         }
 
@@ -305,73 +248,22 @@
 
               //--------Function Popup ปุ่มลบ
               document.getElementById('ConfirmDel').addEventListener('click',(e)=>{
+                const keys = ["b1","b2","b3","b4","b5","b6","b7","b8","b9","b10"];
                 get(child(dbRef,"UserList/"+ deluserid)).then(function(snapshot){
                   if(snapshot.exists){
                     const datauserid = snapshot.val();
                     if(datauserid.rank == "barber"){
-                      const dbRefbarber = ref(db,"BarberName/");
-                      onValue(dbRefbarber, (snapshot) => {
-                        snapshot.forEach((childSnapshot) => {
-                          const childKey = childSnapshot.key;
-                          const childData = childSnapshot.val();
-                          if(childData == delname){
-                            if(childKey == "b10"){
-                              update(ref(db, "BarberName/"),{
-                                b10 : ""
-                              })
-                            }
-                            else if(childKey == "b9"){
-                              update(ref(db, "BarberName/"),{
-                                b9 : ""
-                              })
-                            }  
-                            else if(childKey == "b8"){
-                              update(ref(db, "BarberName/"),{
-                                b8 : ""
-                              })
-                            }
-                            else if(childKey == "b7"){
-                              update(ref(db, "BarberName/"),{
-                                b7 : ""
-                              })
-                            }
-                            else if(childKey == "b6"){
-                              update(ref(db, "BarberName/"),{
-                                b6 : ""
-                              })
-                            }
-                            else if(childKey == "b5"){
-                              update(ref(db, "BarberName/"),{
-                                b5 : ""
-                              })
-                            }  
-                            else if(childKey == "b4"){
-                              update(ref(db, "BarberName/"),{
-                                b4 : ""
-                              })
-                            }  
-                            else if(childKey == "b3"){
-                              update(ref(db, "BarberName/"),{
-                                b3 : ""
-                              })
-                            }  
-                            else if(childKey == "b2"){
-                              update(ref(db, "BarberName/"),{
-                                b2 : ""
-                              })
-                            }
-                            else if(childKey == "b1"){
-                              update(ref(db, "BarberName/"),{
-                                b1 : ""
-                              })
-                            } 
-                            else{alert("Error Name Barber");}
+                      get(child(dbRef, "BarberName")).then((snapshot) => {
+                        const childData = snapshot.val();  
+                        for(let i = 0; i < keys.length; i++){
+                          if(childData[keys[i]] == delname){
+                            update(ref(db, "BarberName"), { [keys[i]]: ""});
+                            return;
                           }
-                        });
-                      }, {
-                        onlyOnce: true
-                      });
-                    }
+                        }                        
+                      }); 
+                    }else{alert("Error Name Barber");}
+
                     remove(ref(db,"UserList/"+deluserid),{}).then(function(){
                       setTimeout(() => {
                         document.location.reload();
@@ -380,7 +272,8 @@
                     });
                   } else{alert("ไม่เจอข้อมูล UserID");}
                 })
-              });              
+              });
+
             }, 
           {
             onlyOnce: true
