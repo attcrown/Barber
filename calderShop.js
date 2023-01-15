@@ -150,9 +150,6 @@ const submit = document.getElementById('sub_btn');
 //---------assign the events-------
 submit.addEventListener('click',SaveDay);
 
-// save day
-const TimeMonth = document.getElementById("TimeMonth");
-const TimeYear = document.getElementById("TimeYear");
 //---------DAY------------
 function Sunday(){
   let Sun = document.getElementById('Sunday').checked;

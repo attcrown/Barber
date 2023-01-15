@@ -146,121 +146,120 @@ Subday.addEventListener('click',(e)=>{
     openshop : editopens.value,
     closeshop : editcloses.value
   })
-  setTimeout
   editbtn();
 });
 
 //------savetick-------
 //--------เก็บค่าจาก id------
 const submit = document.getElementById('sub_btn');
-const Closebar = document.getElementById('Closebarber');
-const Openbar = document.getElementById('Openbarber');
 
 //---------assign the events-------
 submit.addEventListener('click',SaveDay);
 
-// save day
-const TimeMonth = document.getElementById("TimeMonth");
-const TimeWeek = document.getElementById("TimeWeek");
-const TimeYear = document.getElementById("TimeYear");
-
-function SaveDay(){
-  if(Openbar.value == "Open Barber" || Closebar.value == "Close Barber"){
-    alert("กรุณาระบุเวลาเปิด-ปิดร้าน");
-    return;
-  }
-  console.log(Openbar.value);
-  console.log(Closebar.value);
-  update(ref(db,"TimeShop/"+TimeYear.value+"/"+TimeMonth.value+"/"+TimeWeek.value),
-      {
-        open: Openbar.value,
-        close: Closebar.value,
-        Sun: Sunday(),
-        Mon: Monday(),
-        Tue: Tuesday(),
-        Wed: Wednesday(),
-        Thu: Thursday(),
-        Fir: Firday(),
-        Sat: Saturday()
-      }) 
-      .then(function(){
-        alert("บันทึกสำเร็จ");
-      })
-      .catch((error)=>{
-        alert("บันทึกerror"+ error);
-      })                 
-}
-
 //---------DAY------------
 function Sunday(){
-    let Sun = document.getElementById('Sunday').checked;
-    if(Sun == false){
-      Sun = "";
-    }
-    else{
-      Sun = "Sun";
-    }
-  return Sun;  
+  let Sun = document.getElementById('Sunday').checked;
+  if(Sun == true){
+    Sun = 0;
+  }
+  else{
+    Sun = 8;
+  }
+return Sun;  
 }
 function Monday(){
-    let Mon = document.getElementById('Monday').checked;
-    if(Mon == false){
-      Mon = "";
-    }
-    else{
-      Mon = "Mon";
-    }
-  return Mon;  
+  let Mon = document.getElementById('Monday').checked;
+  if(Mon == true){
+    Mon = 1;
+  }
+  else{
+    Mon = 8;
+  }
+return Mon;  
 }function Tuesday(){
-    let Tue = document.getElementById('Tuesday').checked;
-    if(Tue == false){
-      Tue = "";
-    }
-    else{
-      Tue = "Tue";
-    }
-  return Tue;  
+  let Tue = document.getElementById('Tuesday').checked;
+  if(Tue == true){
+    Tue = 2;
+  }
+  else{
+    Tue = 8;
+  }
+return Tue;  
 }function Wednesday(){
-    let Wed = document.getElementById('Wednesday').checked;
-    if(Wed == false){
-      Wed = "";
-    }
-    else{
-      Wed = "Wed";
-    }
-  return Wed;  
+  let Wed = document.getElementById('Wednesday').checked;
+  if(Wed == true){
+    Wed = 3;
+  }
+  else{
+    Wed = 8;
+  }
+return Wed;  
 }function Thursday(){
-    let Thu = document.getElementById('Thursday').checked;
-    if(Thu == false){
-      Thu = "";
-    }
-    else{
-      Thu = "Thu";
-    }
-  return Thu;  
+  let Thu = document.getElementById('Thursday').checked;
+  if(Thu == true){
+    Thu = 4;
+  }
+  else{
+    Thu = 8;
+  }
+return Thu;  
 }function Firday(){
-    let Fir = document.getElementById('Firday').checked;
-    if(Fir == false){
-      Fir = "";
+  let Fir = document.getElementById('Firday').checked;
+  if(Fir == true){
+    Fir = 5;
+  }
+  else{
+    Fir = 8;
+  }
+return Fir;  
+}
+function Saturday(){
+  let Sat = document.getElementById('Saturday').checked;
+  if(Sat == true){
+    Sat = 6;
+  }
+  else{
+    Sat = 8;
+  }
+return Sat;  
+}
+
+// save day
+function SaveDay(){
+  const TimeMonth = document.getElementById("TimeMonth");
+  const TimeYear = document.getElementById("TimeYear");
+  const StartWork = document.getElementById("StartWork");
+  const StopWork = document.getElementById("StopWork");
+  const StartBreak = document.getElementById("StartBreak");
+  const StopBreak = document.getElementById("StopBreak");
+
+  if(TimeMonth.value == "เดือน" || TimeYear.value == "ปี"){
+    alert("กรุณาระบุเดือน และปี");
+    return;
+  }
+  let n = new Date(name+","+years);
+  for(var i = 1;i <= numday;i++){
+    n.setDate(i);
+    var x = parseInt(n.getDay());
+    if(x == Sunday() || x == Monday() || x == Tuesday() || x == Wednesday() || x == Thursday() || x == Firday() || x == Saturday()){
+      update(ref(db,"TimeฺBarber/"+pullnames+TimeYear.value+"/"+TimeMonth.value+"/"+i),
+        {
+          เวลางาน : "Online"
+        })
     }
-    else{
-      Fir = "Fir";
+    if(x != Sunday() && x != Monday() && x != Tuesday() && x != Wednesday() && x != Thursday() && x != Firday() && x != Saturday()){
+      remove(ref(db,"TimeฺBarber/"+pullnames+TimeYear.value+"/"+TimeMonth.value+"/"+i),{})
+      document.getElementById(i).classList.remove("btn-success");
+      document.getElementById(i).classList.add("btn-light");
     }
-  return Fir;  
-}function Saturday(){
-    let Sat = document.getElementById('Saturday').checked;
-    if(Sat == false){
-      Sat = "";
-    }
-    else{
-      Sat = "Sat";
-    }
-  return Sat;  
+    console.log(Sunday()+" "+Monday()+" "+Tuesday()+" "+Wednesday()+" "+Thursday()+" "+Firday()+" "+Saturday());
+  }
+  editbtn();
 }
 
 //---------EditBTN---------
 function editbtn(){
-  const dbReff = ref(db,"TimeShop/"+years+"/"+name);
+  const dbReff = ref(db,"TimeฺBarber/"+pullnames+years+"/"+name);
   var keyday = [];
   let i = 0;
   onValue(dbReff,(snapshot) => {
@@ -298,8 +297,8 @@ function CloseOpentext(){
         console.log(childData);
         document.getElementById('opentime').innerText = "เข้างาน "+childData.openshop+"น.";
         document.getElementById('closetime').innerText = "ออกงาน "+childData.closeshop+"น.";
-        document.getElementById('Breakstart').innerText = "เข้างาน "+childData.openshop+"น.";
-        document.getElementById('Breakstop').innerText = "ออกงาน "+childData.closeshop+"น.";
+        document.getElementById('Breakstart').innerText = "เริ่มพัก "+childData.openshop+"น.";
+        document.getElementById('Breakstop').innerText = "หยุดพัก "+childData.closeshop+"น.";
       }  
     });
   }, {
@@ -330,6 +329,10 @@ Delday.addEventListener('click',(e)=>{
   document.getElementById('Breakstart').innerText = "";
   document.getElementById('Breakstop').innerText = ""; 
 });
+
+setTimeout(()=>{
+  console.log(pullnames);
+},500);
 
 
 

@@ -1,4 +1,5 @@
 //-----onclick-----
+let pullnames;
 let montha;
 let dayb;
 let importyear;
@@ -10,4 +11,7 @@ function showdaycal(a,b){
 }
 function importyears(a){
     importyear = a;
+}
+function pullname(a){
+    pullnames = a;
 }

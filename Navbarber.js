@@ -14,6 +14,7 @@ window.onload = function(){
         userlink.classList.replace("nav-link","btn");
         userlink.classList.remove("btn-primary");
         userlink.href = "#";
+        pullname(currentuser.fullname);      
     }
 }
 
@@ -38,4 +39,5 @@ function getUsername(){
     // console.log(keepLoggedIn);
     // console.log(currentuser);
 }
+
 
