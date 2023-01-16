@@ -13,8 +13,8 @@ window.onload = function(){
         // header.innerText = "welcome " + currentuser.fullname;
         userlink.classList.replace("nav-link","btn");
         userlink.classList.remove("btn-primary");
-        userlink.href = "#";
-        pullname(currentuser.fullname);      
+        userlink.href = "#";   
+        pullname(currentuser.fullname);   
     }
 }
 

@@ -52,7 +52,7 @@ if(d.getMonth()==1){
     }
   }
   for(let i = 1; i<=numday; i++){
-    sum += td+"<button type='button' class='btn btn-light btn-sm' style='font-size:15px' onclick='showdaycal(value,id)' id="+i+" value="+name+" data-bs-toggle='modal' data-bs-target='#staticBackdrop'>"+i+"</button>"+tdend;
+    sum += td+"<button type='button' class='btn btn-light btn-sm' style='font-size:15px' onclick='showdaycal(value,id)' id="+i+" value="+name+" data-bs-toggle='modal' data-bs-target='#staticBackdrop' disabled >"+i+"</button>"+tdend;
     if(i+d.getDay() == 7 || i+d.getDay() == 14 || i+d.getDay() == 21 || i+d.getDay() == 28 || i+d.getDay() == 35){
       sum += trend+tr;
     }
@@ -67,6 +67,10 @@ if(d.getMonth()==1){
 days.innerHTML = sum;
 importyears(years);
 editbtn();
+setTimeout(()=>{
+  editbtnbarber();
+  console.log("editbtnbarber()");
+},800);
 
 // function calder pre Next
 const pre = document.getElementById("pre");
@@ -106,7 +110,7 @@ function dateday(){
     }
   }
   for(let i = 1; i<=numday; i++){
-    sum += td+"<button type='button' class='btn btn-light btn-sm' onclick='showdaycal(value,id)' id="+i+" value="+name+" data-bs-toggle='modal' data-bs-target='#staticBackdrop'>"+i+"</button>"+tdend;
+    sum += td+"<button type='button' class='btn btn-light btn-sm' onclick='showdaycal(value,id)' id="+i+" value="+name+" data-bs-toggle='modal' data-bs-target='#staticBackdrop' disabled>"+i+"</button>"+tdend;
     if(i+n.getDay() == 7 || i+n.getDay() == 14 || i+n.getDay() == 21 || i+n.getDay() == 28 || i+n.getDay() == 35){
       sum += trend+tr;
     }
@@ -122,31 +126,40 @@ function dateday(){
 days.innerHTML = sum;
 importyears(years);
 editbtn();
+editbtnbarber();
 }
 
 //-------delete day calder-------
 const Delday = document.getElementById('Delday');
 Delday.addEventListener('click',(e)=>{
-    remove(ref(db,"TimeShop/"+importyear+"/"+montha+"/"+dayb),{})
+    remove(ref(db,"TimeฺBarber/"+pullnames+"/"+importyear+"/"+montha+"/"+dayb),{})
     console.log("ลบ "+montha,dayb,importyear);
-    document.getElementById(dayb).classList.remove("btn-success");
-    document.getElementById(dayb).classList.add("btn-light");
+    document.getElementById(dayb).classList.remove("btn-info");
+    document.getElementById(dayb).classList.add("btn-success");
 });
 
 //-------saveCalder----------
 const Subday = document.getElementById('Subday');
-const editopens = document.getElementById('editOpenbarber');
-const editcloses = document.getElementById('editClosebarber');
 Subday.addEventListener('click',(e)=>{
-  if(editopens.value == "Open Barber" || editcloses.value == "Close Barber"){
-    alert("กรุณาระบุเวลาเปิด-ปิดร้าน");
+  const editStartWork = document.getElementById('editStartWork');
+  const editStopWork = document.getElementById('editStopWork');
+  const editStartBreak = document.getElementById('editStartBreak');
+  const editStopBreak = document.getElementById('editStopBreak');
+  if(editStartWork.value == "Start Work" || editStopWork.value == "Stop Work"){
+    alert("กรุณาระบุเวลาเข้างาน และเวลาออกงาน");
     return;
   }
-  set(ref(db,"TimeShop/"+importyear+"/"+montha+"/"+dayb),{
-    openshop : editopens.value,
-    closeshop : editcloses.value
+  if(editStartBreak.value == "Start Break" || editStopBreak.value == "Stop Break"){
+    alert("กรุณาระบุเวลาเข้างาน และเวลาออกงาน");
+    return;
+  }
+  set(ref(db,"TimeฺBarber/"+pullnames+"/"+importyear+"/"+montha+"/"+dayb),{
+    StartWork : editStartWork.value,
+    StopWork : editStopWork.value,
+    StartBreak : editStartBreak.value,
+    StopBreak : editStopBreak.value
   })
-  editbtn();
+  editbtnbarber();
 });
 
 //------savetick-------
@@ -232,34 +245,52 @@ function SaveDay(){
   const StopWork = document.getElementById("StopWork");
   const StartBreak = document.getElementById("StartBreak");
   const StopBreak = document.getElementById("StopBreak");
-
   if(TimeMonth.value == "เดือน" || TimeYear.value == "ปี"){
     alert("กรุณาระบุเดือน และปี");
     return;
   }
+  if(StartWork.value == "Start Work" || StopWork.value == "Stop Work"){
+    alert("กรุณาระบุเวลาเข้างาน และเวลาออกงาน");
+    return;
+  }
+  if(StartBreak.value == "Start Break" || StopBreak.value == "Stop Break"){
+    alert("กรุณาระบุเวลาเริ่มพัก และเวลาหยุดพัก");
+    return;
+  }
+  
+
   let n = new Date(name+","+years);
   for(var i = 1;i <= numday;i++){
     n.setDate(i);
     var x = parseInt(n.getDay());
-    if(x == Sunday() || x == Monday() || x == Tuesday() || x == Wednesday() || x == Thursday() || x == Firday() || x == Saturday()){
-      update(ref(db,"TimeฺBarber/"+pullnames+TimeYear.value+"/"+TimeMonth.value+"/"+i),
+    var checkbtn = document.getElementById(i).disabled;
+    if(checkbtn){
+      console.log("No save");
+    }
+    else if(x == Sunday() || x == Monday() || x == Tuesday() || x == Wednesday() || x == Thursday() || x == Firday() || x == Saturday()){
+      update(ref(db,"TimeฺBarber/"+pullnames+"/"+TimeYear.value+"/"+TimeMonth.value+"/"+i),
         {
-          เวลางาน : "Online"
+          StartWork : StartWork.value,
+          StopWork : StopWork.value,
+          StartBreak : StartBreak.value,
+          StopBreak : StopBreak.value
         })
     }
-    if(x != Sunday() && x != Monday() && x != Tuesday() && x != Wednesday() && x != Thursday() && x != Firday() && x != Saturday()){
-      remove(ref(db,"TimeฺBarber/"+pullnames+TimeYear.value+"/"+TimeMonth.value+"/"+i),{})
-      document.getElementById(i).classList.remove("btn-success");
-      document.getElementById(i).classList.add("btn-light");
+    else if(x != Sunday() && x != Monday() && x != Tuesday() && x != Wednesday() && x != Thursday() && x != Firday() && x != Saturday()){
+      remove(ref(db,"TimeฺBarber/"+pullnames+"/"+TimeYear.value+"/"+TimeMonth.value+"/"+i),{})
+      document.getElementById(i).classList.remove("btn-info");
+      document.getElementById(i).classList.add("btn-success");
     }
-    console.log(Sunday()+" "+Monday()+" "+Tuesday()+" "+Wednesday()+" "+Thursday()+" "+Firday()+" "+Saturday());
+    else{alert("error");}
+    //console.log(Sunday()+" "+Monday()+" "+Tuesday()+" "+Wednesday()+" "+Thursday()+" "+Firday()+" "+Saturday());
   }
   editbtn();
+  editbtnbarber();
 }
 
 //---------EditBTN---------
 function editbtn(){
-  const dbReff = ref(db,"TimeฺBarber/"+pullnames+years+"/"+name);
+  const dbReff = ref(db,"TimeShop/"+years+"/"+name);
   var keyday = [];
   let i = 0;
   onValue(dbReff,(snapshot) => {
@@ -271,34 +302,62 @@ function editbtn(){
     while(i >= 0){
       for(let x=0; x<=numday ;x++){
         if(keyday[i] == x){
+          document.getElementById(x).disabled=false;
           document.getElementById(x).classList.remove("btn-light");
           document.getElementById(x).classList.add("btn-success");
         }
       }
-      //console.log(i);
       i--;
     }
-    //console.log(keyday);
+  }, {
+    onlyOnce: true
+  });
+}
+//---------EditBTNBarber---------
+function editbtnbarber(){
+  const dbReff = ref(db,"TimeฺBarber/"+pullnames+"/"+years+"/"+name);
+  var keyday = [];
+  let i = 0;
+  onValue(dbReff,(snapshot) => {
+    snapshot.forEach((childSnapshot) => {
+      const childKey = childSnapshot.key;
+      keyday[i] = childKey; 
+      console.log(childKey);
+      i++;
+    });
+    while(i >= 0){
+      for(let x=0; x<=numday ;x++){
+        if(keyday[i] == x){
+          document.getElementById(x).classList.remove("btn-success");
+          document.getElementById(x).classList.add("btn-info");
+        }
+      }
+      i--;
+    }
   }, {
     onlyOnce: true
   });
 }
 
+
 //---------ตรวจสอบวันที่---------
 const btndetail = document.getElementById('btndetail');
 btndetail.addEventListener('click',CloseOpentext);
 function CloseOpentext(){
-  const dbReff = ref(db,"TimeShop/"+years+"/"+name);
-  onValue(dbReff,(snapshot) => {
+  console.log("CloseOpentext()"+pullnames+years+name);
+  const dbReffs = ref(db,"TimeฺBarber/"+pullnames+"/"+years+"/"+name);
+  onValue(dbReffs,(snapshot) => {
     snapshot.forEach((childSnapshot) => {
       const childKey = childSnapshot.key;
       const childData = childSnapshot.val();
+      console.log(childKey);
+      console.log(childData);
       if(childKey == dayb){
         console.log(childData);
-        document.getElementById('opentime').innerText = "เข้างาน "+childData.openshop+"น.";
-        document.getElementById('closetime').innerText = "ออกงาน "+childData.closeshop+"น.";
-        document.getElementById('Breakstart').innerText = "เริ่มพัก "+childData.openshop+"น.";
-        document.getElementById('Breakstop').innerText = "หยุดพัก "+childData.closeshop+"น.";
+        document.getElementById('opentime').innerText = "เข้างาน "+childData.StartWork+"น.";
+        document.getElementById('closetime').innerText = "ออกงาน "+childData.StopWork+"น.";
+        document.getElementById('Breakstart').innerText = "เริ่มพัก "+childData.StartBreak+"น.";
+        document.getElementById('Breakstop').innerText = "หยุดพัก "+childData.StartBreak+"น.";
       }  
     });
   }, {
