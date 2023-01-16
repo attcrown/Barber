@@ -260,7 +260,6 @@ function SaveDay(){
   
 
   let n = new Date(TimeMonth.value+","+TimeYear.value);
-  console.log(TimeMonth.value+TimeYear.value);
   for(var i = 1;i <= numday;i++){
     n.setDate(i);
     var x = parseInt(n.getDay());
@@ -351,8 +350,6 @@ function CloseOpentext(){
     snapshot.forEach((childSnapshot) => {
       const childKey = childSnapshot.key;
       const childData = childSnapshot.val();
-      console.log(childKey);
-      console.log(childData);
       if(childKey == dayb){
         console.log(childData);
         document.getElementById('opentime').innerText = "เข้างาน "+childData.StartWork+"น.";
