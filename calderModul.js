@@ -355,7 +355,7 @@ function CloseOpentext(){
         document.getElementById('opentime').innerText = "เข้างาน "+childData.StartWork+"น.";
         document.getElementById('closetime').innerText = "ออกงาน "+childData.StopWork+"น.";
         document.getElementById('Breakstart').innerText = "เริ่มพัก "+childData.StartBreak+"น.";
-        document.getElementById('Breakstop').innerText = "หยุดพัก "+childData.StartBreak+"น.";
+        document.getElementById('Breakstop').innerText = "หยุดพัก "+childData.StopBreak+"น.";
       }  
     });
   }, {
