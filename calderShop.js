@@ -226,7 +226,7 @@ function SaveDay(){
     alert("กรุณาระบุเดือน และปี");
     return;
   }
-  let n = new Date(name+","+years);
+  let n = new Date(TimeMonth.value+","+TimeYear.value);
   for(var i = 1;i <= numday;i++){
     n.setDate(i);
     var x = parseInt(n.getDay());
@@ -242,7 +242,7 @@ function SaveDay(){
       document.getElementById(i).classList.remove("btn-success");
       document.getElementById(i).classList.add("btn-light");
     }
-    console.log(Sunday()+" "+Monday()+" "+Tuesday()+" "+Wednesday()+" "+Thursday()+" "+Firday()+" "+Saturday());
+    //console.log(Sunday()+" "+Monday()+" "+Tuesday()+" "+Wednesday()+" "+Thursday()+" "+Firday()+" "+Saturday());
   }
   editbtn();
 }

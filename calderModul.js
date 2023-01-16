@@ -259,7 +259,8 @@ function SaveDay(){
   }
   
 
-  let n = new Date(name+","+years);
+  let n = new Date(TimeMonth.value+","+TimeYear.value);
+  console.log(TimeMonth.value+TimeYear.value);
   for(var i = 1;i <= numday;i++){
     n.setDate(i);
     var x = parseInt(n.getDay());
