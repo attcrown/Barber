@@ -440,7 +440,7 @@ function Timesum(name,namebarber,StartWork,StopWork,StartBreak,StopBreak){
     }
   }
 
-  for(let x = TStart ;x<TStop ;x++){
+  for(let x = TStart ;x<=TStop ;x++){
     update(ref(db,"TimeQBarber/"+name+"/"+namebarber+"/"),{
       [`T${x}`] : arrayTime[x]
     })
