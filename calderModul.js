@@ -132,8 +132,14 @@ editbtnbarber();
 //-------delete day calder-------
 const Delday = document.getElementById('Delday');
 Delday.addEventListener('click',(e)=>{
+    //------แปลงเดือนเป็นตัวเลข-----
+    let numm = nummonth(montha);
+    let nameday = importyear+"-"+numm+"-"+dayb;
+
     remove(ref(db,"TimeฺBarber/"+pullnames+"/"+importyear+"/"+montha+"/"+dayb),{})
+    remove(ref(db,"TimeQBarber/"+nameday+"/"+pullnames),{})
     console.log("ลบ "+montha,dayb,importyear);
+    console.log("ลบ "+"TimeQBarber/"+nameday+"/"+pullnames);
     document.getElementById(dayb).classList.remove("btn-info");
     document.getElementById(dayb).classList.add("btn-success");
 });
@@ -159,10 +165,12 @@ Subday.addEventListener('click',(e)=>{
     StartBreak : editStartBreak.value,
     StopBreak : editStopBreak.value
   })
+  let numm = nummonth(montha);
+  let nameday = importyear+"-"+numm+"-"+dayb; 
+  Timesum(nameday,pullnames,editStartWork.value,editStopWork.value,editStartBreak.value,editStopBreak.value);
   editbtnbarber();
 });
 
-//------savetick-------
 //--------เก็บค่าจาก id------
 const submit = document.getElementById('sub_btn');
 
@@ -257,10 +265,11 @@ function SaveDay(){
     alert("กรุณาระบุเวลาเริ่มพัก และเวลาหยุดพัก");
     return;
   }
-  
-
+  //------แปลงเดือนเป็นตัวเลข-----
+  let numm = nummonth(TimeMonth.value);
   let n = new Date(TimeMonth.value+","+TimeYear.value);
   for(var i = 1;i <= numday;i++){
+    let nameday = TimeYear.value+"-"+numm+"-"+i;
     n.setDate(i);
     var x = parseInt(n.getDay());
     var checkbtn = document.getElementById(i).disabled;
@@ -275,9 +284,13 @@ function SaveDay(){
           StartBreak : StartBreak.value,
           StopBreak : StopBreak.value
         })
+
+      //---pushTimeWorkBarber----
+      Timesum(nameday,pullnames,StartWork.value,StopWork.value,StartBreak.value,StopBreak.value);
     }
     else if(x != Sunday() && x != Monday() && x != Tuesday() && x != Wednesday() && x != Thursday() && x != Firday() && x != Saturday()){
       remove(ref(db,"TimeฺBarber/"+pullnames+"/"+TimeYear.value+"/"+TimeMonth.value+"/"+i),{})
+      remove(ref(db,"TimeQBarber/"+nameday+"/"+pullnames),{})
       document.getElementById(i).classList.remove("btn-info");
       document.getElementById(i).classList.add("btn-success");
     }
@@ -392,6 +405,65 @@ setTimeout(()=>{
 },500);
 
 
+//-----TimeWorkBarber-------
+function Timesum(name,namebarber,StartWork,StopWork,StartBreak,StopBreak){
+  console.log(`${name} ${namebarber} เริ่มงาน${StartWork} หยุดงาน${StopWork} เริ่มพัก${StartBreak} หยุดพัก${StopBreak}`);
+  let TStart = 0;
+  let TStop = 0;
+  let TStartB = 0;
+  let TStopB = 0;
+  const arrayTime = ["00.00","00.30","01.00","01.30","02.00","02.30","03.00"
+                  ,"03.30","04.00","04.30","05.00","05.30","06.00","06.30"
+                  ,"07.00","07.30","08.00","08.30","09.00","09.30","10.00"
+                  ,"10.30","11.00","11.30","12.00","12.30","13.00","13.30"
+                  ,"14.00","14.30","15.00","15.30","16.00","16.30","17.00"
+                  ,"17.30","18.00","18.30","19.00","19.30","20.00","20.30"
+                  ,"21.00","21.30","22.00","22.30","23.00","23.30"];
+  for(let x = 0; x<arrayTime.length; x++){
+    if(StartWork == arrayTime[x]){
+        TStart = x;
+    }
+  }
+  for(let x = 0; x<arrayTime.length; x++){
+    if(StopWork == arrayTime[x]){
+        TStop = x;
+    }
+  }
+  for(let x = 0; x<arrayTime.length; x++){
+    if(StartBreak == arrayTime[x]){
+        TStartB = x;
+    }
+  }
+  for(let x = 0; x<arrayTime.length; x++){
+    if(StopBreak == arrayTime[x]){
+        TStopB = x;
+    }
+  }
+
+  for(let x = TStart ;x<TStop ;x++){
+    update(ref(db,"TimeQBarber/"+name+"/"+namebarber+"/"),{
+      [`T${x}`] : arrayTime[x]
+    })
+  }
+  for(let x = TStartB ;x<TStopB ;x++){
+    remove(ref(db,"TimeQBarber/"+name+"/"+namebarber+"/"+"T"+x),{
+      [`T${x}`] : arrayTime[x]
+    })
+  }
+}
+
+//-----function แปลงเดือนเป็นตัวเลข
+function nummonth(a){
+  let numm;
+    for(let x = 0; x<11; x++){
+      var m = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+      if(a === m[x]){
+        numm = x;
+        numm++;
+      }
+    }
+    return numm;
+}
 
 
 
