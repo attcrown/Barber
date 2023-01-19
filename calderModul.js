@@ -85,6 +85,8 @@ pre.addEventListener('click',(e)=>{
   name = month[a];
   MonthYear.innerHTML = name+" "+years;
   sum = "";
+  document.getElementById('TimeMonth').value = name;
+  document.getElementById('TimeYear').value = years;
   dateday();
 });
 next.addEventListener('click',(e)=>{
@@ -96,6 +98,28 @@ next.addEventListener('click',(e)=>{
   name = month[a];
   MonthYear.innerHTML = name+" "+years;
   sum = "";
+  document.getElementById('TimeMonth').value = name;
+  document.getElementById('TimeYear').value = years;
+  dateday();
+});
+
+//----selectmonth years
+document.getElementById('TimeMonth').addEventListener('change',(e)=>{
+  if(document.getElementById('TimeMonth').value == "เดือน" || document.getElementById('TimeYear').value == "ปี"){
+    return;
+  }
+  name = document.getElementById('TimeMonth').value;
+  years = document.getElementById('TimeYear').value;
+  MonthYear.innerHTML = name+" "+years;
+  dateday();
+});
+document.getElementById('TimeYear').addEventListener('change',(e)=>{
+  if(document.getElementById('TimeMonth').value == "เดือน" || document.getElementById('TimeYear').value == "ปี"){
+    return;
+  }
+  name = document.getElementById('TimeMonth').value;
+  years = document.getElementById('TimeYear').value;
+  MonthYear.innerHTML = name+" "+years;
   dateday();
 });
 
