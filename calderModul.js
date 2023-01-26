@@ -103,7 +103,7 @@ next.addEventListener('click',(e)=>{
   dateday();
 });
 
-//----selectmonth years
+//----select month years
 document.getElementById('TimeMonth').addEventListener('change',(e)=>{
   if(document.getElementById('TimeMonth').value == "เดือน" || document.getElementById('TimeYear').value == "ปี"){
     return;
@@ -158,8 +158,7 @@ const Delday = document.getElementById('Delday');
 Delday.addEventListener('click',(e)=>{
     //------แปลงเดือนเป็นตัวเลข-----
     let numm = nummonth(montha);
-    let nameday = importyear+"-"+numm+"-"+dayb;
-
+    let nameday = numdayfull(importyear,numm,dayb);
     remove(ref(db,"TimeฺBarber/"+pullnames+"/"+importyear+"/"+montha+"/"+dayb),{})
     remove(ref(db,"TimeQBarber/"+nameday+"/"+pullnames),{})
     console.log("ลบ "+montha,dayb,importyear);
@@ -188,9 +187,11 @@ Subday.addEventListener('click',(e)=>{
     StopWork : editStopWork.value,
     StartBreak : editStartBreak.value,
     StopBreak : editStopBreak.value
-  })
+  });
+
   let numm = nummonth(montha);
-  let nameday = importyear+"-"+numm+"-"+dayb; 
+  let nameday = numdayfull(importyear,numm,dayb);
+  saveTimeQ(nameday,pullnames);
   Timesum(nameday,pullnames,editStartWork.value,editStopWork.value,editStartBreak.value,editStopBreak.value);
   editbtnbarber();
 });
@@ -292,8 +293,9 @@ function SaveDay(){
   //------แปลงเดือนเป็นตัวเลข-----
   let numm = nummonth(TimeMonth.value);
   let n = new Date(TimeMonth.value+","+TimeYear.value);
+  let nameday;
   for(var i = 1;i <= numday;i++){
-    let nameday = TimeYear.value+"-"+numm+"-"+i;
+    nameday = numdayfull(TimeYear.value,numm,i);
     n.setDate(i);
     var x = parseInt(n.getDay());
     var checkbtn = document.getElementById(i).disabled;
@@ -307,7 +309,11 @@ function SaveDay(){
           StopWork : StopWork.value,
           StartBreak : StartBreak.value,
           StopBreak : StopBreak.value
-        })
+        });
+      update(ref(db,"TimeฺQBarber/"+nameday+"/"+"nBarber"+"/"),
+        {
+          b1 : pullnames
+        });
 
       //---pushTimeWorkBarber----
       Timesum(nameday,pullnames,StartWork.value,StopWork.value,StartBreak.value,StopBreak.value);
@@ -489,8 +495,47 @@ function nummonth(a){
     return numm;
 }
 
+function numdayfull(year,month,day){
+  let namedayfulls;
+  if(day<10 && month<10){
+    namedayfulls = year+"-"+"0"+month+"-"+"0"+day;
+  } else if(day<10 && month>10){
+    namedayfulls = year+"-"+month+"-"+"0"+day;
+  } else if(day>10 && month<10){
+    namedayfulls = year+"-"+"0"+month+"-"+day;
+  } else{
+    namedayfulls = year+"-"+month+"-"+day;
+  } 
+  return namedayfulls;
+}
 
-
+function saveTimeQ(nameday,pullnames){
+  const uname = [],bkey = []; 
+  get(child(dbRef,"TimeQBarber/"+nameday+"/nBarber/")).then((snapshot) => {
+    var childData = snapshot.val(); 
+    Object.keys(childData).forEach(function(key){ 
+      uname.push(childData[key]);
+      bkey.push([key]);         
+    });  
+    if(uname.includes(pullnames)){
+      alert("ชื่อซ้ำกัน");
+      return;
+    }else{
+      var keys = ["b1","b2","b3","b4","b5","b6","b7","b8","b9","b10"];
+      for(let x = 0; x<keys.length; x++){ 
+        if(!bkey.map(e => e[0]).includes(keys[x])){//(!bkey.includes(keys[x])){
+          update(ref(db,"TimeQBarber/"+nameday+"/nBarber/"),{
+            [keys[x]] : pullnames
+          })
+          console.log("ผ่าน");
+          return;
+        }else{
+          console.log("ไม่ผ่าน");
+        }
+      }
+    }
+  }); 
+}
 
 
 

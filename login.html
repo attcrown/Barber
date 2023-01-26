@@ -107,51 +107,6 @@
           })
         }
 
-        //function AuthenticateUser(){
-          // onValue(dbRef,(snapshot)=>{
-          //   snapshot.forEach((childSnapshot)=>{
-          //     const childKey = childSnapshot.key;
-          //     const childData = childSnapshot.val();
-          //     console.log(childKey);
-          //     console.log(childData.username);
-          //     if(username.value == "" && pass.value == ""){
-          //         alert("กรุณาใส่ Username และ Password");
-          //     }
-          //     else if(username.value == childData.username){
-          //       let dbpass = decPass(childData.password);
-          //         if(dbpass == pass.value){
-          //             login(snapshot.val());
-          //         }
-          //         else{
-          //             alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง");
-          //             console.log(dbpass +"\n"+pass.value );
-          //         }
-          //     }
-          //     else{
-          //         alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง");
-          //     }
-          //   })
-          // })
-        // get(child(dbRef,"UserList/")).then(function(snapshot){
-        //   if(username.value == "" && pass.value == ""){
-        //       alert("กรุณาใส่ Username และ Password");
-        //   }
-        //   else if(snapshot.exists()){
-        //     let dbpass = decPass(snapshot.val().password);
-        //       if(dbpass == pass.value){
-        //           login(snapshot.val());
-        //       }
-        //       else{
-        //           alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง");
-        //           console.log(dbpass +"\n"+pass.value );
-        //       }
-        //   }
-        //   else{
-        //       alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง");
-        //   }
-        // });
-        // }
-
         //---------Decript--------
         function decPass(dbpass){
           var pass12 = CryptoJS.AES.decrypt(dbpass, pass.value);

@@ -153,7 +153,7 @@
                     uname.push(childData[key].username);
                     fname.push(childData[key].fullname);
               });  
-              if (uname.includes(username.value) || fname.includes(name.value)) {
+              if(uname.includes(username.value) || fname.includes(name.value)){
                 alert("Username หรือ Fullname ซ้ำกันในฐานข้อมูล");
                 return;
               }
