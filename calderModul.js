@@ -501,7 +501,11 @@ function numdayfull(year,month,day){
     namedayfulls = year+"-"+month+"-"+"0"+day;
   } else if(day>10 && month<10){
     namedayfulls = year+"-"+"0"+month+"-"+day;
-  } else{
+  } else if(day<10 && month==10){
+    namedayfulls = year+"-"+month+"-"+"0"+day;
+  } else if(day==10 && month<10){
+    namedayfulls = year+"-"+"0"+month+"-"+day;
+  }else{
     namedayfulls = year+"-"+month+"-"+day;
   } 
   return namedayfulls;
@@ -562,7 +566,6 @@ function delQbarber(nameday,pullnames){
         }
       }        
   }); 
-  
 }
 
 
