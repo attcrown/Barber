@@ -311,11 +311,7 @@ function SaveDay(){
           StartBreak : StartBreak.value,
           StopBreak : StopBreak.value
         });
-      update(ref(db,"TimeฺQBarber/"+nameday+"/"+"nBarber"+"/"),
-        {
-          b1 : pullnames
-        });
-
+      saveTimeQ(nameday,pullnames);  
       //---pushTimeWorkBarber----
       Timesum(nameday,pullnames,StartWork.value,StopWork.value,StartBreak.value,StopBreak.value);
     }
@@ -474,12 +470,12 @@ function Timesum(name,namebarber,StartWork,StopWork,StartBreak,StopBreak){
 
   for(let x = TStart ;x<=TStop ;x++){
     update(ref(db,"TimeQBarber/"+name+"/"+namebarber+"/"),{
-      [`T${x}`] : arrayTime[x]
+      [`t${x}`] : arrayTime[x]
     })
   }
   for(let x = TStartB ;x<TStopB ;x++){
-    remove(ref(db,"TimeQBarber/"+name+"/"+namebarber+"/"+"T"+x),{
-      [`T${x}`] : arrayTime[x]
+    remove(ref(db,"TimeQBarber/"+name+"/"+namebarber+"/"+"t"+x),{
+      [`t${x}`] : arrayTime[x]
     })
   }
 }
@@ -513,30 +509,39 @@ function numdayfull(year,month,day){
 
 function saveTimeQ(nameday,pullnames){
   const uname = [],bkey = []; 
-  get(child(dbRef,"TimeQBarber/"+nameday+"/nBarber/")).then((snapshot) => {
-    var childData = snapshot.val(); 
-    Object.keys(childData).forEach(function(key){ 
-      uname.push(childData[key]);
-      bkey.push([key]);         
-    });  
-    if(uname.includes(pullnames)){
-      alert("ชื่อซ้ำกัน");
-      return;
-    }else{
-      var keys = ["b1","b2","b3","b4","b5","b6","b7","b8","b9","b10"];
-      for(let x = 0; x<keys.length; x++){ 
-        if(!bkey.map(e => e[0]).includes(keys[x])){//(!bkey.includes(keys[x])){
-          update(ref(db,"TimeQBarber/"+nameday+"/nBarber/"),{
-            [keys[x]] : pullnames
-          })
-          console.log("ผ่าน");
-          return;
-        }else{
-          console.log("ไม่ผ่าน");
+  get(child(dbRef,"TimeQBarber/"+nameday+"/nBarber/")).then(function(snapshot){
+  if(snapshot.val() == null){
+    update(ref(db,"TimeQBarber/"+nameday+"/nBarber/"),{
+      b1 : pullnames
+    })
+    console.log("ผ่าน");
+    return;
+  }else{      
+    get(child(dbRef,"TimeQBarber/"+nameday+"/nBarber/")).then((snapshot) => {
+      var childData = snapshot.val(); 
+      Object.keys(childData).forEach(function(key){ 
+        uname.push(childData[key]);
+        bkey.push([key]);         
+      });  
+      if(uname.includes(pullnames)){
+        return;
+      }else{
+        var keys = ["b1","b2","b3","b4","b5","b6","b7","b8","b9","b10"];
+        for(let x = 0; x<keys.length; x++){ 
+          if(!bkey.map(e => e[0]).includes(keys[x])){//(!bkey.includes(keys[x])){
+            update(ref(db,"TimeQBarber/"+nameday+"/nBarber/"),{
+              [keys[x]] : pullnames
+            })
+            console.log("ผ่าน");
+            return;
+          }else{
+            console.log("ไม่ผ่าน");
+          }
         }
       }
+    }); 
     }
-  }); 
+  })
 }
 
 function delQbarber(nameday,pullnames){
