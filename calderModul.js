@@ -159,8 +159,9 @@ Delday.addEventListener('click',(e)=>{
     //------แปลงเดือนเป็นตัวเลข-----
     let numm = nummonth(montha);
     let nameday = numdayfull(importyear,numm,dayb);
-    remove(ref(db,"TimeฺBarber/"+pullnames+"/"+importyear+"/"+montha+"/"+dayb),{})
-    remove(ref(db,"TimeQBarber/"+nameday+"/"+pullnames),{})
+    remove(ref(db,"TimeฺBarber/"+pullnames+"/"+importyear+"/"+montha+"/"+dayb),{});
+    remove(ref(db,"TimeQBarber/"+nameday+"/"+pullnames),{});
+    delQbarber(nameday,pullnames);
     console.log("ลบ "+montha,dayb,importyear);
     console.log("ลบ "+"TimeQBarber/"+nameday+"/"+pullnames);
     document.getElementById(dayb).classList.remove("btn-info");
@@ -319,8 +320,9 @@ function SaveDay(){
       Timesum(nameday,pullnames,StartWork.value,StopWork.value,StartBreak.value,StopBreak.value);
     }
     else if(x != Sunday() && x != Monday() && x != Tuesday() && x != Wednesday() && x != Thursday() && x != Firday() && x != Saturday()){
-      remove(ref(db,"TimeฺBarber/"+pullnames+"/"+TimeYear.value+"/"+TimeMonth.value+"/"+i),{})
-      remove(ref(db,"TimeQBarber/"+nameday+"/"+pullnames),{})
+      remove(ref(db,"TimeฺBarber/"+pullnames+"/"+TimeYear.value+"/"+TimeMonth.value+"/"+i),{});
+      remove(ref(db,"TimeQBarber/"+nameday+"/"+pullnames),{});
+      delQbarber(nameday,pullnames);
       document.getElementById(i).classList.remove("btn-info");
       document.getElementById(i).classList.add("btn-success");
     }
@@ -535,6 +537,27 @@ function saveTimeQ(nameday,pullnames){
       }
     }
   }); 
+}
+
+function delQbarber(nameday,pullnames){
+  const uname = [],bkey = []; 
+  get(child(dbRef,"TimeQBarber/"+nameday+"/nBarber/")).then((snapshot) => {
+    var childData = snapshot.val(); 
+    Object.keys(childData).forEach(function(key){ 
+      uname.push(childData[key]);
+      bkey.push([key]);      
+    }); 
+      for(let x = 0;x<uname.length;x++){
+        if(uname[x] == (pullnames)){//(!bkey.includes(keys[x])){
+          remove(ref(db,"TimeQBarber/"+nameday+"/nBarber/"+bkey[x]),{})
+          console.log("ผ่าน");
+          return;
+        }else{
+          console.log("ไม่ผ่าน");
+        }
+      }        
+  }); 
+  
 }
 
 
