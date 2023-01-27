@@ -16,9 +16,9 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase();
 const dbRef = ref(getDatabase());
 
-var numday;
 var sum;  
 const d = new Date();
+var numday = numdayy(d.getMonth());
 let years = d.getFullYear();
 const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 var name = month[d.getMonth()];
@@ -33,19 +33,24 @@ var tdclass = "<td style='color:rgb(140, 140, 140);'>"
 sum = tr;
 d.setDate(1);
 
-if(d.getMonth()==1){
-    let feb = d.getFullYear() % 4;
-    if(feb == 3){
-      numday = 29;
-    }else{numday = 28;}
-  }else if(d.getMonth() == 0 || d.getMonth() == 2 || d.getMonth() == 4 
-    || d.getMonth() == 6 || d.getMonth() == 7 || d.getMonth() == 9 
-    || d.getMonth() == 11){
-    numday = 31;
-  }else if(d.getMonth() == 3 || d.getMonth() == 5 || d.getMonth() == 8 
-    || d.getMonth() == 10){
-    numday = 30;
-  }          
+function numdayy(a){
+  let sum;
+  if(a == 1){
+    let feb = years % 4;
+    if(feb == 0){
+      sum = 29;
+    }else{sum = 28;}
+  }else if(a == 0 || a == 2 || a == 4 
+    || a == 6 || a == 7 || a == 9 
+    || a == 11){
+    sum = 31;
+  }else if(a == 3 || a == 5 || a == 8 
+    || a == 10){
+    sum = 30;
+  }
+  return sum;
+}
+         
   if(d.getDay() > 0){
     for(let i = 0;i<d.getDay();i++){
       sum += tdclass+tdend; 
@@ -87,6 +92,7 @@ pre.addEventListener('click',(e)=>{
   sum = "";
   document.getElementById('TimeMonth').value = name;
   document.getElementById('TimeYear').value = years;
+  numday = numdayy(a);
   dateday();
 });
 next.addEventListener('click',(e)=>{
@@ -100,6 +106,7 @@ next.addEventListener('click',(e)=>{
   sum = "";
   document.getElementById('TimeMonth').value = name;
   document.getElementById('TimeYear').value = years;
+  numday = numdayy(a);
   dateday();
 });
 

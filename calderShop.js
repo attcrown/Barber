@@ -51,20 +51,6 @@ function numdayy(a){
   return sum;
 }
 
-// if(d.getMonth()==1){
-//     let feb = d.getFullYear() % 4;
-//     if(feb == 3){
-//       numday = 29;
-//     }else{numday = 28;}
-//   }else if(d.getMonth() == 0 || d.getMonth() == 2 || d.getMonth() == 4 
-//     || d.getMonth() == 6 || d.getMonth() == 7 || d.getMonth() == 9 
-//     || d.getMonth() == 11){
-//     numday = 31;
-//   }else if(d.getMonth() == 3 || d.getMonth() == 5 || d.getMonth() == 8 
-//     || d.getMonth() == 10){
-//     numday = 30;
-//   }   
-
   if(d.getDay() > 0){
     for(let i = 0;i<d.getDay();i++){
       sum += tdclass+tdend; 
