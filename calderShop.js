@@ -36,8 +36,8 @@ d.setDate(1);
 function numdayy(a){
   let sum;
   if(a == 1){
-    let feb = d.getFullYear() % 4;
-    if(feb == 3){
+    let feb = years % 4;
+    if(feb == 0){
       sum = 29;
     }else{sum = 28;}
   }else if(a == 0 || a == 2 || a == 4 
