@@ -20,33 +20,31 @@
   <body>
     <nav id="navadmin"></nav>
     <div class="container-md">
+      <div id="liveAlertPlaceholder"></div>
       <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label"
-          >ราคามัดจำ</label
-        >
+        <label for="exampleFormControlInput1" class="form-label">ราคามัดจำ</label>
         <input
           type="text"
           class="form-control"
-          id="exampleFormControlInput1"
+          id="bathprompt"
           placeholder="100฿"
         />
       </div>
       <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label"
-          >เบอร์โทรศัพท์</label
-        >
+        <label for="exampleFormControlInput1" class="form-label">เบอร์โทรศัพท์</label>
         <input
           type="text"
           class="form-control"
-          id="exampleFormControlInput1"
+          id="phonenum"
           placeholder="09x-xxx-xxxx"
         />
       </div>
-      <button type="button" class="btn btn-success btn-sm float-end">
+      <button type="button" class="btn btn-success btn-sm float-end" id="submit">
         save
       </button>
     </div>
     <script src="Nav.js" type="module"></script>
+    <script src="prompt.js" type="module"></script>
   </body>
   <script src="Navadminhtml.js"></script>
 </html>
