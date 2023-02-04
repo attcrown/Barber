@@ -38,7 +38,9 @@ get(child(dbRef,"Promptpay")).then((snapshot) => {
         bath : baths.value, //100
         numberPromptpay : phonenum.value //0861515202
     }).then(()=>{
-        console.log("Success");
+        setTimeout(()=>{
+          document.location.reload();
+        },300);
     });
   })
 
@@ -78,6 +80,18 @@ get(child(dbRef,"Promptpay")).then((snapshot) => {
     }
     return true;
   }
+
+  //------Confirm Save-----
+  const con = document.getElementById("confirmpop");
+  con.addEventListener('click',(e)=>{
+    if(baths.value == ""){
+      document.getElementById('bathcon').innerText = "กรุณาใส่ราคาเงินมัดจำ";
+    }else{document.getElementById('bathcon').innerText = "ราคามัดจำ "+baths.value+" บาท";}
+    if(phonenum.value == ""){
+      document.getElementById('numcon').innerText = "กรุณาใส่เบอร์โทรศัพท์";
+    }else{document.getElementById('numcon').innerText = "เบอร์โทรศัพท์ "+phonenum.value;}
+    
+  })
 
   
 
