@@ -18,8 +18,8 @@ const dbRef = ref(getDatabase());
 
 var sum;  
 const d = new Date();
-var numday = numdayy(d.getMonth());
 let years = d.getFullYear();
+var numday = numdayy(d.getMonth());
 const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 var name = month[d.getMonth()];
 const MonthYear = document.getElementById("MonthYear");
