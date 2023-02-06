@@ -57,7 +57,7 @@ function numdayy(a){
     }
   }
   for(let i = 1; i<=numday; i++){
-    sum += td+"<button type='button' class='btn btn-light btn-sm' style='font-size:15px' onclick='showdaycal(value,id)' id="+i+" value="+name+" data-bs-toggle='modal' data-bs-target='#staticBackdrop' disabled >"+i+"</button>"+tdend;
+    sum += td+"<button type='button' class='btn btn-light btn-sm btn-circle opacity-75' style='font-size:15px' onclick='showdaycal(value,id)' id="+i+" value="+name+" data-bs-toggle='modal' data-bs-target='#staticBackdrop' disabled >"+i+"</button>"+tdend;
     if(i+d.getDay() == 7 || i+d.getDay() == 14 || i+d.getDay() == 21 || i+d.getDay() == 28 || i+d.getDay() == 35){
       sum += trend+tr;
     }
@@ -141,7 +141,7 @@ function dateday(){
     }
   }
   for(let i = 1; i<=numday; i++){
-    sum += td+"<button type='button' class='btn btn-light btn-sm' onclick='showdaycal(value,id)' id="+i+" value="+name+" data-bs-toggle='modal' data-bs-target='#staticBackdrop' disabled>"+i+"</button>"+tdend;
+    sum += td+"<button type='button' class='btn btn-light btn-sm btn-circle opacity-75' onclick='showdaycal(value,id)' id="+i+" value="+name+" data-bs-toggle='modal' data-bs-target='#staticBackdrop' disabled>"+i+"</button>"+tdend;
     if(i+n.getDay() == 7 || i+n.getDay() == 14 || i+n.getDay() == 21 || i+n.getDay() == 28 || i+n.getDay() == 35){
       sum += trend+tr;
     }
@@ -172,7 +172,7 @@ Delday.addEventListener('click',(e)=>{
     console.log("ลบ "+montha,dayb,importyear);
     console.log("ลบ "+"TimeQBarber/"+nameday+"/"+pullnames);
     document.getElementById(dayb).classList.remove("btn-info");
-    document.getElementById(dayb).classList.add("btn-success");
+    document.getElementById(dayb).classList.add("btn-success","opacity-75");
 });
 
 //-------saveCalder----------
@@ -327,7 +327,7 @@ function SaveDay(){
       remove(ref(db,"TimeQBarber/"+nameday+"/"+pullnames),{});
       delQbarber(nameday,pullnames);
       document.getElementById(i).classList.remove("btn-info");
-      document.getElementById(i).classList.add("btn-success");
+      document.getElementById(i).classList.add("btn-success","opacity-75");
     }
     else{alert("error");}
     //console.log(Sunday()+" "+Monday()+" "+Tuesday()+" "+Wednesday()+" "+Thursday()+" "+Firday()+" "+Saturday());
@@ -376,7 +376,7 @@ function editbtnbarber(){
     while(i >= 0){
       for(let x=0; x<=numday ;x++){
         if(keyday[i] == x){
-          document.getElementById(x).classList.remove("btn-success");
+          document.getElementById(x).classList.remove("btn-success","opacity-75");
           document.getElementById(x).classList.add("btn-info");
         }
       }

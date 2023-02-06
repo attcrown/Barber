@@ -51,23 +51,23 @@ function numdayy(a){
   return sum;
 }
 
-  if(d.getDay() > 0){
-    for(let i = 0;i<d.getDay();i++){
-      sum += tdclass+tdend; 
-    }
+if(d.getDay() > 0){
+  for(let i = 0;i<d.getDay();i++){
+    sum += tdclass+tdend; 
   }
-  for(let i = 1; i<=numday; i++){
-    sum += td+"<button type='button' class='btn btn-light btn-sm' style='font-size:15px' onclick='showdaycal(value,id)' id="+i+" value="+name+" data-bs-toggle='modal' data-bs-target='#staticBackdrop'>"+i+"</button>"+tdend;
-    if(i+d.getDay() == 7 || i+d.getDay() == 14 || i+d.getDay() == 21 || i+d.getDay() == 28 || i+d.getDay() == 35){
-      sum += trend+tr;
-    }
+}
+for(let i = 1; i<=numday; i++){
+  sum += td+"<button type='button' class='btn btn-light btn-sm btn-circle' style='font-size:15px' onclick='showdaycal(value,id)' id="+i+" value="+name+" data-bs-toggle='modal' data-bs-target='#staticBackdrop'>"+i+"</button>"+tdend;
+  if(i+d.getDay() == 7 || i+d.getDay() == 14 || i+d.getDay() == 21 || i+d.getDay() == 28 || i+d.getDay() == 35){
+    sum += trend+tr;
   }
-  d.setDate(numday);
-  if(d.getDay() < 6){
-    for(let i = d.getDay();i<6;i++){
-      sum += tdclass+tdend; 
-    }
+}
+d.setDate(numday);
+if(d.getDay() < 6){
+  for(let i = d.getDay();i<6;i++){
+    sum += tdclass+tdend; 
   }
+}
 
 days.innerHTML = sum;
 importyears(years);
@@ -117,7 +117,7 @@ function dateday(){
     }
   }
   for(let i = 1; i<=numday; i++){
-    sum += td+"<button type='button' class='btn btn-light btn-sm' onclick='showdaycal(value,id)' id="+i+" value="+name+" data-bs-toggle='modal' data-bs-target='#staticBackdrop'>"+i+"</button>"+tdend;
+    sum += td+"<button type='button' class='btn btn-light btn-sm btn-circle' onclick='showdaycal(value,id)' id="+i+" value="+name+" data-bs-toggle='modal' data-bs-target='#staticBackdrop'>"+i+"</button>"+tdend;
     if(i+n.getDay() == 7 || i+n.getDay() == 14 || i+n.getDay() == 21 || i+n.getDay() == 28 || i+n.getDay() == 35){
       sum += trend+tr;
     }
