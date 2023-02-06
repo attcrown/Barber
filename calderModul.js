@@ -166,7 +166,7 @@ Delday.addEventListener('click',(e)=>{
     //------แปลงเดือนเป็นตัวเลข-----
     let numm = nummonth(montha);
     let nameday = numdayfull(importyear,numm,dayb);
-    remove(ref(db,"TimeฺBarber/"+pullnames+"/"+importyear+"/"+montha+"/"+dayb),{});
+    remove(ref(db,"TimeBarber/"+pullnames+"/"+importyear+"/"+montha+"/"+dayb),{});
     remove(ref(db,"TimeQBarber/"+nameday+"/"+pullnames),{});
     delQbarber(nameday,pullnames);
     console.log("ลบ "+montha,dayb,importyear);
@@ -190,7 +190,7 @@ Subday.addEventListener('click',(e)=>{
     alert("กรุณาระบุเวลาเข้างาน และเวลาออกงาน");
     return;
   }
-  set(ref(db,"TimeฺBarber/"+pullnames+"/"+importyear+"/"+montha+"/"+dayb),{
+  set(ref(db,"TimeBarber/"+pullnames+"/"+importyear+"/"+montha+"/"+dayb),{
     StartWork : editStartWork.value,
     StopWork : editStopWork.value,
     StartBreak : editStartBreak.value,
@@ -311,7 +311,7 @@ function SaveDay(){
       console.log("No save");
     }
     else if(x == Sunday() || x == Monday() || x == Tuesday() || x == Wednesday() || x == Thursday() || x == Firday() || x == Saturday()){
-      update(ref(db,"TimeฺBarber/"+pullnames+"/"+TimeYear.value+"/"+TimeMonth.value+"/"+i),
+      update(ref(db,"TimeBarber/"+pullnames+"/"+TimeYear.value+"/"+TimeMonth.value+"/"+i),
         {
           StartWork : StartWork.value,
           StopWork : StopWork.value,
@@ -323,7 +323,7 @@ function SaveDay(){
       Timesum(nameday,pullnames,StartWork.value,StopWork.value,StartBreak.value,StopBreak.value);
     }
     else if(x != Sunday() && x != Monday() && x != Tuesday() && x != Wednesday() && x != Thursday() && x != Firday() && x != Saturday()){
-      remove(ref(db,"TimeฺBarber/"+pullnames+"/"+TimeYear.value+"/"+TimeMonth.value+"/"+i),{});
+      remove(ref(db,"TimeBarber/"+pullnames+"/"+TimeYear.value+"/"+TimeMonth.value+"/"+i),{});
       remove(ref(db,"TimeQBarber/"+nameday+"/"+pullnames),{});
       delQbarber(nameday,pullnames);
       document.getElementById(i).classList.remove("btn-info");
@@ -363,7 +363,7 @@ function editbtn(){
 }
 //---------EditBTNBarber---------
 function editbtnbarber(){
-  const dbReff = ref(db,"TimeฺBarber/"+pullnames+"/"+years+"/"+name);
+  const dbReff = ref(db,"TimeBarber/"+pullnames+"/"+years+"/"+name);
   var keyday = [];
   let i = 0;
   onValue(dbReff,(snapshot) => {
@@ -393,7 +393,7 @@ const btndetail = document.getElementById('btndetail');
 btndetail.addEventListener('click',CloseOpentext);
 function CloseOpentext(){
   console.log("CloseOpentext()"+pullnames+years+name);
-  const dbReffs = ref(db,"TimeฺBarber/"+pullnames+"/"+years+"/"+name);
+  const dbReffs = ref(db,"TimeBarber/"+pullnames+"/"+years+"/"+name);
   onValue(dbReffs,(snapshot) => {
     snapshot.forEach((childSnapshot) => {
       const childKey = childSnapshot.key;
