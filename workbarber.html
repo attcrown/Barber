@@ -19,11 +19,11 @@
         <button class="btn btn-outline-success btn-sm mb-2 float-end" data-bs-toggle="modal" data-bs-target="#exampleModal2" id="btnaddtime" >add</button>
             <table class="table table-striped table-hover" id="table">
                   <tr>
-                    <th scope="col"> </th>
+                    <th scope="col">#</th>
                     <th scope="col">เวลา</th>
                     <th scope="col">ลูกค้า</th>
-                    <th scope="col">ช่าง</th>
-                    <th scope="col">ยกเลิกคิว</th>
+                    <!-- <th scope="col">ช่าง</th> -->
+                    <th scope="col">Details</th>
                   </tr>
             </table>
         </div>
@@ -32,15 +32,18 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Cancel Q Barber</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Detail</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btnclosepopup"></button>
               </div>
               <div class="modal-body">
                 <p id="textpopup"></p>
+                <p id="popupdate"></p>
+                <a href="#" class="link-primary" id="popuplink">สลิปเงินโอนมัดจำ</a>
+                <img src="" alt="" id="slipmoney" style="width: 30vw; min-width: 330px;">
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger" id="ConfirmDel">Confirm</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closepopup">Close</button>
+                <button type="button" class="btn btn-danger" id="ConfirmDel">Delete</button>
               </div>
             </div>
           </div>

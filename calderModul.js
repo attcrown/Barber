@@ -457,34 +457,34 @@ function Timesum(name,namebarber,StartWork,StopWork,StartBreak,StopBreak){
   for(let x = 0; x<arrayTime.length; x++){
     if(StartWork == arrayTime[x]){
         TStart = x;
-    }
-  }
+    };
+  };
   for(let x = 0; x<arrayTime.length; x++){
     if(StopWork == arrayTime[x]){
         TStop = x;
-    }
-  }
+    };
+  };
   for(let x = 0; x<arrayTime.length; x++){
     if(StartBreak == arrayTime[x]){
         TStartB = x;
-    }
-  }
+    };
+  };
   for(let x = 0; x<arrayTime.length; x++){
     if(StopBreak == arrayTime[x]){
         TStopB = x;
-    }
-  }
-
+    };
+  };
+  remove(ref(db,"TimeQBarber/"+name+"/"+namebarber),{});
   for(let x = TStart ;x<=TStop ;x++){
     update(ref(db,"TimeQBarber/"+name+"/"+namebarber+"/"),{
       [`t${x}`] : arrayTime[x].substring(0,2)+":"+arrayTime[x].substring(3,5)
-    })
-  }
+    });
+  };
   for(let x = TStartB ;x<TStopB ;x++){
     remove(ref(db,"TimeQBarber/"+name+"/"+namebarber+"/"+"t"+x),{
       [`t${x}`] : arrayTime[x].substring(0,2)+":"+arrayTime[x].substring(3,5)
-    })
-  }
+    });
+  };
 }
 
 //-----function แปลงเดือนเป็นตัวเลข

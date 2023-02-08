@@ -43,13 +43,14 @@ function showdata(){
       const childKey = childSnapshot.key;
       const childData = childSnapshot.val();
       // if(childData.summinute != ""){
-      if(childData.perple == pullnames && childData.summinute != "" && childData.date == datesub){
+      if(childData.perple == pullnames && childData.summinute != "" 
+      && childData.date == datesub){
         rowNum += 1;       
         var iduser = childKey;        
         var row = "<tr><td>" + rowNum + "</td><td>" + childData.time + 
-        "</td><td>" + childData.name + "</td><td>" + childData.perple + 
-        "</td><td><button class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#exampleModal' id='"+childData.name+"' value="
-        + iduser + " style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;' onclick='CancelQ(id,value)'>ยกเลิกคิว</button></td></tr>";
+        "</td><td>" + childData.name + "</td>" //<td>"+ childData.perple + 
+        +"<td><button class='btn btn-success' data-bs-toggle='modal' data-bs-target='#exampleModal' id='"+childData.name+"' value="
+        + iduser + " style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;' onclick='CancelQ(id,value)'>ข้อมูล</button></td></tr>";
       }
       $(row).appendTo('#table');             
       });
@@ -145,7 +146,10 @@ async function havetimes(){
   await get(child(dbRef,"userLineliff")).then((snapshot) => {
     const childData = snapshot.val(); 
     Object.keys(childData).forEach(function(key) { 
-          if(sumday == childData[key].date && childData[key].summinute != ""){
+          //console.log(childData[key].time);
+          if(sumday == childData[key].date && childData[key].summinute != "" 
+          && childData[key].time != undefined && childData[key].time != ""
+          && pullnames == childData[key].perple){
             time.push(childData[key].time.substring(0,2)+"."+childData[key].time.substring(3,5));
           }
     })
@@ -262,3 +266,30 @@ function numday(a){
   }
   return a;
 }
+
+
+
+//-----detail img------
+document.getElementById('popuplink').addEventListener('click',(e)=>{
+  get(child(dbReff,"userLineliff/"+ deluserid)).then(function(snapshot){
+    const v = snapshot.val();
+    console.log(v);
+    document.getElementById('popupdate').innerText = `เวลาการจอง : ${v.time}`;
+    if(v.encodedImage != "" && v.encodedImage != undefined 
+    && v.encodedImage != null && v.name == delname){
+      document.getElementById('slipmoney').src = v.encodedImage;
+    }else{
+      document.getElementById('slipmoney').src = "images/Noimage.jpg";
+    }
+  })
+});
+
+document.getElementById('closepopup').addEventListener('click',(e)=>{
+  document.getElementById('slipmoney').src = "";
+  document.getElementById('popupdate').innerText = "";
+})
+
+document.getElementById('btnclosepopup').addEventListener('click',(e)=>{
+  document.getElementById('slipmoney').src = "";
+  document.getElementById('popupdate').innerText = "";
+})

@@ -9,5 +9,5 @@ function deluser(a,b){
 function CancelQ(a,b){
     deluserid = b;
     delname = a;
-    document.getElementById('textpopup').innerText = `ยืนยันยกเลิกจองคิว ${a} ออกจากระบบ`;
+    document.getElementById('textpopup').innerText = `ชื่อลูกค้า : ${a}`;
 }
