@@ -293,3 +293,8 @@ document.getElementById('btnclosepopup').addEventListener('click',(e)=>{
   document.getElementById('slipmoney').src = "";
   document.getElementById('popupdate').innerText = "";
 })
+
+//======test=======
+export function CancelQq(id, value){
+  console.log(`Button with id "${id}" and value "${value}" was clicked`);
+}
