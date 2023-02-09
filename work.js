@@ -14,24 +14,18 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
-const dbRef = ref(getDatabase());
 
-const datenow = new Date();
-let datenum = datenow.getDate();
-let month = datenow.getMonth()+1;
-if(month < 10){
-    month = "0"+month;
-}
-if(datenum < 10){
-    datenum = "0"+datenum;
-}
-let year = datenow.getFullYear();
-let datesub = year+"-"+month+"-"+datenum;
-document.getElementById('datenow').innerHTML = "Date "+datesub;
 //--------เก็บค่าจาก id------
 const dbRefuser = ref(db,'userLineliff/'); 
-const dbReff = ref(db);
-
+const dbRef = ref(db);
+const datenow = new Date();
+let month = datenow.getMonth()+1;
+let year = datenow.getFullYear();
+let datesub = year+"-"+month+"-"+datenow.getDate();
+document.getElementById('datenow').innerHTML = "Date "+datesub;
+// const deltime = document.getElementById('deltime');
+// const delInp = document.getElementById('delInp');  
+//const submit = document.getElementById("sub_btn");
 
 //----------show-------
 showdata();
@@ -42,22 +36,21 @@ function showdata(){
     snapshot.forEach((childSnapshot)=>{
       const childKey = childSnapshot.key;
       const childData = childSnapshot.val();
-      // if(childData.summinute != ""){
-      if(childData.perple == pullnames && childData.summinute != "" 
-      && childData.date == datesub){
-        rowNum += 1;       
-        var iduser = childKey;        
+      if(childData.summinute != ""){
+        rowNum += 1;
+        var iduser = childKey;          
         var row = "<tr><td>" + rowNum + "</td><td>" + childData.time + 
-        "</td><td>" + childData.name + "</td>" //<td>"+ childData.perple + 
-        +"<td><button class='btn btn-success' data-bs-toggle='modal' data-bs-target='#exampleModal' id='"+childData.name+"' value="
+        "</td><td>" + childData.name + "</td><td>" + childData.perple + 
+        "</td><td><button class='btn btn-success' data-bs-toggle='modal' data-bs-target='#exampleModal' id='"+childData.name+"' value="
         + iduser + " style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;' onclick='CancelQ(id,value)'>ข้อมูล</button></td></tr>";
       }
-      $(row).appendTo('#table');             
-      });
+      $(row).appendTo('#table');
+      //console.log(iduser);
+    });
 
-      //--------Function Popup ปุ่มลบ
-      document.getElementById('ConfirmDel').addEventListener('click',(e)=>{
-        get(child(dbReff,"userLineliff/"+ deluserid)).then(function(snapshot){
+    //--------Function Popup ปุ่มลบ
+    document.getElementById('ConfirmDel').addEventListener('click',(e)=>{
+        get(child(dbRef,"userLineliff/"+ deluserid)).then(function(snapshot){
           if(snapshot.exists){
             update(ref(db,"userLineliff/"+ deluserid),{
               summinute : ""
@@ -69,12 +62,12 @@ function showdata(){
             });
           } else{alert("ไม่เจอข้อมูล UserID");}
         })
-      });     
+      });              
   }, 
   {
     onlyOnce: true
   });
-}
+}   
 
 //----namebarber Value-----
 const btnaddtime = document.getElementById('btnaddtime');
@@ -82,60 +75,69 @@ const nameuser = document.getElementById('nameuser');
 const yearq = document.getElementById('yearqbarber');
 const monthq = document.getElementById('monthqbarber');
 const dayq = document.getElementById('dayqbarber');
+const value = document.getElementById('namebarber');
 const timeq = document.getElementById('timeqbarber');
 let sumday;
 btnaddtime.addEventListener('click',(e)=>{
-  const value = document.getElementById('namebarber');
-  let sum = `<option value="${pullnames}">${pullnames}</option>`;
-  value.innerHTML = sum;
-  value.disabled = true;
-
-  //---Qtime-----
-  const dbReftime = ref(db,"TimeBarber/"+pullnames);//'TimeBarber/'+pullnames+"/2023"+"/February");
-  let sum1 = `<option selected>ปี</option>`;
-    onValue(dbReftime,(snapshot)=>{
-      snapshot.forEach((childSnapshot) => {
-        const childKey = childSnapshot.key;
-        sum1 += `<option value="${childKey}">${childKey}</option>` 
-      });
-      yearq.innerHTML = sum1;
-    },{
-        onlyOnce: true
-      });
+  
+  let sum = `<option selected">เลือกช่างตัดผม</option>`;
+  const namekey = ['b1','b2','b3','b4','b5','b6','b7','b8','b9','b10'];
+  get(child(dbRef,"BarberName")).then((snapshot)=>{
+    const childData = snapshot.val();
+    console.log(childData);
+    for(let i = 0;i<namekey.length;i++){
+      if(childData[namekey[i]] != ""){
+        sum += `<option value="${childData[namekey[i]]}">${childData[namekey[i]]}</option>`;
+      }
+    }
+    value.innerHTML = sum;
+  });
 });
 
 nameuser.addEventListener('input',(e)=>{
-  yearq.disabled = false;
+    yearq.disabled = false;
+    //---Qtime-----
+    const dbReftime = ref(db,"TimeBarber/"+value.value);//'TimeBarber/'+pullnames+"/2023"+"/February");
+    let sum1 = `<option selected>ปี</option>`;
+    onValue(dbReftime,(snapshot)=>{
+        snapshot.forEach((childSnapshot) => {
+        const childKey = childSnapshot.key;
+        sum1 += `<option value="${childKey}">${childKey}</option>` 
+        });
+        yearq.innerHTML = sum1;
+    },{
+        onlyOnce: true
+    });
 })
 
 yearq.addEventListener('change',(e)=>{
-  let sum2 = `<option selected>เดือน</option>`;
-  onValue(ref(db,"TimeBarber/"+pullnames+"/"+yearq.value),(snapshot)=>{
-    snapshot.forEach((childSnapshot) => {
-      const childKey = childSnapshot.key;
-      console.log(childKey);
-      sum2 += `<option value="${childKey}">${childKey}</option>` 
-    });
-    monthq.innerHTML = sum2;
-  },{
-      onlyOnce: true
-    });
-  monthq.disabled = false;
+    let sum2 = `<option selected>เดือน</option>`;
+    onValue(ref(db,"TimeBarber/"+value.value+"/"+yearq.value),(snapshot)=>{
+      snapshot.forEach((childSnapshot) => {
+        const childKey = childSnapshot.key;
+        console.log(childKey);
+        sum2 += `<option value="${childKey}">${childKey}</option>` 
+      });
+      monthq.innerHTML = sum2;
+    },{
+        onlyOnce: true
+      });
+    monthq.disabled = false;
 })
 
 monthq.addEventListener('change',(e) => {
-  let sum3 = `<option selected>วัน</option>`;
-  onValue(ref(db,"TimeBarber/"+pullnames+"/"+yearq.value+"/"+monthq.value),(snapshot)=>{
+let sum3 = `<option selected>วัน</option>`;
+onValue(ref(db,"TimeBarber/"+value.value+"/"+yearq.value+"/"+monthq.value),(snapshot)=>{
     snapshot.forEach((childSnapshot) => {
-      const childKey = childSnapshot.key;
-      console.log(childKey);
-      sum3 += `<option value="${childKey}">${childKey}</option>` 
+    const childKey = childSnapshot.key;
+    console.log(childKey);
+    sum3 += `<option value="${childKey}">${childKey}</option>` 
     });
     dayq.innerHTML = sum3;
-  },{
-      onlyOnce: true
+},{
+    onlyOnce: true
     });
-  dayq.disabled = false;
+dayq.disabled = false;
 })
 
 let havetimer;
@@ -149,7 +151,7 @@ async function havetimes(){
           //console.log(childData[key].time);
           if(sumday == childData[key].date && childData[key].summinute != "" 
           && childData[key].time != undefined && childData[key].time != ""
-          && pullnames == childData[key].perple){
+          && value.value == childData[key].perple){
             time.push(childData[key].time.substring(0,2)+"."+childData[key].time.substring(3,5));
           }
     })
@@ -163,7 +165,7 @@ dayq.addEventListener('change',async (e)=>{
   havetimer = await havetimes();
   console.log(sumday);
   console.log(havetimer);
-  get(child(dbRef,"TimeBarber/"+pullnames+"/"+yearq.value+"/"+monthq.value+"/"+dayq.value)).then((snapshot)=>{
+  get(child(dbRef,"TimeBarber/"+value.value+"/"+yearq.value+"/"+monthq.value+"/"+dayq.value)).then((snapshot)=>{
   const data = snapshot.val();
   timeq.innerHTML = Timesum(data.StartWork,data.StopWork,data.StartBreak,data.StopBreak);
   })
@@ -228,7 +230,7 @@ submit.addEventListener('click',(e)=>{
     set(ref(db,"userLineliff/"+key),{
       date : sumday,
       name : nameuser.value,
-      perple : pullnames,
+      perple : value.value,
       summinute : key,
       time : timeq.value.substring(0,2)+":"+timeq.value.substring(3,5)
     }).then(() => {
@@ -267,11 +269,9 @@ function numday(a){
   return a;
 }
 
-
-
 //-----detail img------
 document.getElementById('popuplink').addEventListener('click',(e)=>{
-  get(child(dbReff,"userLineliff/"+ deluserid)).then(function(snapshot){
+  get(child(dbRef,"userLineliff/"+ deluserid)).then(function(snapshot){
     const v = snapshot.val();
     console.log(v);
     document.getElementById('popupdate').innerText = `เวลาการจอง : ${v.time}`;
@@ -282,10 +282,10 @@ document.getElementById('popuplink').addEventListener('click',(e)=>{
       document.getElementById('slipmoney').src = "images/Noimage.jpg";
     }
     if(v.encodedImage == "" || v.encodedImage == undefined){
-      document.getElementById('phonenumber').innerText = `เบอร์โทรศัพท์ : ไม่มีข้อมูล`;
-  }else{
-      document.getElementById('phonenumber').innerText = `เบอร์โทรศัพท์ : ${v.phoneNumber}`;
-  }
+        document.getElementById('phonenumber').innerText = `เบอร์โทรศัพท์ : ไม่มีข้อมูล`;
+    }else{
+        document.getElementById('phonenumber').innerText = `เบอร์โทรศัพท์ : ${v.phoneNumber}`;
+    }
   })
 });
 
@@ -300,3 +300,4 @@ document.getElementById('btnclosepopup').addEventListener('click',(e)=>{
   document.getElementById('popupdate').innerText = "";
   document.getElementById('phonenumber').innerText = "";
 })
+
