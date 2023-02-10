@@ -8,6 +8,8 @@ document.getElementById("menudetailmodel").innerHTML  =
     </div>
     <div class="modal-body">
       <p id="textpopup"></p>
+      <p id="textbarberpopup"></p>
+      <p id="popupdateq"></p>
       <p id="popupdate"></p>
       <p id="phonenumber"></p>
       <a href="#" class="link-primary" id="popuplink">รายละเอียด</a>
@@ -15,7 +17,7 @@ document.getElementById("menudetailmodel").innerHTML  =
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closepopup">Close</button>
-      <button type="button" class="btn btn-danger" id="ConfirmDel">Delete</button>
+      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal3">ต้องการยกเลิก</button>
     </div>
   </div>
 </div>
@@ -64,4 +66,23 @@ document.getElementById("menudetailadd").innerHTML  =
     </div>
   </div>
 </div>
+</div>
+
+<!-- Modaldelete -->
+<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">ยืนยัน</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btnclosepopup2"></button>
+      </div>
+      <div class="modal-body">
+        ยืนยันยกเลิกการจองคิวลูกค้า
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closepopup2">Close</button>
+        <button type="button" class="btn btn-danger" id="ConfirmDel">Delete</button>
+      </div>
+    </div>
+  </div>
 </div>`;
