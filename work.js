@@ -79,7 +79,7 @@ const value = document.getElementById('namebarber');
 const timeq = document.getElementById('timeqbarber');
 let sumday;
 btnaddtime.addEventListener('click',(e)=>{
-  
+  nameuser.disabled  = true;
   let sum = `<option selected">เลือกช่างตัดผม</option>`;
   const namekey = ['b1','b2','b3','b4','b5','b6','b7','b8','b9','b10'];
   get(child(dbRef,"BarberName")).then((snapshot)=>{
@@ -93,6 +93,10 @@ btnaddtime.addEventListener('click',(e)=>{
     value.innerHTML = sum;
   });
 });
+
+value.addEventListener('change',(e)=>{
+  nameuser.disabled  = false;
+})
 
 nameuser.addEventListener('input',(e)=>{
     yearq.disabled = false;
