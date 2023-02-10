@@ -10,7 +10,7 @@ document.getElementById("menudetailmodel").innerHTML  =
       <p id="textpopup"></p>
       <p id="popupdate"></p>
       <p id="phonenumber"></p>
-      <a href="#" class="link-primary" id="popuplink">สลิปเงินโอนมัดจำ</a>
+      <a href="#" class="link-primary" id="popuplink">รายละเอียด</a>
       <img src="" alt="" id="slipmoney" style="width: 30vw; min-width: 330px;">
     </div>
     <div class="modal-footer">

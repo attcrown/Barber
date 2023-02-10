@@ -96,6 +96,49 @@ btnaddtime.addEventListener('click',(e)=>{
 
 value.addEventListener('change',(e)=>{
   nameuser.disabled  = false;
+  monthq.disabled = true;
+  dayq.disabled = true;
+  timeq.disabled = true;
+
+//-----reset years-----  
+  const dbReftime = ref(db,"TimeBarber/"+value.value);//'TimeBarber/'+pullnames+"/2023"+"/February");
+    let sum1 = `<option selected>ปี</option>`;
+    onValue(dbReftime,(snapshot)=>{
+        snapshot.forEach((childSnapshot) => {
+        const childKey = childSnapshot.key;
+        sum1 += `<option value="${childKey}">${childKey}</option>` 
+        });
+        yearq.innerHTML = sum1;
+    },{
+        onlyOnce: true
+    });
+//----reset months------
+    let sum2 = `<option selected>เดือน</option>`;
+    onValue(ref(db,"TimeBarber/"+value.value+"/"+yearq.value),(snapshot)=>{
+      snapshot.forEach((childSnapshot) => {
+        const childKey = childSnapshot.key;
+        console.log(childKey);
+        sum2 += `<option value="${childKey}">${childKey}</option>` 
+      });
+      monthq.innerHTML = sum2;
+    },{
+        onlyOnce: true
+      });
+
+//-----reset days------
+    let sum3 = `<option selected>วัน</option>`;
+    onValue(ref(db,"TimeBarber/"+value.value+"/"+yearq.value+"/"+monthq.value),(snapshot)=>{
+        snapshot.forEach((childSnapshot) => {
+        const childKey = childSnapshot.key;
+        console.log(childKey);
+        sum3 += `<option value="${childKey}">${childKey}</option>` 
+        });
+        dayq.innerHTML = sum3;
+    },{
+        onlyOnce: true
+        });
+
+//---reset time----
 })
 
 nameuser.addEventListener('input',(e)=>{
