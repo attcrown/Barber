@@ -101,7 +101,7 @@ async function showdata(){
   });  
   setTimeout(()=>{
     numberQQ();
-  },500);
+  },1000);
   function numberQQ(){
     for(let k =0;k<check.length;k++){
       if(check[k] != null && check[k] != ""){
@@ -187,7 +187,7 @@ Showdatework.addEventListener('change',(e)=>{
     });
     setTimeout(()=>{
       numberQQ();
-    },300);
+    },1000);
     function numberQQ(){
       for(let k =0; k<check.length; k++){
         if(check[k] != null && check[k] != ""){
@@ -271,7 +271,7 @@ Showdatework.addEventListener('change',(e)=>{
     });
     setTimeout(()=>{
       numberQQ();
-    },300);
+    },1000);
     function numberQQ(){
       for(let k =0; k<check.length; k++){
         if(check[k] != null && check[k] != ""){
@@ -356,7 +356,7 @@ Showdatework.addEventListener('change',(e)=>{
   });
   setTimeout(()=>{
     numberQQ();
-  },300);
+  },1000);
   function numberQQ(){
     for(let m =0; m<check.length; m++){
       if(check[m] != null && check[m] != ""){
