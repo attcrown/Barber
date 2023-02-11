@@ -46,321 +46,269 @@ const dbReff = ref(db);
 
 
 //----------show-------
-setTimeout(() => {
-  showdata();
-}, 500);
-
 async function showdata(){
   document.getElementById("timeqq").innerText = "เวลา";
   document.getElementById("nameuserqq").innerText = "ลูกค้า";
   document.getElementById("namebarberqq").innerText = "ช่าง";
-  $('#table td').remove(); 
-  var rowNum = 0;
   let check = [];
   for(let i = 0; i<arrayTimeshow.length; i++){
     check[i] = [];
   }
+  var rowNum = 0;
   var row;
-  await onValue(dbRefuser,(snapshot)=>{ //--อ่านฐานข้อมูล----
-    snapshot.forEach((childSnapshot)=>{
-      const childKey = childSnapshot.key;
-      const childData = childSnapshot.val();
-      var iduser = childKey; 
-      if(childData.perple == pullnames && childData.summinute != "" 
-      && childData.date == datesub && childData != ""){
+  await get(child(dbRef,"userLineliff/")).then((snapshot) => {
+    const childData = snapshot.val(); 
+    Object.keys(childData).forEach(function(key) { 
+      if(childData[key].perple == pullnames && childData[key].summinute != "" 
+      && childData[key].date == datesub && childData[key] != ""){
         for(let i = 0;i<arrayTimeshow.length;i++){
-          if(childData.time == arrayTimeshow[i]){
-            check[i] = `<td>${childData.time} 
-            </td><td>${childData.name}</td><td>${childData.perple} 
+          if(childData[key].time == arrayTimeshow[i]){
+            check[i] = `<td>${childData[key].time} 
+            </td><td>${childData[key].name}</td><td>${childData[key].perple} 
             </td><td><button class='btn btn-success' data-bs-toggle='modal' 
             data-bs-target='#exampleModal' 
-            id='${childData.name}' 
-            value='${iduser}' 
+            id='${childData[key].name}' 
+            value='${key}' 
             style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; 
             --bs-btn-font-size: .75rem;'
             onclick='CancelQ(id,value)'>ข้อมูล</button></td></tr>`;
           }
-          //console.log(check);
         }
-      }    
+      }
     });
     //--------Function Popup ปุ่มลบ
     document.getElementById('ConfirmDel').addEventListener('click',(e)=>{
-        get(child(dbRef,"userLineliff/"+ deluserid)).then(function(snapshot){
-          if(snapshot.exists){
-            update(ref(db,"userLineliff/"+ deluserid),{
-              summinute : ""
-            }).then(function(){
-              setTimeout(() => {
-                document.location.reload();
-              }, 500);
-              return;
-            });
-          } else{alert("ไม่เจอข้อมูล UserID");}
-        })
-      });              
-  },{
-    onlyOnce: true
-  });  
-  setTimeout(()=>{
-    numberQQ();
-  },1000);
+    get(child(dbRef,"userLineliff/"+ deluserid)).then(async function(snapshot){
+        if(snapshot.exists){
+          await update(ref(db,"userLineliff/"+ deluserid),{
+            summinute : ""
+          });
+          location.reload();
+          return;            
+        } else{alert("ไม่เจอข้อมูล UserID");}
+      })
+    });               
+  });
   function numberQQ(){
+    $('#table td').remove();     
     for(let k =0;k<check.length;k++){
       if(check[k] != null && check[k] != ""){
       rowNum++;
       row = `<tr><td>${rowNum}</td>`+check[k];
-      $(row).appendTo('#table');}
+      $(row).appendTo('#table');
+      }  
     }    
   }
+  numberQQ();
 }  
+showdata();
 
-const Showdatework = document.getElementById('Showdatework');
-Showdatework.addEventListener('change',(e)=>{
-  //========day=========
-  if(Showdatework.value == 'Sday'){
-    showdata();
-  }
-  //=======Week===========
-  if(Showdatework.value == "Sweeks"){
-    document.getElementById("timeqq").innerText = "วันที่";
-    document.getElementById("nameuserqq").innerText = "เวลา";
-    document.getElementById("namebarberqq").innerText = "ลูกค้า";
-    $('#table td').remove();
-    var rowNum = 0;
-    let check = [];
+
+async function showdataweek(){
+  document.getElementById("timeqq").innerText = "วันที่";
+  document.getElementById("nameuserqq").innerText = "เวลา";
+  document.getElementById("namebarberqq").innerText = "ลูกค้า";
+  let check = [];
     for(let i = 0; i<arrayTimeDayshow.length; i++){
       check[i] = [];
       for(let o = 0; o<arrayTimeshow.length; o++){
         check[i][o] = [];
       }
     }
-    var row;
-    let now;
-    let week; 
-    now= Number.parseInt(datesub.substring(8,10));
-    week = Number.parseInt(datesub.substring(8,10))+7;
-    onValue(dbRefuser,(snapshot)=>{ //--อ่านฐานข้อมูล----
-      snapshot.forEach((childSnapshot)=>{
-        const childKey = childSnapshot.key;
-        const childData = childSnapshot.val();
-        var iduser = childKey; 
-        if(childData.perple == pullnames && childData.summinute != "" 
-        && childData != "" 
-        && childData.date.substring(5,7) == datesub.substring(5,7) //เทียบเดือน
-        && Number.parseInt(childData.date.substring(8,10)) >= now  //เทียบวัน
-        && Number.parseInt(childData.date.substring(8,10)) <= week){
+  var rowNum = 0;
+  var row;
+  let now;
+  let week; 
+  now= Number.parseInt(datesub.substring(8,10));
+  week = Number.parseInt(datesub.substring(8,10))+7;
+  await get(child(dbRef,"userLineliff/")).then((snapshot) => {
+    const childData = snapshot.val(); 
+    Object.keys(childData).forEach(function(key) { 
+      if(childData[key].perple == pullnames && childData[key].summinute != "" 
+        && childData[key] != "" 
+        && childData[key].date.substring(5,7) == datesub.substring(5,7) //เทียบเดือน
+        && Number.parseInt(childData[key].date.substring(8,10)) >= now  //เทียบวัน
+        && Number.parseInt(childData[key].date.substring(8,10)) <= week){
           for(let i = 0; i<arrayTimeDayshow.length; i++){
-            if(childData.date.substring(8,10) == arrayTimeDayshow[i]){
+            if(childData[key].date.substring(8,10) == arrayTimeDayshow[i]){
               for(let o = 0; o<arrayTimeshow.length; o++){
-                if(childData.time == arrayTimeshow[o]){             
-                  check[i][o].push(`<td>${childData.date} 
-                  </td><td>${childData.time}</td><td>${childData.name} 
+                if(childData[key].time == arrayTimeshow[o]){             
+                  check[i][o].push(`<td>${childData[key].date} 
+                  </td><td>${childData[key].time}</td><td>${childData[key].name} 
                   </td><td><button class='btn btn-success' data-bs-toggle='modal' 
                   data-bs-target='#exampleModal' 
-                  id='${childData.name}' 
-                  value='${iduser}' 
+                  id='${childData[key].name}' 
+                  value='${key}' 
                   style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; 
                   --bs-btn-font-size: .75rem;'
                   onclick='CancelQ(id,value)'>ข้อมูล</button></td></tr>`);                  
-                }else{}                                          
-              }                
-            }   
-          }
-        }
-      });
-      //--------Function Popup ข้อมูล------
-      document.getElementById('ConfirmDel').addEventListener('click',(e)=>{
-          get(child(dbRef,"userLineliff/"+ deluserid)).then(function(snapshot){
-            if(snapshot.exists){
-              update(ref(db,"userLineliff/"+ deluserid),{
-                summinute : ""
-              }).then(function(){
-                setTimeout(() => {
-                  document.location.reload();
-                }, 500);
-                return;
-              });
-            } else{alert("ไม่เจอข้อมูล UserID");}
-          })
-        });              
-    }, 
-    {
-      onlyOnce: true
-    });
-    setTimeout(()=>{
-      numberQQ();
-    },1000);
-    function numberQQ(){
-      for(let k =0; k<check.length; k++){
-        if(check[k] != null && check[k] != ""){
-          for(let p = 0; p <check[k].length; p++){
-            if(check[k][p] != null && check[k][p] != ""){
-              rowNum++;
-              row = `<tr><td>${rowNum}</td>`+check[k][p];
-              $(row).appendTo('#table');
-            }
-          }
-        }        
-      }      
-    }
-  }
-  //======Month=========
-  if(Showdatework.value == "Smonths"){
-    document.getElementById("timeqq").innerText = "วันที่";
-    document.getElementById("nameuserqq").innerText = "เวลา";
-    document.getElementById("namebarberqq").innerText = "ลูกค้า";
-    $('#table td').remove();
-    let check = [];
-    for(let d = 0; d<arrayTimeDayshow.length; d++){
-      check[d] = [];
-      for(let t = 0;t<arrayTimeshow.length;t++){
-        check[d][t] = [];
-      }
-    }
-    var rowNum = 0; 
-    var row;
-    let now;
-    let week; 
-    now= 1;
-    week = 31;
-    onValue(dbRefuser,(snapshot)=>{ //--อ่านฐานข้อมูล----
-      snapshot.forEach((childSnapshot)=>{
-        const childKey = childSnapshot.key;
-        const childData = childSnapshot.val();
-        var iduser = childKey; 
-        if(childData.perple == pullnames && childData.summinute != "" 
-        && childData != "" 
-        && childData.date.substring(5,7) == datesub.substring(5,7) 
-        && Number.parseInt(childData.date.substring(8,10)) >= now 
-        && Number.parseInt(childData.date.substring(8,10)) <= week){
-          for(let i = 0; i<arrayTimeDayshow.length; i++){
-            if(childData.date.substring(8,10) == arrayTimeDayshow[i]){
-              for(let o = 0; o<arrayTimeshow.length; o++){
-                if(childData.time == arrayTimeshow[o]){             
-                  check[i][o].push(`<td>${childData.date} 
-                  </td><td>${childData.time}</td><td>${childData.name} 
-                  </td><td><button class='btn btn-success' data-bs-toggle='modal' 
-                  data-bs-target='#exampleModal' 
-                  id='${childData.name}' 
-                  value='${iduser}' 
-                  style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; 
-                  --bs-btn-font-size: .75rem;'
-                  onclick='CancelQ(id,value)'>ข้อมูล</button></td></tr>`);                  
-                }else{}                                          
-              }                
-            }   
-          }
-        }
-      });
-      //--------Function Popup ข้อมูล
-      document.getElementById('ConfirmDel').addEventListener('click',(e)=>{
-          get(child(dbRef,"userLineliff/"+ deluserid)).then(function(snapshot){
-            if(snapshot.exists){
-              update(ref(db,"userLineliff/"+ deluserid),{
-                summinute : ""
-              }).then(function(){
-                setTimeout(() => {
-                  document.location.reload();
-                }, 500);
-                return;
-              });
-            } else{alert("ไม่เจอข้อมูล UserID");}
-          })
-        });              
-    }, 
-    {
-      onlyOnce: true
-    });
-    setTimeout(()=>{
-      numberQQ();
-    },1000);
-    function numberQQ(){
-      for(let k =0; k<check.length; k++){
-        if(check[k] != null && check[k] != ""){
-          for(let p = 0; p <check[k].length; p++){
-            if(check[k][p] != null && check[k][p] != ""){
-              rowNum++;
-              row = `<tr><td>${rowNum}</td>`+check[k][p];
-              $(row).appendTo('#table');
-            }
-          }
-        }        
-      }      
-    }
-  }
-  //======ALL==========
-  if(Showdatework.value == "Sall"){
-    document.getElementById("timeqq").innerText = "วันที่";
-    document.getElementById("nameuserqq").innerText = "เวลา";
-    document.getElementById("namebarberqq").innerText = "ลูกค้า";
-    $('#table td').remove();
-    $('#table td').remove();
-    let check = [];
-    for(let m = 0;m<arrayTimeMonthshow.length; m++){
-      check[m] = [];
-      for(let d = 0; d<arrayTimeDayshow.length; d++){
-        check[m][d] = [];
-        for(let t = 0;t<arrayTimeshow.length;t++){
-          check[m][d][t] = [];
-        }
-      }
-    }
-    var row;
-    var rowNum = 0;  
-    onValue(dbRefuser,(snapshot)=>{ //--อ่านฐานข้อมูล----
-      snapshot.forEach((childSnapshot)=>{
-        const childKey = childSnapshot.key;
-        const childData = childSnapshot.val();
-        var iduser = childKey; 
-        if(childData.perple == pullnames && childData.summinute != "" 
-        && childData != ""){
-          for(let m = 0; m<arrayTimeMonthshow.length; m++){
-            if(childData.date.substring(5,7) == arrayTimeMonthshow[m]){
-              for(let i = 0; i<arrayTimeDayshow.length; i++){
-                if(childData.date.substring(8,10) == arrayTimeDayshow[i]){
-                  for(let o = 0; o<arrayTimeshow.length; o++){
-                    if(childData.time == arrayTimeshow[o]){             
-                      check[m][i][o].push(`<td>${childData.date} 
-                      </td><td>${childData.time}</td><td>${childData.name} 
-                      </td><td><button class='btn btn-success' data-bs-toggle='modal' 
-                      data-bs-target='#exampleModal' 
-                      id='${childData.name}' 
-                      value='${iduser}' 
-                      style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; 
-                      --bs-btn-font-size: .75rem;'
-                      onclick='CancelQ(id,value)'>ข้อมูล</button></td></tr>`);                  
-                    }else{}                                          
-                  }                
-                }   
+                }else{}     
               }
-            }           
+            }
           }
         }
-      });
-      //--------Function Popup ข้อมูล
-      document.getElementById('ConfirmDel').addEventListener('click',(e)=>{
-        get(child(dbRef,"userLineliff/"+ deluserid)).then(function(snapshot){
-          if(snapshot.exists){
-            update(ref(db,"userLineliff/"+ deluserid),{
-              summinute : ""
-            }).then(function(){
-              setTimeout(() => {
-                document.location.reload();
-              }, 500);
-              return;
-            });
-          } else{alert("ไม่เจอข้อมูล UserID");}
-        })
-      });              
-  }, 
-  {
-    onlyOnce: true
+    })    
+    //--------Function Popup ปุ่มลบ
+    document.getElementById('ConfirmDel').addEventListener('click',(e)=>{
+    get(child(dbRef,"userLineliff/"+ deluserid)).then(async function(snapshot){
+        if(snapshot.exists){
+          await update(ref(db,"userLineliff/"+ deluserid),{
+            summinute : ""
+          });
+          location.reload();
+          return;            
+        } else{alert("ไม่เจอข้อมูล UserID");}
+      })
+    });               
   });
-  setTimeout(()=>{
-    numberQQ();
-  },1000);
   function numberQQ(){
+    $('#table td').remove();     
+    for(let k =0; k<check.length; k++){
+      if(check[k] != null && check[k] != ""){
+        for(let p = 0; p <check[k].length; p++){
+          if(check[k][p] != null && check[k][p] != ""){
+            rowNum++;
+            row = `<tr><td>${rowNum}</td>`+check[k][p];
+            $(row).appendTo('#table');
+          }
+        }
+      }        
+    }   
+  }
+  numberQQ();
+} 
+
+
+async function showdatamonth(){
+  document.getElementById("timeqq").innerText = "วันที่";
+  document.getElementById("nameuserqq").innerText = "เวลา";
+  document.getElementById("namebarberqq").innerText = "ลูกค้า";
+  let check = [];
+  for(let d = 0; d<arrayTimeDayshow.length; d++){
+    check[d] = [];
+    for(let t = 0;t<arrayTimeshow.length;t++){
+      check[d][t] = [];
+    }
+  }
+  var rowNum = 0;
+  var row;
+  let now = 1;
+  let week = 31; 
+  await get(child(dbRef,"userLineliff/")).then((snapshot) => {
+    const childData = snapshot.val(); 
+    Object.keys(childData).forEach(function(key) { 
+      if(childData[key].perple == pullnames && childData[key].summinute != "" && childData[key] != "" 
+        && childData[key].date.substring(5,7) == datesub.substring(5,7) 
+        && Number.parseInt(childData[key].date.substring(8,10)) >= now 
+        && Number.parseInt(childData[key].date.substring(8,10)) <= week){
+          for(let i = 0; i<arrayTimeDayshow.length; i++){
+            if(childData[key].date.substring(8,10) == arrayTimeDayshow[i]){
+              for(let o = 0; o<arrayTimeshow.length; o++){
+                if(childData[key].time == arrayTimeshow[o]){             
+                  check[i][o].push(`<td>${childData[key].date} 
+                  </td><td>${childData[key].time}</td><td>${childData[key].name} 
+                  </td><td><button class='btn btn-success' data-bs-toggle='modal' 
+                  data-bs-target='#exampleModal' 
+                  id='${childData[key].name}' 
+                  value='${key}' 
+                  style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; 
+                  --bs-btn-font-size: .75rem;'
+                  onclick='CancelQ(id,value)'>ข้อมูล</button></td></tr>`);                  
+                }else{}                                          
+              }                
+            }   
+          }
+        }
+    });
+    //--------Function Popup ปุ่มลบ
+    document.getElementById('ConfirmDel').addEventListener('click',(e)=>{
+    get(child(dbRef,"userLineliff/"+ deluserid)).then(async function(snapshot){
+        if(snapshot.exists){
+          await update(ref(db,"userLineliff/"+ deluserid),{
+            summinute : ""
+          });
+          location.reload();
+          return;            
+        } else{alert("ไม่เจอข้อมูล UserID");}
+      })
+    });               
+  });
+  function numberQQ(){
+    $('#table td').remove();     
+    for(let k =0; k<check.length; k++){
+      if(check[k] != null && check[k] != ""){
+        for(let p = 0; p <check[k].length; p++){
+          if(check[k][p] != null && check[k][p] != ""){
+            rowNum++;
+            row = `<tr><td>${rowNum}</td>`+check[k][p];
+            $(row).appendTo('#table');
+          }
+        }
+      }        
+    }    
+  }
+  numberQQ();
+}
+
+async function showdataall(){
+  document.getElementById("timeqq").innerText = "วันที่";
+  document.getElementById("nameuserqq").innerText = "เวลา";
+  document.getElementById("namebarberqq").innerText = "ลูกค้า";
+  let check = [];
+  for(let m = 0;m<arrayTimeMonthshow.length; m++){
+    check[m] = [];
+    for(let d = 0; d<arrayTimeDayshow.length; d++){
+      check[m][d] = [];
+      for(let t = 0;t<arrayTimeshow.length;t++){
+        check[m][d][t] = [];
+      }
+    }
+  }
+  var rowNum = 0;
+  var row;
+  await get(child(dbRef,"userLineliff/")).then((snapshot) => {
+    const childData = snapshot.val(); 
+    Object.keys(childData).forEach(function(key) { 
+      if(childData[key].perple == pullnames && childData[key].summinute != "" 
+      && childData[key] != ""){
+        for(let m = 0; m<arrayTimeMonthshow.length; m++){
+          if(childData[key].date.substring(5,7) == arrayTimeMonthshow[m]){
+            for(let i = 0; i<arrayTimeDayshow.length; i++){
+              if(childData[key].date.substring(8,10) == arrayTimeDayshow[i]){
+                for(let o = 0; o<arrayTimeshow.length; o++){
+                  if(childData[key].time == arrayTimeshow[o]){             
+                    check[m][i][o].push(`<td>${childData[key].date} 
+                    </td><td>${childData[key].time}</td><td>${childData[key].name} 
+                    </td><td><button class='btn btn-success' data-bs-toggle='modal' 
+                    data-bs-target='#exampleModal' 
+                    id='${childData[key].name}' 
+                    value='${key}' 
+                    style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; 
+                    --bs-btn-font-size: .75rem;'
+                    onclick='CancelQ(id,value)'>ข้อมูล</button></td></tr>`);                  
+                  }else{}                                          
+                }                
+              }   
+            }
+          }           
+        }
+      }
+    });
+    //--------Function Popup ปุ่มลบ
+    document.getElementById('ConfirmDel').addEventListener('click',(e)=>{
+    get(child(dbRef,"userLineliff/"+ deluserid)).then(async function(snapshot){
+        if(snapshot.exists){
+          await update(ref(db,"userLineliff/"+ deluserid),{
+            summinute : ""
+          });
+          location.reload();
+          return;            
+        } else{alert("ไม่เจอข้อมูล UserID");}
+      })
+    });               
+  });
+  function numberQQ(){
+    $('#table td').remove();     
     for(let m =0; m<check.length; m++){
       if(check[m] != null && check[m] != ""){
         for(let k =0; k<check[m].length; k++){
@@ -375,10 +323,32 @@ Showdatework.addEventListener('change',(e)=>{
           }        
         }  
       }        
-    }          
+    }   
   }
+  numberQQ();
 }
-})
+
+const Showdatework = document.getElementById('Showdatework');
+Showdatework.addEventListener('change',(e)=>{
+  //========day=========
+  if(Showdatework.value == 'Sday'){
+    showdata();
+  }
+  //=======Week===========
+  if(Showdatework.value == "Sweeks"){
+    showdataweek();
+  }
+    
+  //======Month=========
+  if(Showdatework.value == "Smonths"){
+    showdatamonth();
+  }
+  //======ALL==========
+  if(Showdatework.value == "Sall"){
+    showdataall();
+  }
+});
+
 //----namebarber Value-----
 const btnaddtime = document.getElementById('btnaddtime');
 const nameuser = document.getElementById('nameuser');

@@ -50,16 +50,12 @@ async function showdata(){
   document.getElementById("nameuserqq").innerText = "ลูกค้า";
   document.getElementById("namebarberqq").innerText = "ช่าง";
   let check = [];
-  for(let i = 0; i<arrayTimeshow.length; i++){
-    check[i] = [];
-  }
-  var rowNum = 0;
-  var row;
+  var iduser = [];
   await get(child(dbRef,"userLineliff/")).then((snapshot) => {
     const childData = snapshot.val(); 
     Object.keys(childData).forEach(function(key) { 
-      if(childData[key].summinute != "" && childData[key] != "" 
-      && childData[key].date == datesub){
+      if(childData[key].summinute != "" && childData[key] != ""){
+        iduser.push(key);
         for(let i = 0;i<arrayTimeshow.length;i++){
           if(childData[key].time == arrayTimeshow[i]){
             check[i] = `<td>${childData[key].time} 
@@ -89,13 +85,14 @@ async function showdata(){
     });               
   });
   function numberQQ(){
-    $('#table td').remove();     
+    $('#table td').remove(); 
+    var rowNum = 0;
+    var row;
     for(let k =0;k<check.length;k++){
       if(check[k] != null && check[k] != ""){
       rowNum++;
       row = `<tr><td>${rowNum}</td>`+check[k];
-      $(row).appendTo('#table');
-      }  
+      $(row).appendTo('#table');}
     }    
   }
   numberQQ();
@@ -103,248 +100,16 @@ async function showdata(){
 showdata();
 
 
-async function showdataweek(){
-  document.getElementById("timeqq").innerText = "วันที่";
-  document.getElementById("nameuserqq").innerText = "เวลา";
-  document.getElementById("namebarberqq").innerText = "ลูกค้า";
-  let check = [];
-    for(let i = 0; i<arrayTimeDayshow.length; i++){
-      check[i] = [];
-      for(let o = 0; o<arrayTimeshow.length; o++){
-        check[i][o] = [];
-      }
-    }
-  var rowNum = 0;
-  var row;
-  let now;
-  let week; 
-  now= Number.parseInt(datesub.substring(8,10));
-  week = Number.parseInt(datesub.substring(8,10))+7;
-  await get(child(dbRef,"userLineliff/")).then((snapshot) => {
-    const childData = snapshot.val(); 
-    Object.keys(childData).forEach(function(key) { 
-      if(childData[key].summinute != "" && childData[key] != "" 
-        && childData[key].date.substring(5,7) == datesub.substring(5,7) //เทียบเดือน
-        && Number.parseInt(childData[key].date.substring(8,10)) >= now  //เทียบวัน
-        && Number.parseInt(childData[key].date.substring(8,10)) <= week){
-          for(let i = 0; i<arrayTimeDayshow.length; i++){
-            if(childData[key].date.substring(8,10) == arrayTimeDayshow[i]){
-              for(let o = 0; o<arrayTimeshow.length; o++){
-                if(childData[key].time == arrayTimeshow[o]){             
-                  check[i][o].push(`<td>${childData[key].date} 
-                  </td><td>${childData[key].time}</td><td>${childData[key].name} 
-                  </td><td><button class='btn btn-success' data-bs-toggle='modal' 
-                  data-bs-target='#exampleModal' 
-                  id='${childData[key].name}' 
-                  value='${key}' 
-                  style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; 
-                  --bs-btn-font-size: .75rem;'
-                  onclick='CancelQ(id,value)'>ข้อมูล</button></td></tr>`);                  
-                }else{}     
-              }
-            }
-          }
-        }
-    })    
-    //--------Function Popup ปุ่มลบ
-    document.getElementById('ConfirmDel').addEventListener('click',(e)=>{
-    get(child(dbRef,"userLineliff/"+ deluserid)).then(async function(snapshot){
-        if(snapshot.exists){
-          await update(ref(db,"userLineliff/"+ deluserid),{
-            summinute : ""
-          });
-          location.reload();
-          return;            
-        } else{alert("ไม่เจอข้อมูล UserID");}
-      })
-    });               
-  });
-  function numberQQ(){
-    $('#table td').remove();     
-    for(let k =0; k<check.length; k++){
-      if(check[k] != null && check[k] != ""){
-        for(let p = 0; p <check[k].length; p++){
-          if(check[k][p] != null && check[k][p] != ""){
-            rowNum++;
-            row = `<tr><td>${rowNum}</td>`+check[k][p];
-            $(row).appendTo('#table');
-          }
-        }
-      }        
-    }   
-  }
-  numberQQ();
-} 
 
 
-async function showdatamonth(){
-  document.getElementById("timeqq").innerText = "วันที่";
-  document.getElementById("nameuserqq").innerText = "เวลา";
-  document.getElementById("namebarberqq").innerText = "ลูกค้า";
-  let check = [];
-  for(let d = 0; d<arrayTimeDayshow.length; d++){
-    check[d] = [];
-    for(let t = 0;t<arrayTimeshow.length;t++){
-      check[d][t] = [];
-    }
-  }
-  var rowNum = 0;
-  var row;
-  let now = 1;
-  let week = 31; 
-  await get(child(dbRef,"userLineliff/")).then((snapshot) => {
-    const childData = snapshot.val(); 
-    Object.keys(childData).forEach(function(key) { 
-      if(childData[key].summinute != "" && childData[key] != "" 
-        && childData[key].date.substring(5,7) == datesub.substring(5,7) 
-        && Number.parseInt(childData[key].date.substring(8,10)) >= now 
-        && Number.parseInt(childData[key].date.substring(8,10)) <= week){
-          for(let i = 0; i<arrayTimeDayshow.length; i++){
-            if(childData[key].date.substring(8,10) == arrayTimeDayshow[i]){
-              for(let o = 0; o<arrayTimeshow.length; o++){
-                if(childData[key].time == arrayTimeshow[o]){             
-                  check[i][o].push(`<td>${childData[key].date} 
-                  </td><td>${childData[key].time}</td><td>${childData[key].name} 
-                  </td><td><button class='btn btn-success' data-bs-toggle='modal' 
-                  data-bs-target='#exampleModal' 
-                  id='${childData[key].name}' 
-                  value='${key}' 
-                  style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; 
-                  --bs-btn-font-size: .75rem;'
-                  onclick='CancelQ(id,value)'>ข้อมูล</button></td></tr>`);                  
-                }else{}                                          
-              }                
-            }   
-          }
-        }
-    });
-    //--------Function Popup ปุ่มลบ
-    document.getElementById('ConfirmDel').addEventListener('click',(e)=>{
-    get(child(dbRef,"userLineliff/"+ deluserid)).then(async function(snapshot){
-        if(snapshot.exists){
-          await update(ref(db,"userLineliff/"+ deluserid),{
-            summinute : ""
-          });
-          location.reload();
-          return;            
-        } else{alert("ไม่เจอข้อมูล UserID");}
-      })
-    });               
-  });
-  function numberQQ(){
-    $('#table td').remove();     
-    for(let k =0; k<check.length; k++){
-      if(check[k] != null && check[k] != ""){
-        for(let p = 0; p <check[k].length; p++){
-          if(check[k][p] != null && check[k][p] != ""){
-            rowNum++;
-            row = `<tr><td>${rowNum}</td>`+check[k][p];
-            $(row).appendTo('#table');
-          }
-        }
-      }        
-    }    
-  }
-  numberQQ();
-}
 
-async function showdataall(){
-  document.getElementById("timeqq").innerText = "วันที่";
-  document.getElementById("nameuserqq").innerText = "เวลา";
-  document.getElementById("namebarberqq").innerText = "ลูกค้า";
-  let check = [];
-  for(let m = 0;m<arrayTimeMonthshow.length; m++){
-    check[m] = [];
-    for(let d = 0; d<arrayTimeDayshow.length; d++){
-      check[m][d] = [];
-      for(let t = 0;t<arrayTimeshow.length;t++){
-        check[m][d][t] = [];
-      }
-    }
-  }
-  var rowNum = 0;
-  var row;
-  await get(child(dbRef,"userLineliff/")).then((snapshot) => {
-    const childData = snapshot.val(); 
-    Object.keys(childData).forEach(function(key) { 
-      if(childData[key].summinute != "" && childData[key] != ""){
-        for(let m = 0; m<arrayTimeMonthshow.length; m++){
-          if(childData[key].date.substring(5,7) == arrayTimeMonthshow[m]){
-            for(let i = 0; i<arrayTimeDayshow.length; i++){
-              if(childData[key].date.substring(8,10) == arrayTimeDayshow[i]){
-                for(let o = 0; o<arrayTimeshow.length; o++){
-                  if(childData[key].time == arrayTimeshow[o]){             
-                    check[m][i][o].push(`<td>${childData[key].date} 
-                    </td><td>${childData[key].time}</td><td>${childData[key].name} 
-                    </td><td><button class='btn btn-success' data-bs-toggle='modal' 
-                    data-bs-target='#exampleModal' 
-                    id='${childData[key].name}' 
-                    value='${key}' 
-                    style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; 
-                    --bs-btn-font-size: .75rem;'
-                    onclick='CancelQ(id,value)'>ข้อมูล</button></td></tr>`);                  
-                  }else{}                                          
-                }                
-              }   
-            }
-          }           
-        }
-      }
-    });
-    //--------Function Popup ปุ่มลบ
-    document.getElementById('ConfirmDel').addEventListener('click',(e)=>{
-    get(child(dbRef,"userLineliff/"+ deluserid)).then(async function(snapshot){
-        if(snapshot.exists){
-          await update(ref(db,"userLineliff/"+ deluserid),{
-            summinute : ""
-          });
-          location.reload();
-          return;            
-        } else{alert("ไม่เจอข้อมูล UserID");}
-      })
-    });               
-  });
-  function numberQQ(){
-    $('#table td').remove();     
-    for(let m =0; m<check.length; m++){
-      if(check[m] != null && check[m] != ""){
-        for(let k =0; k<check[m].length; k++){
-          if(check[m][k] != null && check[m][k] != ""){
-            for(let p = 0; p <check[m][k].length; p++){
-              if(check[m][k][p] != null && check[m][k][p] != ""){
-                rowNum++;
-                row = `<tr><td>${rowNum}</td>`+check[m][k][p];
-                $(row).appendTo('#table');
-              }
-            }
-          }        
-        }  
-      }        
-    }   
-  }
-  numberQQ();
-}
 
-const Showdatework = document.getElementById('Showdatework');
-Showdatework.addEventListener('change',(e)=>{
-  //========day=========
-  if(Showdatework.value == 'Sday'){
-    showdata();
-  }
-  //=======Week===========
-  if(Showdatework.value == "Sweeks"){
-    showdataweek();
-  }
-    
-  //======Month=========
-  if(Showdatework.value == "Smonths"){
-    showdatamonth();
-  }
-  //======ALL==========
-  if(Showdatework.value == "Sall"){
-    showdataall();
-  }
-})
+
+
+
+
+
+
 
 //----namebarber Value-----
 const btnaddtime = document.getElementById('btnaddtime');
