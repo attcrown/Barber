@@ -45,7 +45,10 @@ const arrayTimeMonthshow = ['01','02','03','04','05','06','07','08','09'
                             ,'10','11','12'];
 
 //----------show-------
-showdata();
+setTimeout(() => {
+  showdata();
+}, 500);
+
 async function showdata(){
   document.getElementById("timeqq").innerText = "เวลา";
   document.getElementById("nameuserqq").innerText = "ลูกค้า";

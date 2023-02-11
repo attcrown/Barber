@@ -46,7 +46,10 @@ const dbReff = ref(db);
 
 
 //----------show-------
-showdata();
+setTimeout(() => {
+  showdata();
+}, 500);
+
 async function showdata(){
   document.getElementById("timeqq").innerText = "เวลา";
   document.getElementById("nameuserqq").innerText = "ลูกค้า";
