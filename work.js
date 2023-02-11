@@ -32,7 +32,7 @@ let datesub = year+"-"+month+"-"+datenum;
 document.getElementById('datenow').innerHTML = "Date "+datesub;
 
 const arrayTimeshow = ["00:00","00:30","01:00","01:30","02:00","02:30","03:00"
-                  ,"03:30","04:00","04:30","05:00","00:30","06:00","06:30"
+                  ,"03:30","04:00","04:30","05:00","05:30","06:00","06:30"
                   ,"07:00","07:30","08:00","08:30","09:00","09:30","10:00"
                   ,"10:30","11:00","11:30","12:00","12:30","13:00","13:30"
                   ,"14:00","14:30","15:00","15:30","16:00","16:30","17:00"
@@ -41,6 +41,9 @@ const arrayTimeshow = ["00:00","00:30","01:00","01:30","02:00","02:30","03:00"
 const arrayTimeDayshow = ['01','02','03','04','05','06','07','08','09','10'
                           ,'11','12','13','14','15','16','17','18','19','20'
                           ,'21','22','23','24','25','26','27','28','29','30','31'];                  
+const arrayTimeMonthshow = ['01','02','03','04','05','06','07','08','09'
+                            ,'10','11','12'];
+
 //----------show-------
 showdata();
 async function showdata(){
@@ -49,7 +52,10 @@ async function showdata(){
   document.getElementById("namebarberqq").innerText = "ช่าง";
   $('#table td').remove(); 
   var rowNum = 0;
-  var check = [];
+  let check = [];
+  for(let i = 0; i<arrayTimeshow.length; i++){
+    check[i] = [];
+  }
   var row;
   await onValue(dbRefuser,(snapshot)=>{ //--อ่านฐานข้อมูล----
     snapshot.forEach((childSnapshot)=>{
@@ -93,15 +99,14 @@ async function showdata(){
   });  
   setTimeout(()=>{
     numberQQ();
-  },1000);
+  },500);
   function numberQQ(){
     for(let k =0;k<check.length;k++){
-      if(check[k] != null){
+      if(check[k] != null && check[k] != ""){
       rowNum++;
       row = `<tr><td>${rowNum}</td>`+check[k];
       $(row).appendTo('#table');}
-    }
-    
+    }    
   }
 }  
 
@@ -118,7 +123,13 @@ Showdatework.addEventListener('change',(e)=>{
     document.getElementById("namebarberqq").innerText = "ลูกค้า";
     $('#table td').remove();
     var rowNum = 0;
-    var check = [[],[]];
+    let check = [];
+    for(let i = 0; i<arrayTimeDayshow.length; i++){
+      check[i] = [];
+      for(let o = 0; o<arrayTimeshow.length; o++){
+        check[i][o] = [];
+      }
+    }
     var row;
     let now;
     let week; 
@@ -130,17 +141,14 @@ Showdatework.addEventListener('change',(e)=>{
         const childData = childSnapshot.val();
         var iduser = childKey; 
         if(childData.summinute != "" && childData != "" 
-        && childData.date.substring(5,7) == datesub.substring(5,7) 
-        && Number.parseInt(childData.date.substring(8,10)) >= now 
+        && childData.date.substring(5,7) == datesub.substring(5,7) //เทียบเดือน
+        && Number.parseInt(childData.date.substring(8,10)) >= now  //เทียบวัน
         && Number.parseInt(childData.date.substring(8,10)) <= week){
           for(let i = 0; i<arrayTimeDayshow.length; i++){
-            console.log('ลูปวัน'+i);
             if(childData.date.substring(8,10) == arrayTimeDayshow[i]){
               for(let o = 0; o<arrayTimeshow.length; o++){
-                console.log('ลูปเวลา'+o);
-                if(childData.time == arrayTimeshow[o]){
-                  console.log('เก็บ'+i+" "+o);
-                  check[[i],[o]] = `<td>${childData.date} 
+                if(childData.time == arrayTimeshow[o]){             
+                  check[i][o].push(`<td>${childData.date} 
                   </td><td>${childData.time}</td><td>${childData.name} 
                   </td><td><button class='btn btn-success' data-bs-toggle='modal' 
                   data-bs-target='#exampleModal' 
@@ -148,9 +156,9 @@ Showdatework.addEventListener('change',(e)=>{
                   value='${iduser}' 
                   style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; 
                   --bs-btn-font-size: .75rem;'
-                  onclick='CancelQ(id,value)'>ข้อมูล</button></td></tr>`;                  
-                }                
-              }
+                  onclick='CancelQ(id,value)'>ข้อมูล</button></td></tr>`);                  
+                }else{}                                          
+              }                
             }   
           }
         }
@@ -176,16 +184,14 @@ Showdatework.addEventListener('change',(e)=>{
     });
     setTimeout(()=>{
       numberQQ();
-    },1000);
+    },300);
     function numberQQ(){
       for(let k =0; k<check.length; k++){
-        console.log(rowNum);
         if(check[k] != null && check[k] != ""){
-          for(let p = 0; p<check[k].length; p++){
-            if(check[[k],[p]] != null && check[[k],[p]] != ""){
+          for(let p = 0; p <check[k].length; p++){
+            if(check[k][p] != null && check[k][p] != ""){
               rowNum++;
-              row = `<tr><td>${rowNum}</td>`+check[[k],[p]];
-              console.log(check[[k],[p]]);
+              row = `<tr><td>${rowNum}</td>`+check[k][p];
               $(row).appendTo('#table');
             }
           }
@@ -199,28 +205,46 @@ Showdatework.addEventListener('change',(e)=>{
     document.getElementById("nameuserqq").innerText = "เวลา";
     document.getElementById("namebarberqq").innerText = "ลูกค้า";
     $('#table td').remove();
+    let check = [];
+    for(let d = 0; d<arrayTimeDayshow.length; d++){
+      check[d] = [];
+      for(let t = 0;t<arrayTimeshow.length;t++){
+        check[d][t] = [];
+      }
+    }
     var rowNum = 0; 
+    var row;
     let now;
     let week; 
-    now= Number.parseInt(datesub.substring(8,10));
+    now= 1;
     week = 31;
     onValue(dbRefuser,(snapshot)=>{ //--อ่านฐานข้อมูล----
       snapshot.forEach((childSnapshot)=>{
         const childKey = childSnapshot.key;
         const childData = childSnapshot.val();
-        console.log(childData);
+        var iduser = childKey; 
         if(childData.summinute != "" && childData != "" 
         && childData.date.substring(5,7) == datesub.substring(5,7) 
         && Number.parseInt(childData.date.substring(8,10)) >= now 
         && Number.parseInt(childData.date.substring(8,10)) <= week){
-          rowNum += 1;
-          var iduser = childKey;          
-          var row = "<tr><td>" + rowNum + "</td><td>" + childData.date + 
-          "</td><td>" + childData.time + "</td><td>" + childData.name + 
-          "</td><td><button class='btn btn-success' data-bs-toggle='modal' data-bs-target='#exampleModal' id='"+childData.name+"' value="
-          + iduser + " style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;' onclick='CancelQ(id,value)'>ข้อมูล</button></td></tr>";
+          for(let i = 0; i<arrayTimeDayshow.length; i++){
+            if(childData.date.substring(8,10) == arrayTimeDayshow[i]){
+              for(let o = 0; o<arrayTimeshow.length; o++){
+                if(childData.time == arrayTimeshow[o]){             
+                  check[i][o].push(`<td>${childData.date} 
+                  </td><td>${childData.time}</td><td>${childData.name} 
+                  </td><td><button class='btn btn-success' data-bs-toggle='modal' 
+                  data-bs-target='#exampleModal' 
+                  id='${childData.name}' 
+                  value='${iduser}' 
+                  style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; 
+                  --bs-btn-font-size: .75rem;'
+                  onclick='CancelQ(id,value)'>ข้อมูล</button></td></tr>`);                  
+                }else{}                                          
+              }                
+            }   
+          }
         }
-        $(row).appendTo('#table');
       });
       //--------Function Popup ข้อมูล
       document.getElementById('ConfirmDel').addEventListener('click',(e)=>{
@@ -241,6 +265,22 @@ Showdatework.addEventListener('change',(e)=>{
     {
       onlyOnce: true
     });
+    setTimeout(()=>{
+      numberQQ();
+    },300);
+    function numberQQ(){
+      for(let k =0; k<check.length; k++){
+        if(check[k] != null && check[k] != ""){
+          for(let p = 0; p <check[k].length; p++){
+            if(check[k][p] != null && check[k][p] != ""){
+              rowNum++;
+              row = `<tr><td>${rowNum}</td>`+check[k][p];
+              $(row).appendTo('#table');
+            }
+          }
+        }        
+      }      
+    }
   }
   //======ALL==========
   if(Showdatework.value == "Sall"){
@@ -248,21 +288,47 @@ Showdatework.addEventListener('change',(e)=>{
     document.getElementById("nameuserqq").innerText = "เวลา";
     document.getElementById("namebarberqq").innerText = "ลูกค้า";
     $('#table td').remove();
-    var rowNum = 0; 
+    $('#table td').remove();
+    let check = [];
+    for(let m = 0;m<arrayTimeMonthshow.length; m++){
+      check[m] = [];
+      for(let d = 0; d<arrayTimeDayshow.length; d++){
+        check[m][d] = [];
+        for(let t = 0;t<arrayTimeshow.length;t++){
+          check[m][d][t] = [];
+        }
+      }
+    }
+    var row;
+    var rowNum = 0;  
     onValue(dbRefuser,(snapshot)=>{ //--อ่านฐานข้อมูล----
       snapshot.forEach((childSnapshot)=>{
         const childKey = childSnapshot.key;
         const childData = childSnapshot.val();
-        console.log(childData);
+        var iduser = childKey; 
         if(childData.summinute != "" && childData != ""){
-          rowNum += 1;
-          var iduser = childKey;          
-          var row = "<tr><td>" + rowNum + "</td><td>" + childData.date + 
-          "</td><td>" + childData.time + "</td><td>" + childData.name +  
-          "</td><td><button class='btn btn-success' data-bs-toggle='modal' data-bs-target='#exampleModal' id='"+childData.name+"' value="
-          + iduser + " style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;' onclick='CancelQ(id,value)'>ข้อมูล</button></td></tr>";
+          for(let m = 0; m<arrayTimeMonthshow.length; m++){
+            if(childData.date.substring(5,7) == arrayTimeMonthshow[m]){
+              for(let i = 0; i<arrayTimeDayshow.length; i++){
+                if(childData.date.substring(8,10) == arrayTimeDayshow[i]){
+                  for(let o = 0; o<arrayTimeshow.length; o++){
+                    if(childData.time == arrayTimeshow[o]){             
+                      check[m][i][o].push(`<td>${childData.date} 
+                      </td><td>${childData.time}</td><td>${childData.name} 
+                      </td><td><button class='btn btn-success' data-bs-toggle='modal' 
+                      data-bs-target='#exampleModal' 
+                      id='${childData.name}' 
+                      value='${iduser}' 
+                      style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; 
+                      --bs-btn-font-size: .75rem;'
+                      onclick='CancelQ(id,value)'>ข้อมูล</button></td></tr>`);                  
+                    }else{}                                          
+                  }                
+                }   
+              }
+            }           
+          }
         }
-        $(row).appendTo('#table');
       });
       //--------Function Popup ข้อมูล
       document.getElementById('ConfirmDel').addEventListener('click',(e)=>{
@@ -283,6 +349,26 @@ Showdatework.addEventListener('change',(e)=>{
     {
       onlyOnce: true
     });
+    setTimeout(()=>{
+      numberQQ();
+    },300);
+    function numberQQ(){
+      for(let m =0; m<check.length; m++){
+        if(check[m] != null && check[m] != ""){
+          for(let k =0; k<check[m].length; k++){
+            if(check[m][k] != null && check[m][k] != ""){
+              for(let p = 0; p <check[m][k].length; p++){
+                if(check[m][k][p] != null && check[m][k][p] != ""){
+                  rowNum++;
+                  row = `<tr><td>${rowNum}</td>`+check[m][k][p];
+                  $(row).appendTo('#table');
+                }
+              }
+            }        
+          }  
+        }        
+      }          
+    }
   }
 })
 
@@ -443,7 +529,7 @@ function Timesum(StartWork,StopWork,StartBreak,StopBreak){
   let TStopB = 0;
   let sum44 = `<option selected>เลือกเวลา</option>`;
   const arrayTime = ["00.00","00.30","01.00","01.30","02.00","02.30","03.00"
-                  ,"03.30","04.00","04.30","05.00","00.30","06.00","06.30"
+                  ,"03.30","04.00","04.30","05.00","05.30","06.00","06.30"
                   ,"07.00","07.30","08.00","08.30","09.00","09.30","10.00"
                   ,"10.30","11.00","11.30","12.00","12.30","13.00","13.30"
                   ,"14.00","14.30","15.00","15.30","16.00","16.30","17.00"
