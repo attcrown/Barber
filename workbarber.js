@@ -51,6 +51,7 @@ async function showdata(){
   document.getElementById("nameuserqq").innerText = "ลูกค้า";
   document.getElementById("namebarberqq").innerText = "ช่าง";
   let check = [];
+  let edname;
   for(let i = 0; i<arrayTimeshow.length; i++){
     check[i] = [];
   }
@@ -61,10 +62,13 @@ async function showdata(){
     Object.keys(childData).forEach(function(key) { 
       if(childData[key].perple == pullnames && childData[key].summinute != "" 
       && childData[key].date == datesub && childData[key] != ""){
+        if(childData[key].name.length > 8){
+          edname = childData[key].name.substring(0, 8) + "...";
+        }else{edname = childData[key].name}
         for(let i = 0;i<arrayTimeshow.length;i++){
           if(childData[key].time == arrayTimeshow[i]){
             check[i] = `<td>${childData[key].time} 
-            </td><td>${childData[key].name}</td><td>${childData[key].perple} 
+            </td><td>${edname}</td><td>${childData[key].perple} 
             </td><td><button class='btn btn-success' data-bs-toggle='modal' 
             data-bs-target='#exampleModal' 
             id='${childData[key].name}' 
@@ -109,6 +113,7 @@ async function showdataweek(){
   document.getElementById("nameuserqq").innerText = "เวลา";
   document.getElementById("namebarberqq").innerText = "ลูกค้า";
   let check = [];
+  let edname;
     for(let i = 0; i<arrayTimeDayshow.length; i++){
       check[i] = [];
       for(let o = 0; o<arrayTimeshow.length; o++){
@@ -129,12 +134,15 @@ async function showdataweek(){
         && childData[key].date.substring(5,7) == datesub.substring(5,7) //เทียบเดือน
         && Number.parseInt(childData[key].date.substring(8,10)) >= now  //เทียบวัน
         && Number.parseInt(childData[key].date.substring(8,10)) <= week){
+          if(childData[key].name.length > 6){
+            edname = childData[key].name.substring(0, 5) + "...";
+          }else{edname = childData[key].name}
           for(let i = 0; i<arrayTimeDayshow.length; i++){
             if(childData[key].date.substring(8,10) == arrayTimeDayshow[i]){
               for(let o = 0; o<arrayTimeshow.length; o++){
                 if(childData[key].time == arrayTimeshow[o]){             
                   check[i][o].push(`<td>${childData[key].date} 
-                  </td><td>${childData[key].time}</td><td>${childData[key].name} 
+                  </td><td>${childData[key].time}</td><td>${edname} 
                   </td><td><button class='btn btn-success' data-bs-toggle='modal' 
                   data-bs-target='#exampleModal' 
                   id='${childData[key].name}' 
@@ -184,6 +192,7 @@ async function showdatamonth(){
   document.getElementById("nameuserqq").innerText = "เวลา";
   document.getElementById("namebarberqq").innerText = "ลูกค้า";
   let check = [];
+  let edname;
   for(let d = 0; d<arrayTimeDayshow.length; d++){
     check[d] = [];
     for(let t = 0;t<arrayTimeshow.length;t++){
@@ -192,8 +201,9 @@ async function showdatamonth(){
   }
   var rowNum = 0;
   var row;
-  let now = 1;
+  let now;
   let week = 31; 
+  now= Number.parseInt(datesub.substring(8,10));
   await get(child(dbRef,"userLineliff/")).then((snapshot) => {
     const childData = snapshot.val(); 
     Object.keys(childData).forEach(function(key) { 
@@ -201,12 +211,15 @@ async function showdatamonth(){
         && childData[key].date.substring(5,7) == datesub.substring(5,7) 
         && Number.parseInt(childData[key].date.substring(8,10)) >= now 
         && Number.parseInt(childData[key].date.substring(8,10)) <= week){
+          if(childData[key].name.length > 6){
+            edname = childData[key].name.substring(0, 5) + "...";
+          }else{edname = childData[key].name}
           for(let i = 0; i<arrayTimeDayshow.length; i++){
             if(childData[key].date.substring(8,10) == arrayTimeDayshow[i]){
               for(let o = 0; o<arrayTimeshow.length; o++){
                 if(childData[key].time == arrayTimeshow[o]){             
                   check[i][o].push(`<td>${childData[key].date} 
-                  </td><td>${childData[key].time}</td><td>${childData[key].name} 
+                  </td><td>${childData[key].time}</td><td>${edname} 
                   </td><td><button class='btn btn-success' data-bs-toggle='modal' 
                   data-bs-target='#exampleModal' 
                   id='${childData[key].name}' 
@@ -255,6 +268,7 @@ async function showdataall(){
   document.getElementById("nameuserqq").innerText = "เวลา";
   document.getElementById("namebarberqq").innerText = "ลูกค้า";
   let check = [];
+  let edname;
   for(let m = 0;m<arrayTimeMonthshow.length; m++){
     check[m] = [];
     for(let d = 0; d<arrayTimeDayshow.length; d++){
@@ -271,6 +285,9 @@ async function showdataall(){
     Object.keys(childData).forEach(function(key) { 
       if(childData[key].perple == pullnames && childData[key].summinute != "" 
       && childData[key] != ""){
+        if(childData[key].name.length > 6){
+          edname = childData[key].name.substring(0, 5) + "...";
+        }else{edname = childData[key].name}
         for(let m = 0; m<arrayTimeMonthshow.length; m++){
           if(childData[key].date.substring(5,7) == arrayTimeMonthshow[m]){
             for(let i = 0; i<arrayTimeDayshow.length; i++){
@@ -278,7 +295,7 @@ async function showdataall(){
                 for(let o = 0; o<arrayTimeshow.length; o++){
                   if(childData[key].time == arrayTimeshow[o]){             
                     check[m][i][o].push(`<td>${childData[key].date} 
-                    </td><td>${childData[key].time}</td><td>${childData[key].name} 
+                    </td><td>${childData[key].time}</td><td>${edname} 
                     </td><td><button class='btn btn-success' data-bs-toggle='modal' 
                     data-bs-target='#exampleModal' 
                     id='${childData[key].name}' 
