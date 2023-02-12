@@ -13,9 +13,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getDatabase();
-
-//--------เก็บค่าจาก id------ 
+const db = getDatabase(); 
 const dbRef = ref(db);
 const datenow = new Date();
 let datenum = datenow.getDate();
@@ -29,7 +27,6 @@ if(datenum < 10){
 }
 let datesub = year+"-"+month+"-"+datenum;
 document.getElementById('datenow').innerHTML = "Date "+datesub;
-
 const arrayTimeshow = ["00:00","00:30","01:00","01:30","02:00","02:30","03:00"
                   ,"03:30","04:00","04:30","05:00","05:30","06:00","06:30"
                   ,"07:00","07:30","08:00","08:30","09:00","09:30","10:00"
@@ -61,7 +58,7 @@ async function showdata(){
       if(childData[key].summinute != "" && childData[key] != "" 
       && childData[key].date == datesub){
         if(childData[key].name.length >= 8){
-          edname = childData[key].name.substring(0, 8) + "...";
+          edname = childData[key].name.substring(0,8) + "...";
         }else{edname = childData[key].name}
         for(let i = 0;i<arrayTimeshow.length;i++){
           if(childData[key].time == arrayTimeshow[i]){
@@ -129,8 +126,9 @@ async function showdataweek(){
   week = Number.parseInt(datesub.substring(8,10))+7;
   await get(child(dbRef,"booking/")).then((snapshot) => {
     const childData = snapshot.val(); 
-    Object.keys(childData).forEach(function(key) { 
-      if(childData[key].summinute != "" && childData[key] != "" 
+    Object.keys(childData).forEach(function(key){
+        if(childData[key].summinute != "" && childData[key] != "" 
+        && childData[key].date != undefined && childData[key].date != ""
         && childData[key].date.substring(5,7) == datesub.substring(5,7) //เทียบเดือน
         && Number.parseInt(childData[key].date.substring(8,10)) >= now  //เทียบวัน
         && Number.parseInt(childData[key].date.substring(8,10)) <= week){
@@ -211,6 +209,7 @@ async function showdatamonth(){
     const childData = snapshot.val(); 
     Object.keys(childData).forEach(function(key) { 
       if(childData[key].summinute != "" && childData[key] != "" 
+        && childData[key].date != undefined && childData[key].date != ""
         && childData[key].date.substring(5,7) == datesub.substring(5,7) 
         && Number.parseInt(childData[key].date.substring(8,10)) >= now 
         && Number.parseInt(childData[key].date.substring(8,10)) <= week){
@@ -289,9 +288,9 @@ async function showdataall(){
   await get(child(dbRef,"booking/")).then((snapshot) => {
     const childData = snapshot.val(); 
     Object.keys(childData).forEach(function(key) { 
-      if(childData[key].summinute != "" && childData[key] != ""){
+      if(childData[key].summinute != "" && childData[key] != "" && childData[key].name != undefined){
         if(childData[key].name.length > 6){
-          edname = childData[key].name.substring(0, 5) + "...";
+          edname = childData[key].name.substring(0,5) + "...";
         }else{edname = childData[key].name}
         for(let m = 0; m<arrayTimeMonthshow.length; m++){
           if(childData[key].date.substring(5,7) == arrayTimeMonthshow[m]){
@@ -603,9 +602,7 @@ submit.addEventListener('click',(e)=>{
     }).catch((error) => {
       console.log("Error SAVE Table");
     });
-  }
-  
-  
+  }  
 })
 
 //-----function แปลงเดือนเป็นตัวเลข

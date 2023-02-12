@@ -15,17 +15,16 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
 const dbRef = ref(db);
-
 const datenow = new Date();
 let datenum = datenow.getDate();
 let month = datenow.getMonth()+1;
+let year = datenow.getFullYear();
 if(month < 10){
     month = "0"+month;
 }
 if(datenum < 10){
     datenum = "0"+datenum;
 }
-let year = datenow.getFullYear();
 let datesub = year+"-"+month+"-"+datenum;
 document.getElementById('datenow').innerHTML = "Date "+datesub;
 const arrayTimeshow = ["00:00","00:30","01:00","01:30","02:00","02:30","03:00"
@@ -209,7 +208,8 @@ async function showdatamonth(){
   await get(child(dbRef,"booking/")).then((snapshot) => {
     const childData = snapshot.val(); 
     Object.keys(childData).forEach(function(key) { 
-      if(childData[key].perple == pullnames && childData[key].summinute != "" && childData[key] != "" 
+      if(childData[key].perple == pullnames && childData[key].summinute != "" 
+        && childData[key] != ""   
         && childData[key].date.substring(5,7) == datesub.substring(5,7) 
         && Number.parseInt(childData[key].date.substring(8,10)) >= now 
         && Number.parseInt(childData[key].date.substring(8,10)) <= week){
