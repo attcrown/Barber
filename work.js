@@ -56,6 +56,7 @@ async function showdata(){
     const childData = snapshot.val(); 
     Object.keys(childData).forEach(function(key) {       
       if(childData[key].summinute != "" && childData[key] != "" 
+      && childData[key].name != "" && childData[key].name != undefined
       && childData[key].date == datesub){
         if(childData[key].name.length >= 8){
           edname = childData[key].name.substring(0,8) + "...";
@@ -92,13 +93,17 @@ async function showdata(){
     });               
   });
   function numberQQ(){
-    $('#table td').remove();     
+    $('#table td').remove(); 
+    console.log(check);    
     for(let k =0;k<check.length;k++){
-      if(check[k] != null && check[k] != ""){
-      rowNum++;
-      row = `<tr><td>${rowNum}</td>`+check[k];
-      $(row).appendTo('#table');
-      }  
+      for(let q = 0; q <check[k].length; q++){
+        if(check[q] != null && check[q] != "" && check[q] != undefined){
+          console.log(check[q]);
+          rowNum++;
+          row = `<tr><td>${rowNum}</td>`+check[q];
+          $(row).appendTo('#table');
+        }          
+      } 
     }    
   }
   numberQQ();
@@ -176,9 +181,11 @@ async function showdataweek(){
       if(check[k] != null && check[k] != ""){
         for(let p = 0; p <check[k].length; p++){
           if(check[k][p] != null && check[k][p] != ""){
-            rowNum++;
-            row = `<tr><td>${rowNum}</td>`+check[k][p];
-            $(row).appendTo('#table');
+            for(let q = 0; q <check[k][p].length; q++){
+              rowNum++;
+              row = `<tr><td>${rowNum}</td>`+check[k][p][q];
+              $(row).appendTo('#table');
+            }
           }
         }
       }        
@@ -257,9 +264,11 @@ async function showdatamonth(){
       if(check[k] != null && check[k] != ""){
         for(let p = 0; p <check[k].length; p++){
           if(check[k][p] != null && check[k][p] != ""){
-            rowNum++;
-            row = `<tr><td>${rowNum}</td>`+check[k][p];
-            $(row).appendTo('#table');
+            for(let q = 0; q <check[k][p].length; q++){
+              rowNum++;
+              row = `<tr><td>${rowNum}</td>`+check[k][p][q];
+              $(row).appendTo('#table');
+            }
           }
         }
       }        
@@ -332,16 +341,19 @@ async function showdataall(){
     });               
   });
   function numberQQ(){
-    $('#table td').remove();     
+    $('#table td').remove();
+    //console.log(check);     
     for(let m =0; m<check.length; m++){
       if(check[m] != null && check[m] != ""){
         for(let k =0; k<check[m].length; k++){
           if(check[m][k] != null && check[m][k] != ""){
-            for(let p = 0; p <check[m][k].length; p++){
+            for(let p = 0; p <check[m][k].length; p++){              
               if(check[m][k][p] != null && check[m][k][p] != ""){
-                rowNum++;
-                row = `<tr><td>${rowNum}</td>`+check[m][k][p];
-                $(row).appendTo('#table');
+                for(let q = 0; q <check[m][k][p].length; q++){
+                  rowNum++;
+                  row = `<tr><td>${rowNum}</td>`+check[m][k][p][q];
+                  $(row).appendTo('#table');
+                }               
               }
             }
           }        
