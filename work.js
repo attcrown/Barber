@@ -62,7 +62,7 @@ async function showdata(){
       if(childData[key].summinute != "" && childData[key] != "" 
       && childData[key].date == datesub){
         if(childData[key].name.length >= 8){
-          edname = childData[key].name.substring(0, 5) + "...";
+          edname = childData[key].name.substring(0, 8) + "...";
         }else{edname = childData[key].name}
         for(let i = 0;i<arrayTimeshow.length;i++){
           if(childData[key].time == arrayTimeshow[i]){
@@ -199,8 +199,9 @@ async function showdatamonth(){
   }
   var rowNum = 0;
   var row;
-  let now = 1;
+  let now;
   let week = 31; 
+  now= Number.parseInt(datesub.substring(8,10));
   await get(child(dbRef,"userLineliff/")).then((snapshot) => {
     const childData = snapshot.val(); 
     Object.keys(childData).forEach(function(key) { 
