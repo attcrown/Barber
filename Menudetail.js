@@ -38,6 +38,7 @@ document.getElementById("menudetailadd").innerHTML  =
           <option selected>เลือกช่าง</option>
         </select>
         <input type="text" class="form-control mt-3" id="nameuser" placeholder="ชื่อลูกค้า">
+        <input type="text" class="form-control mt-3" id="phoneuser" placeholder="เบอร์โทร">
         <div class="row align-items-start">
           <div class="col float-start">
             <select class="form-select mt-3" aria-label="Default select example" id="yearqbarber" disabled>

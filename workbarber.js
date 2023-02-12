@@ -14,7 +14,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
-const dbRef = ref(getDatabase());
+const dbRef = ref(db);
 
 const datenow = new Date();
 let datenum = datenow.getDate();
@@ -40,10 +40,6 @@ const arrayTimeDayshow = ['01','02','03','04','05','06','07','08','09','10'
                           ,'21','22','23','24','25','26','27','28','29','30','31'];                  
 const arrayTimeMonthshow = ['01','02','03','04','05','06','07','08','09'
                             ,'10','11','12'];
-//--------เก็บค่าจาก id------
-const dbRefuser = ref(db,'userLineliff/'); 
-const dbReff = ref(db);
-
 
 //----------show-------
 async function showdata(){
@@ -57,7 +53,7 @@ async function showdata(){
   }
   var rowNum = 0;
   var row;
-  await get(child(dbRef,"userLineliff/")).then((snapshot) => {
+  await get(child(dbRef,"booking/")).then((snapshot) => {
     const childData = snapshot.val(); 
     Object.keys(childData).forEach(function(key) { 
       if(childData[key].perple == pullnames && childData[key].summinute != "" 
@@ -82,10 +78,13 @@ async function showdata(){
     });
     //--------Function Popup ปุ่มลบ
     document.getElementById('ConfirmDel').addEventListener('click',(e)=>{
-    get(child(dbRef,"userLineliff/"+ deluserid)).then(async function(snapshot){
+    get(child(dbRef,"booking/"+ deluserid)).then(async function(snapshot){
+      const datauserid = snapshot.val();
         if(snapshot.exists){
-          await update(ref(db,"userLineliff/"+ deluserid),{
+          await update(ref(db,"booking/"+ deluserid),{
             summinute : ""
+          });
+          await remove(ref(db,"Table/"+datauserid.perple+"/"+datauserid.date+"/"+datauserid.time),{            
           });
           location.reload();
           return;            
@@ -126,7 +125,7 @@ async function showdataweek(){
   let week; 
   now= Number.parseInt(datesub.substring(8,10));
   week = Number.parseInt(datesub.substring(8,10))+7;
-  await get(child(dbRef,"userLineliff/")).then((snapshot) => {
+  await get(child(dbRef,"booking/")).then((snapshot) => {
     const childData = snapshot.val(); 
     Object.keys(childData).forEach(function(key) { 
       if(childData[key].perple == pullnames && childData[key].summinute != "" 
@@ -158,10 +157,13 @@ async function showdataweek(){
     })    
     //--------Function Popup ปุ่มลบ
     document.getElementById('ConfirmDel').addEventListener('click',(e)=>{
-    get(child(dbRef,"userLineliff/"+ deluserid)).then(async function(snapshot){
+    get(child(dbRef,"booking/"+ deluserid)).then(async function(snapshot){
+      const datauserid = snapshot.val();
         if(snapshot.exists){
-          await update(ref(db,"userLineliff/"+ deluserid),{
+          await update(ref(db,"booking/"+ deluserid),{
             summinute : ""
+          });
+          await remove(ref(db,"Table/"+datauserid.perple+"/"+datauserid.date+"/"+datauserid.time),{            
           });
           location.reload();
           return;            
@@ -204,7 +206,7 @@ async function showdatamonth(){
   let now;
   let week = 31; 
   now= Number.parseInt(datesub.substring(8,10));
-  await get(child(dbRef,"userLineliff/")).then((snapshot) => {
+  await get(child(dbRef,"booking/")).then((snapshot) => {
     const childData = snapshot.val(); 
     Object.keys(childData).forEach(function(key) { 
       if(childData[key].perple == pullnames && childData[key].summinute != "" && childData[key] != "" 
@@ -235,10 +237,13 @@ async function showdatamonth(){
     });
     //--------Function Popup ปุ่มลบ
     document.getElementById('ConfirmDel').addEventListener('click',(e)=>{
-    get(child(dbRef,"userLineliff/"+ deluserid)).then(async function(snapshot){
+    get(child(dbRef,"booking/"+ deluserid)).then(async function(snapshot){
+      const datauserid = snapshot.val();
         if(snapshot.exists){
-          await update(ref(db,"userLineliff/"+ deluserid),{
+          await update(ref(db,"booking/"+ deluserid),{
             summinute : ""
+          });
+          await remove(ref(db,"Table/"+datauserid.perple+"/"+datauserid.date+"/"+datauserid.time),{            
           });
           location.reload();
           return;            
@@ -280,7 +285,7 @@ async function showdataall(){
   }
   var rowNum = 0;
   var row;
-  await get(child(dbRef,"userLineliff/")).then((snapshot) => {
+  await get(child(dbRef,"booking/")).then((snapshot) => {
     const childData = snapshot.val(); 
     Object.keys(childData).forEach(function(key) { 
       if(childData[key].perple == pullnames && childData[key].summinute != "" 
@@ -313,10 +318,13 @@ async function showdataall(){
     });
     //--------Function Popup ปุ่มลบ
     document.getElementById('ConfirmDel').addEventListener('click',(e)=>{
-    get(child(dbRef,"userLineliff/"+ deluserid)).then(async function(snapshot){
+    get(child(dbRef,"booking/"+ deluserid)).then(async function(snapshot){
+      const datauserid = snapshot.val();
         if(snapshot.exists){
-          await update(ref(db,"userLineliff/"+ deluserid),{
+          await update(ref(db,"booking/"+ deluserid),{
             summinute : ""
+          });
+          await remove(ref(db,"Table/"+datauserid.perple+"/"+datauserid.date+"/"+datauserid.time),{            
           });
           location.reload();
           return;            
@@ -373,12 +381,14 @@ const yearq = document.getElementById('yearqbarber');
 const monthq = document.getElementById('monthqbarber');
 const dayq = document.getElementById('dayqbarber');
 const timeq = document.getElementById('timeqbarber');
+const phoneq = document.getElementById('phoneuser');
 let sumday;
 btnaddtime.addEventListener('click',(e)=>{
   const value = document.getElementById('namebarber');
   let sum = `<option value="${pullnames}">${pullnames}</option>`;
   value.innerHTML = sum;
   value.disabled = true;
+  phoneq.disabled  = true;
 
   //---Qtime-----
   const dbReftime = ref(db,"TimeBarber/"+pullnames);//'TimeBarber/'+pullnames+"/2023"+"/February");
@@ -395,6 +405,7 @@ btnaddtime.addEventListener('click',(e)=>{
 });
 
 nameuser.addEventListener('input',(e)=>{
+  phoneq.disabled  = false;
   yearq.disabled = false;
 })
 
@@ -433,10 +444,9 @@ havetimer = await havetimes();
 
 async function havetimes(){
   let time = []; 
-  await get(child(dbRef,"userLineliff")).then((snapshot) => {
+  await get(child(dbRef,"booking/")).then((snapshot) => {
     const childData = snapshot.val(); 
     Object.keys(childData).forEach(function(key) { 
-          //console.log(childData[key].time);
           if(sumday == childData[key].date && childData[key].summinute != "" 
           && childData[key].time != undefined && childData[key].time != ""
           && pullnames == childData[key].perple){
@@ -511,24 +521,28 @@ function Timesum(StartWork,StopWork,StartBreak,StopBreak){
 const submit = document.getElementById('submit');
 submit.addEventListener('click',(e)=>{
   let key = new Date().getTime();
+  let sumtime = timeq.value.substring(0,2)+":"+timeq.value.substring(3,5);
   if(nameuser.value == "" || yearq.value == "ปี" || monthq.value == "เดือน"
   || dayq.value == "วัน" || timeq.value == "เลือกเวลา"){
     alert("กรุณาระบุข้อมูลให้ถูกต้อง");
   }else{
-    set(ref(db,"userLineliff/"+key),{
+    set(ref(db,"booking/"+key),{
       date : sumday,
       name : nameuser.value,
       perple : pullnames,
       summinute : key,
-      time : timeq.value.substring(0,2)+":"+timeq.value.substring(3,5)
+      time : sumtime,
+      phoneNumber : phoneq.value
+    }).catch((error) => {
+      console.log("Error SAVE");
+    });
+    update(ref(db,"Table/"+pullnames+"/"+sumday+"/"+sumtime),{
+      perple : nameuser.value
     }).then(() => {
       console.log("Data saved successfully!");
-      setTimeout(()=>{
-        document.location.reload();
-      },300);
-    })
-    .catch((error) => {
-      console.log("Error SAVE");
+      location.reload();
+    }).catch((error) => {
+      console.log("Error SAVE Table");
     });
   }
   
@@ -561,7 +575,7 @@ function numday(a){
 
 //-----detail img------
 document.getElementById('popuplink').addEventListener('click',(e)=>{
-  get(child(dbReff,"userLineliff/"+ deluserid)).then(function(snapshot){
+  get(child(dbRef,"booking/"+ deluserid)).then(function(snapshot){
     const v = snapshot.val();
     console.log(v);
     document.getElementById('textbarberpopup').innerText = `ชื่อช่าง : ${v.perple}`;
@@ -573,7 +587,7 @@ document.getElementById('popuplink').addEventListener('click',(e)=>{
     }else{
       document.getElementById('slipmoney').src = "images/Noimage.jpg";
     }
-    if(v.encodedImage == "" || v.encodedImage == undefined){
+    if(v.phoneNumber == "" || v.phoneNumber == undefined){
       document.getElementById('phonenumber').innerText = `เบอร์โทรศัพท์ : ไม่มีข้อมูล`;
   }else{
       document.getElementById('phonenumber').innerText = `เบอร์โทรศัพท์ : ${v.phoneNumber}`;
