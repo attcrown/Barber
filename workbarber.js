@@ -47,6 +47,7 @@ async function showdata(){
   document.getElementById("namebarberqq").innerText = "ช่าง";
   let check = [];
   let edname;
+  let ednamebar;
   for(let i = 0; i<arrayTimeshow.length; i++){
     check[i] = [];
   }
@@ -60,10 +61,13 @@ async function showdata(){
         if(childData[key].name.length > 8){
           edname = childData[key].name.substring(0, 8) + "...";
         }else{edname = childData[key].name}
+        if(childData[key].perple.length > 8){
+          ednamebar = childData[key].perple.substring(0, 7) + "...";
+        }else{ednamebar = childData[key].perple}
         for(let i = 0;i<arrayTimeshow.length;i++){
           if(childData[key].time == arrayTimeshow[i]){
             check[i] = `<td>${childData[key].time} 
-            </td><td>${edname}</td><td>${childData[key].perple} 
+            </td><td>${edname}</td><td>${ednamebar} 
             </td><td><button class='btn btn-success' data-bs-toggle='modal' 
             data-bs-target='#exampleModal' 
             id='${childData[key].name}' 
