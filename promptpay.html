@@ -26,12 +26,11 @@
       </div>
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">เบอร์โทรศัพท์</label>
-        <input
-          type="text"
-          class="form-control"
-          id="phonenum"
-          placeholder="09x-xxx-xxxx"
-        />
+        <input type="text" class="form-control" id="phonenum" placeholder="09x-xxx-xxxx"/>
+      </div>
+      <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">ข้อความเงื่อนไขการใช้บริการ</label>
+        <textarea class="form-control" id="rulesbarber" placeholder="ไม่มีข้อมูล" rows="3"></textarea>
       </div>
       <!-- Button trigger modal -->
       <button type="button" class="btn btn-success float-end btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" id="confirmpop">
@@ -49,6 +48,8 @@
             <div class="modal-body">
               <p id="bathcon">ราคามัดจำ</p>
               <p id="numcon">เบอร์โทรศัพท์</p>
+              <label for="exampleFormControlTextarea1" class="form-label">เงื่อนไขการใช้บริการ</label>
+              <textarea class="form-control" id="rulesbarberedit" placeholder="ไม่แก้ไขข้อความ" rows="3"></textarea>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
