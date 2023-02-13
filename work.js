@@ -47,35 +47,52 @@ async function showdata(){
   document.getElementById("namebarberqq").innerText = "ช่าง";
   let check = [];
   let edname;
-  for(let i = 0; i<arrayTimeshow.length; i++){
-    check[i] = [];
-  }
+  let ednamebar;
+    for(let i = 0; i<arrayTimeDayshow.length; i++){
+      check[i] = [];
+      for(let o = 0; o<arrayTimeshow.length; o++){
+        check[i][o] = [];
+      }
+    }
   var rowNum = 0;
   var row;
+  let now;
+  let week; 
+  now= Number.parseInt(datesub.substring(8,10));
+  week = Number.parseInt(datesub.substring(8,10));
   await get(child(dbRef,"booking/")).then((snapshot) => {
     const childData = snapshot.val(); 
-    Object.keys(childData).forEach(function(key) {       
-      if(childData[key].summinute != "" && childData[key] != "" 
-      && childData[key].name != "" && childData[key].name != undefined
-      && childData[key].date == datesub){
-        if(childData[key].name.length >= 8){
-          edname = childData[key].name.substring(0,8) + "...";
-        }else{edname = childData[key].name}
-        for(let i = 0;i<arrayTimeshow.length;i++){
-          if(childData[key].time == arrayTimeshow[i]){
-            check[i] = `<td>${childData[key].time} 
-            </td><td>${edname}</td><td>${childData[key].perple} 
-            </td><td><button class='btn btn-success' data-bs-toggle='modal' 
-            data-bs-target='#exampleModal' 
-            id='${childData[key].name}' 
-            value='${key}' 
-            style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; 
-            --bs-btn-font-size: .75rem;'
-            onclick='CancelQ(id,value)'>ข้อมูล</button></td></tr>`;
+    Object.keys(childData).forEach(function(key){
+        if(childData[key].summinute != "" && childData[key] != "" 
+        && childData[key].date != undefined && childData[key].date != ""
+        && childData[key].date.substring(5,7) == datesub.substring(5,7) //เทียบเดือน
+        && Number.parseInt(childData[key].date.substring(8,10)) >= now  //เทียบวัน
+        && Number.parseInt(childData[key].date.substring(8,10)) <= week){
+          if(childData[key].name.length > 6){
+            edname = childData[key].name.substring(0, 5) + "...";
+          }else{edname = childData[key].name}
+          if(childData[key].perple.length > 8){
+            ednamebar = childData[key].perple.substring(0, 7) + "...";
+          }else{ednamebar = childData[key].perple}
+          for(let i = 0; i<arrayTimeDayshow.length; i++){
+            if(childData[key].date.substring(8,10) == arrayTimeDayshow[i]){
+              for(let o = 0; o<arrayTimeshow.length; o++){
+                if(childData[key].time == arrayTimeshow[o]){             
+                  check[i][o].push(`<td>${childData[key].time} 
+                  </td><td>${edname}</td><td>${ednamebar} 
+                  </td><td><button class='btn btn-success' data-bs-toggle='modal' 
+                  data-bs-target='#exampleModal' 
+                  id='${childData[key].name}' 
+                  value='${key}' 
+                  style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; 
+                  --bs-btn-font-size: .75rem;'
+                  onclick='CancelQ(id,value)'>ข้อมูล</button></td></tr>`);                  
+                }else{}     
+              }
+            }
           }
         }
-      }
-    });
+    })    
     //--------Function Popup ปุ่มลบ
     document.getElementById('ConfirmDel').addEventListener('click',(e)=>{
     get(child(dbRef,"booking/"+deluserid)).then(async function(snapshot){
@@ -93,18 +110,20 @@ async function showdata(){
     });               
   });
   function numberQQ(){
-    $('#table td').remove(); 
-    console.log(check);    
-    for(let k =0;k<check.length;k++){
-      for(let q = 0; q <check[k].length; q++){
-        if(check[q] != null && check[q] != "" && check[q] != undefined){
-          console.log(check[q]);
-          rowNum++;
-          row = `<tr><td>${rowNum}</td>`+check[q];
-          $(row).appendTo('#table');
-        }          
-      } 
-    }    
+    $('#table td').remove();     
+    for(let k =0; k<check.length; k++){
+      if(check[k] != null && check[k] != ""){
+        for(let p = 0; p <check[k].length; p++){
+          if(check[k][p] != null && check[k][p] != ""){
+            for(let q = 0; q <check[k][p].length; q++){
+              rowNum++;
+              row = `<tr><td>${rowNum}</td>`+check[k][p][q];
+              $(row).appendTo('#table');
+            }
+          }
+        }
+      }        
+    }   
   }
   numberQQ();
 }  
