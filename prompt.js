@@ -16,6 +16,7 @@ const db = getDatabase();
 const dbRef = ref(getDatabase());
 const baths = document.getElementById('bathprompt');
 const phonenum = document.getElementById('phonenum');
+const rules = document.getElementById('rulesbarber');
 //Prompt check Data and Edit text
 get(child(dbRef,"Promptpay")).then((snapshot) => {
     if (snapshot.exists()) {
@@ -27,22 +28,37 @@ get(child(dbRef,"Promptpay")).then((snapshot) => {
   }).catch((error) => {
     console.error(error);
   });
+get(child(dbRef,"Data")).then((snapshot) => {
+  if (snapshot.exists()) {
+      rules.placeholder = `${snapshot.val().text}`;
+  } else {
+    rules.placeholder = "No data available";
+  }
+}).catch((error) => {
+  console.error(error);
+});
 
-  //Save data
-  const save = document.getElementById('submit');
-  save.addEventListener('click',(e)=>{
-    if(!Validation()){
-        return;
-    }
-    set(ref(db,"Promptpay"),{
-        bath : baths.value, //100
-        numberPromptpay : phonenum.value //0861515202
-    }).then(()=>{
-        setTimeout(()=>{
-          document.location.reload();
-        },300);
-    });
-  })
+
+//Save data
+const save = document.getElementById('submit');
+save.addEventListener('click',(e)=>{
+  if(!Validation()){
+      return;
+  }
+  if(rules.value != "" && rules.value != null){
+    set(ref(db,"Data"),{
+      text : rules.value, //กฏการให้บริการ
+    })
+  }
+  set(ref(db,"Promptpay"),{
+    bath : baths.value, //100
+    numberPromptpay : phonenum.value //0861515202
+  }).then(()=>{
+      setTimeout(()=>{
+        document.location.reload();
+      },300);
+  });
+})
 
   //----------alert------------
   const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
@@ -90,7 +106,12 @@ get(child(dbRef,"Promptpay")).then((snapshot) => {
     if(phonenum.value == ""){
       document.getElementById('numcon').innerText = "กรุณาใส่เบอร์โทรศัพท์";
     }else{document.getElementById('numcon').innerText = "เบอร์โทรศัพท์ "+phonenum.value;}
-    
+    if(rules.value != ""){
+      document.getElementById('rulesbarberedit').innerText = rules.value;
+      document.getElementById('rulesbarberedit').disabled = true;
+    }else{
+      document.getElementById('rulesbarberedit').disabled = true;
+    }
   })
 
   
