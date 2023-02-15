@@ -142,6 +142,41 @@ Delday.addEventListener('click',(e)=>{
     console.log("ลบ "+montha,dayb,importyear);
     document.getElementById(dayb).classList.remove("btn-success");
     document.getElementById(dayb).classList.add("btn-light");
+    //-------editStopday
+  const uname = [],bkey = []; 
+  get(child(dbRef,"Stopday/")).then(function(snapshot){
+  if(snapshot.val() == null){
+    update(ref(db,"TimeQBarber/"+nameday+"/nBarber/"),{
+      d1 : dayb
+    })
+    console.log("ผ่าน");
+    return;
+  }else{      
+    get(child(dbRef,"Stopday/")).then((snapshot) => {
+      var childData = snapshot.val(); 
+      Object.keys(childData).forEach(function(key){ 
+        uname.push(childData[key]);
+        bkey.push([key]);         
+      });  
+      if(uname.includes(pullnames)){
+        return;
+      }else{
+        var keys = ["d1","d2","d3","d4","d5","d6","d7","d8"];
+        for(let x = 0; x<keys.length; x++){ 
+          if(!bkey.map(e => e[0]).includes(keys[x])){//(!bkey.includes(keys[x])){
+            update(ref(db,"Stopday/"),{
+              [keys[x]] : dayb
+            })
+            console.log("ผ่าน");
+            return;
+          }else{
+            console.log("ไม่ผ่าน");
+          }
+        }
+      }
+    }); 
+    }
+  })
 });
 
 //-------saveCalder----------
@@ -251,6 +286,83 @@ function SaveDay(){
       remove(ref(db,"TimeShop/"+TimeYear.value+"/"+TimeMonth.value+"/"+i),{})
       document.getElementById(i).classList.remove("btn-success");
       document.getElementById(i).classList.add("btn-light");
+    }
+    if(Sunday() == 8){
+      update(ref(db,"Stopday/"),
+      {
+        Sun : "Sun"
+      })
+    }else{
+      update(ref(db,"Stopday/"),
+      {
+        Sun : ""
+      })
+    }
+    if(Monday() == 8){
+      update(ref(db,"Stopday/"),
+      {
+        Mon : "Mon"
+      })
+    }else{
+      update(ref(db,"Stopday/"),
+      {
+        Mon : ""
+      })
+    }
+    if(Tuesday() == 8){
+      update(ref(db,"Stopday/"),
+      {
+        Tue : "Tue"
+      })
+    }else{
+      update(ref(db,"Stopday/"),
+      {
+        Tue : ""
+      })
+    }
+    if(Wednesday() == 8){
+      update(ref(db,"Stopday/"),
+      {
+        Wed : "Wed"
+      })
+    }else{
+      update(ref(db,"Stopday/"),
+      {
+        Wed : ""
+      })
+    }
+    if(Thursday() == 8){
+      update(ref(db,"Stopday/"),
+      {
+        Thu : "Thu"
+      })
+    }else{
+      update(ref(db,"Stopday/"),
+      {
+        Thu : ""
+      })
+    }
+    if(Firday() == 8){
+      update(ref(db,"Stopday/"),
+      {
+        Fri : "Fri"
+      })
+    }else{
+      update(ref(db,"Stopday/"),
+      {
+        Fri : ""
+      })
+    }
+    if(Saturday() == 8){
+      update(ref(db,"Stopday/"),
+      {
+        Sat : "Sat"
+      })
+    }else{
+      update(ref(db,"Stopday/"),
+      {
+        Sat : ""
+      })
     }
     //console.log(Sunday()+" "+Monday()+" "+Tuesday()+" "+Wednesday()+" "+Thursday()+" "+Firday()+" "+Saturday());
   }
