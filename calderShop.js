@@ -158,7 +158,7 @@ Delday.addEventListener('click',(e)=>{
         uname.push(childData[key]);
         bkey.push([key]);         
       });  
-      if(uname.includes(pullnames)){
+      if(uname.includes(dayb)){
         return;
       }else{
         var keys = ["d1","d2","d3","d4","d5","d6","d7","d8"];
