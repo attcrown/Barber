@@ -313,10 +313,13 @@ async function showdataall(){
   }
   var rowNum = 0;
   var row;
+  let now= Number.parseInt(datesub.substring(8,10));
   await get(child(dbRef,"booking/")).then((snapshot) => {
     const childData = snapshot.val(); 
     Object.keys(childData).forEach(function(key) { 
-      if(childData[key].summinute != "" && childData[key] != "" && childData[key].name != undefined){
+      if(childData[key].summinute != "" && childData[key] != "" 
+      && childData[key].name != undefined
+      && Number.parseInt(childData[key].date.substring(8,10)) >= now ){
         if(childData[key].name.length > 6){
           edname = childData[key].name.substring(0,5) + "...";
         }else{edname = childData[key].name}

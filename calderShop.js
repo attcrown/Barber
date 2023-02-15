@@ -123,13 +123,13 @@ function dateday(){
     }
   }
   n.setDate(numday);
-  console.log(n.getDay());
+  //console.log(n.getDay());
   if(n.getDay() < 6){
     for(let i = n.getDay();i<6;i++){
       sum += tdclass+tdend; 
     }
   }
-  console.log(n);
+  //console.log(n);
 days.innerHTML = sum;
 importyears(years);
 editbtn();
@@ -139,44 +139,11 @@ editbtn();
 const Delday = document.getElementById('Delday');
 Delday.addEventListener('click',(e)=>{
     remove(ref(db,"TimeShop/"+importyear+"/"+montha+"/"+dayb),{})
-    console.log("ลบ "+montha,dayb,importyear);
+    //console.log("ลบ "+montha,dayb,importyear);
     document.getElementById(dayb).classList.remove("btn-success");
     document.getElementById(dayb).classList.add("btn-light");
-    //-------editStopday
-  const uname = [],bkey = []; 
-  get(child(dbRef,"Stopday/")).then(function(snapshot){
-  if(snapshot.val() == null){
-    update(ref(db,"TimeQBarber/"+nameday+"/nBarber/"),{
-      d1 : dayb
-    })
-    console.log("ผ่าน");
-    return;
-  }else{      
-    get(child(dbRef,"Stopday/")).then((snapshot) => {
-      var childData = snapshot.val(); 
-      Object.keys(childData).forEach(function(key){ 
-        uname.push(childData[key]);
-        bkey.push([key]);         
-      });  
-      if(uname.includes(dayb)){
-        return;
-      }else{
-        var keys = ["d1","d2","d3","d4","d5","d6","d7","d8"];
-        for(let x = 0; x<keys.length; x++){ 
-          if(!bkey.map(e => e[0]).includes(keys[x])){//(!bkey.includes(keys[x])){
-            update(ref(db,"Stopday/"),{
-              [keys[x]] : dayb
-            })
-            console.log("ผ่าน");
-            return;
-          }else{
-            console.log("ไม่ผ่าน");
-          }
-        }
-      }
-    }); 
-    }
-  })
+    Stopdaydel(); //Deleteวันที่ทุกเดือน
+    //editdeldayall(); 
 });
 
 //-------saveCalder----------
@@ -185,7 +152,8 @@ Subday.addEventListener('click',(e)=>{
   set(ref(db,"TimeShop/"+importyear+"/"+montha+"/"+dayb),{
     shop : "open"
   })
-  setTimeout
+  //editsavedayall();
+  Stopdaycre();
   editbtn();
 });
 
@@ -434,7 +402,116 @@ Delday.addEventListener('click',(e)=>{
 
 
 
+//---------เพิ่มทุกวัน--------
+function editsavedayall(){
+  const yearr=[];
+  get(child(dbRef,"TimeShop/")).then((snapshot) => {
+    var childData = snapshot.val(); 
+    Object.keys(childData).forEach(function(key){ 
+      yearr.push([key]);        
+    });
+    for(let i =0;i<yearr.length;i++){
+      for(let m = 0;m<month.length;m++){
+        get(child(dbRef,"TimeShop/"+yearr[i]+"/"+month[m])).then((snapshot) => {
+          if(snapshot.val() != null){
+            set(ref(db,"TimeShop/"+yearr[i]+"/"+month[m]+"/"+dayb),{
+              shop : "open"
+            }).then((e)=>{
+              console.log('เพิ่มทั้งหมด');
+            })
+          }
+        })
+      }
+    }   
+  }) 
+}
 
+//-----------แก้ไข Stopday นำเข้า
+function Stopdaycre(){
+  const uname=[],bkey=[];
+  get(child(dbRef,"Stopday/")).then((snapshot) => {
+    var childData = snapshot.val(); 
+    Object.keys(childData).forEach(function(key){ 
+      uname.push(childData[key]);
+      bkey.push([key]);         
+    });  
+    if(!uname.includes(dayb)){
+      return;
+    }else{
+      for(let x = 0; x<uname.length; x++){ 
+        if(dayb == uname[x]){//(!bkey.includes(keys[x])){
+          remove(ref(db,"Stopday/"+bkey[x]),{})
+          console.log("ผ่าน"+uname[x]);
+          return;
+        }else{
+          console.log("ไม่ผ่าน");
+        }
+      }
+    }
+  }); 
+}
+
+//---------ลบทุกวันออก----------
+function editdeldayall(){
+  const yearr=[];
+  get(child(dbRef,"TimeShop/")).then((snapshot) => {
+    var childData = snapshot.val(); 
+    Object.keys(childData).forEach(function(key){ 
+      yearr.push([key]);      
+    });
+    for(let i =0;i<yearr.length;i++){
+      for(let m = 0;m<month.length;m++){
+        get(child(dbRef,"TimeShop/"+yearr[i]+"/"+month[2])).then((snapshot) => {
+          if(snapshot.val() != null){
+            remove(ref(db,"TimeShop/"+yearr[i]+"/"+month[m]+"/"+dayb),{
+            }).then((e)=>{
+                console.log(snapshot.val()+'ลบทั้งหมด');
+            })
+          }
+        })
+      }
+    }   
+  }) 
+}
+
+//-----------แก้ไข Stopday---------------
+function Stopdaydel(){
+  get(child(dbRef,"Stopday/")).then(function(snapshot){
+    if(snapshot.val() == null){
+      update(ref(db,"TimeQBarber/"+nameday+"/nBarber/"),{
+        d1 : dayb
+      })
+      console.log("ผ่าน");
+      return;
+    }else{      
+      const uname=[],bkey=[];
+      get(child(dbRef,"Stopday/")).then((snapshot) => {
+        var childData = snapshot.val(); 
+        Object.keys(childData).forEach(function(key){ 
+          uname.push(childData[key]);
+          bkey.push([key]);         
+        });  
+        if(uname.includes(dayb)){
+          return;
+        }else{
+          var keys = ["d1","d2","d3","d4","d5","d6","d7","d8"];
+          for(let x = 0; x<keys.length; x++){ 
+            if(!bkey.map(e => e[0]).includes(keys[x])){//(!bkey.includes(keys[x])){
+              update(ref(db,"Stopday/"),{
+                [keys[x]] : dayb
+              })
+              //console.log("ผ่าน");
+              return;
+            }else{
+              //console.log("ไม่ผ่าน");
+            }
+          }
+        }
+      }); 
+    }
+  })
+}
+  
 
 
 
