@@ -331,7 +331,7 @@ async function showdataall(){
                   if(childData[key].time == arrayTimeshow[o]){             
                     check[m][i][o].push(`<td>${childData[key].date} 
                     </td><td>${childData[key].time}</td><td>${edname} 
-                    </td><td><button class='btn btn-success' data-bs-toggle='modal' 
+                    </td><td><button class='btn btn-success intro' data-bs-toggle='modal' 
                     data-bs-target='#exampleModal' 
                     id='${childData[key].name}' 
                     value='${key}' 
@@ -663,7 +663,12 @@ function numday(a){
 }
 
 //-----detail img------
-document.getElementById('popuplink').addEventListener('click',(e)=>{
+const intro =  document.getElementById('popuplink');//popuplink
+intro.addEventListener('click',(e)=>{
+  detailpopupp();
+})
+
+function detailpopupp(){
   get(child(dbRef,"booking/"+deluserid)).then(function(snapshot){
     const v = snapshot.val();
     console.log(v);
@@ -682,7 +687,7 @@ document.getElementById('popuplink').addEventListener('click',(e)=>{
         document.getElementById('phonenumber').innerText = `เบอร์โทรศัพท์ : ${v.phoneNumber}`;
     }
   })
-});
+}
 
 document.getElementById('closepopup').addEventListener('click',(e)=>{
   document.getElementById('textbarberpopup').innerText = "";
