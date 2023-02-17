@@ -404,6 +404,12 @@ Showdatework.addEventListener('change',(e)=>{
   //======ALL==========
   if(Showdatework.value == "Sall"){
     showdataall();
+    const intro =  document.getElementsByClassName('intro'); // NodeList ของ elements ทั้งหมดที่มี class name เป็น 'intro'
+    for (let i = 0; i < intro.length; i++) {
+      intro[i].addEventListener('click', (e) => {
+        detailpopupp();
+      });
+    }
   }
 })
 
@@ -663,11 +669,6 @@ function numday(a){
 }
 
 //-----detail img------
-const intro =  document.getElementById('popuplink');//popuplink
-intro.addEventListener('click',(e)=>{
-  detailpopupp();
-})
-
 function detailpopupp(){
   get(child(dbRef,"booking/"+deluserid)).then(function(snapshot){
     const v = snapshot.val();
